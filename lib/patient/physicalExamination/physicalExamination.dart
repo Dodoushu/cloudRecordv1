@@ -278,7 +278,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                     hospital = value;
                   },
                   validator: (value) {
-                    if (value == null) {
+                    if (value.isEmpty) {
                       return '请填写就诊医院';
                     } else {
                       return null;
@@ -327,6 +327,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                     border: InputBorder.none,
                   ),
                   maxLines: 4,
+                  maxLength: 250,
                   onChanged: (value) {
                     recordcontent = value;
                   },

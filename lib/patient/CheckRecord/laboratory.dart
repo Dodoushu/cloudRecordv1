@@ -336,7 +336,7 @@ class _laboratory extends State<laboratory> {
                         hospital = value;
                       },
                       validator: (value) {
-                        if (value == null) {
+                        if (value.isEmpty) {
                           return '请填写检查医院';
                         } else {
                           return null;
@@ -418,6 +418,7 @@ class _laboratory extends State<laboratory> {
                         border: InputBorder.none,
                       ),
                       maxLines: 4,
+                      maxLength: 250,
                       onChanged: (value) {
                         recordcontent = value;
                       },

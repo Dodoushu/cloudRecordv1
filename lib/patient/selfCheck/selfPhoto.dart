@@ -257,6 +257,7 @@ class _physicalExanmination extends State<physicalExanmination> {
               onTap: () async {
                 var picker = await showTimePicker(
                     context: context, initialTime: TimeOfDay.now());
+                if (picker == null) return;
                 setState(() {
                   time = picker;
                 });
@@ -310,6 +311,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                     border: InputBorder.none,
                   ),
                   maxLines: 4,
+                  maxLength: 250,
                   onChanged: (value) {
                     recordcontent = value;
                   },

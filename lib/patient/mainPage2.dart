@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/patient/mainPage2/checkInfo.dart';
 import 'register2.dart';
+import 'package:cloudrecord/patient/mainPage2/changeInfo.dart';
 
 //void main() {
 //  runApp(new MaterialApp(
@@ -28,7 +29,7 @@ class _State extends State<mainPage2> {
             height: width_*0.15,
             child: InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => checkInfoPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => changeInfo()));
               },
               child: Card(
                   shape: RoundedRectangleBorder(
@@ -103,7 +104,7 @@ class _State extends State<mainPage2> {
         title: new Text('我的'),
       ),
       body: new ListView(
-        children: <Widget>[checkInfo,reWrite],
+        children: <Widget>[checkInfo,],
       ),
     );
   }

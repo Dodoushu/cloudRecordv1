@@ -271,7 +271,7 @@ class _prescriptionRecord extends State<prescriptionRecord> {
                       hospital = value;
                     },
                     validator: (value) {
-                      if (value == null) {
+                      if (value.isEmpty) {
                         return '请填写就诊医院';
                       } else {
                         return null;
@@ -324,7 +324,7 @@ class _prescriptionRecord extends State<prescriptionRecord> {
                       doctorname = value;
                     },
                     validator: (value) {
-                      if (value == null) {
+                      if (value.isEmpty) {
                         return '请填写医生姓名';
                       }
                     },
@@ -341,6 +341,7 @@ class _prescriptionRecord extends State<prescriptionRecord> {
                       border: InputBorder.none,
                     ),
                     maxLines: 4,
+                    maxLength: 250,
                     onChanged: (value) {
                       recordcontent = value;
                     },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'untils/showAlertDialogClass.dart';
-
+import 'login.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate, // 指定本地化的字符串和一些其他的值
+        GlobalCupertinoLocalizations.delegate, // 对应的Cupertino风格
+        GlobalWidgetsLocalizations.delegate // 指定默认的文本排列方向, 由左到右或由右到左
+      ],
+      supportedLocales: [
+        Locale("en"),
+        Locale("zh")
+      ],
       navigatorKey: navKey,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -31,7 +41,8 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Login(),
+//      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -109,18 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-
-            new Builder(builder: (context){
-              return FlatButton(child: Text('111'),onPressed: (){
-                Scaffold.of(context).showSnackBar(//不能直接在Scaffold里使用
-                    SnackBar(
+            new Builder(
+              builder: (context) {
+                return FlatButton(
+                  child: Text('111'),
+                  onPressed: () {
+                    Scaffold.of(context).showSnackBar(//不能直接在Scaffold里使用
+                        SnackBar(
                       content: Text('网络异常，请稍后重试'),
                       duration: Duration(seconds: 3),
-                    )
+                    ));
+                  },
                 );
-              },);
-            },)
-
+              },
+            )
           ],
         ),
       ),

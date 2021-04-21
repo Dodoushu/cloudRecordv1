@@ -7,6 +7,7 @@ import 'physicalExamination/menu.dart' as physicalExamination;
 import 'diseaseHistory/diseaseHistory.dart';
 import 'selfCheck/menu.dart' as selfCheckMenu;
 import 'CheckRecord/menu.dart' as CheckRecordMenu;
+import 'package:cloudrecord/patient/inquery/patient/inqueryPatient.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -186,7 +187,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     buttonBuilder('门诊病历查询', Icons.border_all, () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryPatient()));
                     }),
                     buttonBuilder('住院病历查询', Icons.book, () {
 

@@ -332,6 +332,7 @@ class _diseaseHistory extends State<diseaseHistory> {
                     border: InputBorder.none,
                   ),
                   maxLines: 4,
+                  maxLength: 250,
                   onChanged: (value) {
                     recordcontent = value;
                   },

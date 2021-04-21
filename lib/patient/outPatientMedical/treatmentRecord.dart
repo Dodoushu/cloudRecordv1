@@ -271,7 +271,7 @@ class _treatmentRecord extends State<treatmentRecord> {
                     hospital = value;
                   },
                   validator: (value) {
-                    if (value == null) {
+                    if (value.isEmpty) {
                       return '请填写就诊医院';
                     } else {
                       return null;
@@ -323,7 +323,7 @@ class _treatmentRecord extends State<treatmentRecord> {
                     doctorname = value;
                   },
                   validator: (value) {
-                    if (value == null) {
+                    if (value.isEmpty) {
                       return '请填写医生姓名';
                     }
                   },
@@ -339,6 +339,7 @@ class _treatmentRecord extends State<treatmentRecord> {
                     border: InputBorder.none,
                   ),
                   maxLines: 4,
+                  maxLength: 250,
                   onChanged: (value) {
                     recordcontent = value;
                   },

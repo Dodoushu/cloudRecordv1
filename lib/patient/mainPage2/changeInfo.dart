@@ -5,22 +5,22 @@ import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 import 'package:city_pickers/city_pickers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloudrecord/untils/showToast.dart';
-import 'bottomNavigationBar.dart';
+import 'package:cloudrecord/patient/bottomNavigationBar.dart';
 
 void main() => runApp(MaterialApp(
-      home: register2(),
+      home: changeInfo(),
       routes: <String, WidgetBuilder>{
         // 这里可以定义静态路由，不能传递参数
         '/dialog': (BuildContext context) => new NetLoadingDialog(),
       },
     ));
 
-class register2 extends StatefulWidget {
+class changeInfo extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _changeInfo();
 }
 
-class _register2 extends State<register2> {
+class _changeInfo extends State<changeInfo> {
   @override
   void initState() {
     super.initState();
@@ -32,43 +32,74 @@ class _register2 extends State<register2> {
     if (prefs.containsKey('uid')) {
       uid = prefs.getString('uid');
     }
+
+    name = prefs.getString('name');
+    nameController = new TextEditingController(text: name);
+
+    sex = prefs.getString('sex');
+    startDate = DateTime.parse(prefs.getString('birthday'));
+
+    ethnicity = prefs.getString('race');
+    ethnicityController = new TextEditingController(text: ethnicity);
+
+    mailAddress = prefs.getString('contactAddr');
+    mailaddressController =
+        new TextEditingController(text: mailAddress.split('.')[3]);
+
+    address = prefs.getString('nowAddr');
+    addressController = new TextEditingController(text: address.split('.')[3]);
+
+    nowAddressResult = new Result(
+        provinceName: address.split('.')[0],
+        cityName: address.split('.')[1],
+        areaName: address.split('.')[2]);
+    mailAddressResult = new Result(
+        provinceName: mailAddress.split('.')[0],
+        cityName: mailAddress.split('.')[1],
+        areaName: mailAddress.split('.')[2]);
+
+    ID = prefs.containsKey('idCard') ? prefs.getString('idCard') : null;
+    if (ID != null) {
+      idController = new TextEditingController(text: ID);
+    }
+
+    ICE1name = prefs.getString('mergeName');
+    ICE1nameController = new TextEditingController(text: ICE1name);
+
+    ICE1phone = prefs.getString("mergeNum");
+    ICE1phoneController = new TextEditingController(text: ICE1phone);
+
+    setState(() {});
   }
+
+  bool canEdit = false;
 
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
   String uid;
 
   String name;
-//  static final TextEditingController nameController =
-//      new TextEditingController();
+  TextEditingController nameController;
 
   String sex;
 
   String ethnicity;
-//  static final TextEditingController ethnicityController =
-//      new TextEditingController();
+  TextEditingController ethnicityController;
 
   String ID;
-//  static final TextEditingController idController = new TextEditingController();
+  TextEditingController idController;
 
   String mailAddress;
-//  static final TextEditingController mailaddressController =
-//      new TextEditingController();
+  TextEditingController mailaddressController;
 
   String address;
-//  static final TextEditingController addressController =
-//      new TextEditingController();
-
-  String FR1;
-//  static final TextEditingController fr1Controller =
-//      new TextEditingController();
+  TextEditingController addressController;
 
   String ICE1name;
-//  static final TextEditingController ICE1nameController =
-//      new TextEditingController();
+  TextEditingController ICE1nameController;
+
   String ICE1phone;
-//  static final TextEditingController ICE1phoneController =
-//      new TextEditingController();
+  TextEditingController ICE1phoneController;
 
   String lebalContent = '请选择性别';
   Map labelmap = {
@@ -76,21 +107,23 @@ class _register2 extends State<register2> {
     '1': '女',
   };
 
-  Result nowAddressResult = new Result(
-      provinceId: '110000',
-      provinceName: "北京市",
-      cityName: '北京城区',
-      cityId: '110100',
-      areaName: '东城区',
-      areaId: '110101');
+  Result nowAddressResult;
+//  = new Result(
+//      provinceId: '110000',
+//      provinceName: "北京市",
+//      cityName: '北京城区',
+//      cityId: '110100',
+//      areaName: '东城区',
+//      areaId: '110101');
 
-  Result mailAddressResult = new Result(
-      provinceId: '110000',
-      provinceName: "北京市",
-      cityName: '北京城区',
-      cityId: '110100',
-      areaName: '东城区',
-      areaId: '110101');
+  Result mailAddressResult;
+//  = new Result(
+//      provinceId: '110000',
+//      provinceName: "北京市",
+//      cityName: '北京城区',
+//      cityId: '110100',
+//      areaName: '东城区',
+//      areaId: '110101');
 //  Result addressResult = new Result('110000', '110100', '110101', '北京市', '北京城区', '东城区');
 
   String emptyValid(String value) {
@@ -147,13 +180,19 @@ class _register2 extends State<register2> {
       patient['sex'] = sex;
       patient['birthday'] = startDate.toIso8601String();
       patient['race'] = ethnicity;
-      patient['nowAddr'] = nowAddressResult.provinceName + '.' +
-          nowAddressResult.cityName +'.' +
-          nowAddressResult.areaName +'.' +
+      patient['nowAddr'] = nowAddressResult.provinceName +
+          '.' +
+          nowAddressResult.cityName +
+          '.' +
+          nowAddressResult.areaName +
+          '.' +
           (address == null ? ' ' : address);
-      patient['contactAddr'] = mailAddressResult.provinceName +'.' +
-          mailAddressResult.cityName +'.' +
-          mailAddressResult.areaName +'.' +
+      patient['contactAddr'] = mailAddressResult.provinceName +
+          '.' +
+          mailAddressResult.cityName +
+          '.' +
+          mailAddressResult.areaName +
+          '.' +
           mailAddress;
       patient['idCard'] = ID;
       patient['mergeName'] = ICE1name;
@@ -181,7 +220,8 @@ class _register2 extends State<register2> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       });
     } else {
-      if(sex == null) ShowToast.getShowToast().showToast('请填写所需信息并选择性别和生日');
+      if (sex == null)
+        ShowToast.getShowToast().showToast('请填写所需信息并选择性别和生日');
       else
         ShowToast.getShowToast().showToast('请填写所需信息并选择生日');
     }
@@ -242,7 +282,20 @@ class _register2 extends State<register2> {
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
-//            backgroundColor: Colors.white,
+          actions: canEdit==false?<Widget>[
+            Container(
+              child: Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
+                child: RaisedButton(
+                  onPressed: () {
+                    canEdit = !canEdit;
+                    setState(() {});
+                  },
+                  child: Text('修改'),
+                ),
+              ),
+            )
+          ]:null,
         ),
         body: new ListView(
           children: <Widget>[
@@ -284,7 +337,8 @@ class _register2 extends State<register2> {
                           Column(
                             children: <Widget>[
                               TextFormField(
-//                                controller: nameController,
+                                enabled: canEdit,
+                                controller: nameController,
                                 decoration: new InputDecoration(
                                   labelText: '请输入您的姓名',
                                   labelStyle: new TextStyle(
@@ -315,17 +369,21 @@ class _register2 extends State<register2> {
                                     style: TextStyle(fontSize: 19),
                                   ),
                                   new DropdownButton(
+                                    value: sex,
                                     items: getListData(),
                                     hint: new Text(
                                         lebalContent), //当没有默认值的时候可以设置的提示
-                                    onChanged: (value) {
-                                      //下拉菜单item点击之后的回调
-                                      sex = value;
-                                      print(sex);
-                                      setState(() {
-                                        lebalContent = labelmap[value];
-                                      });
-                                    },
+                                    disabledHint: Text(labelmap[sex]),
+                                    onChanged: canEdit != true
+                                        ? null
+                                        : (value) {
+                                            //下拉菜单item点击之后的回调
+                                            sex = value;
+                                            print(sex);
+                                            setState(() {
+                                              lebalContent = labelmap[value];
+                                            });
+                                          },
                                     elevation: 24, //设置阴影的高度
                                     style: new TextStyle(
                                         //设置文本框里面文字的样式
@@ -340,7 +398,8 @@ class _register2 extends State<register2> {
                                 thickness: 2,
                               ),
                               TextFormField(
-//                                controller: ethnicityController,
+                                enabled: canEdit,
+                                controller: ethnicityController,
                                 decoration: new InputDecoration(
                                   labelText: '请输入您的民族',
                                   labelStyle: new TextStyle(
@@ -363,7 +422,8 @@ class _register2 extends State<register2> {
                                 thickness: 2,
                               ),
                               InkWell(
-                                onTap: _selectstartDate,
+                                onTap:
+                                    canEdit == true ? _selectstartDate : null,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -384,7 +444,8 @@ class _register2 extends State<register2> {
                                 thickness: 2,
                               ),
                               TextFormField(
-//                                controller: idController,
+                                enabled: canEdit,
+                                controller: idController,
                                 decoration: new InputDecoration(
                                   labelText: '请输入您的身份证号(选填)',
                                   labelStyle: new TextStyle(
@@ -393,7 +454,6 @@ class _register2 extends State<register2> {
                                   border: InputBorder.none,
                                 ),
                                 validator: (value) {
-
                                   RegExp cardReg = RegExp(
                                       r'^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$');
                                   if (!value.isEmpty) {
@@ -452,16 +512,18 @@ class _register2 extends State<register2> {
                                 ],
                               ),
                               InkWell(
-                                  onTap: () async {
-                                    Result result2 =
-                                        await CityPickers.showCityPicker(
-                                            context: context);
-                                    if (result2 != null) {
-                                      mailAddressResult = result2;
-                                      print(mailAddressResult.toString());
-                                      setState(() {});
-                                    }
-                                  },
+                                  onTap: canEdit == true
+                                      ? () async {
+                                          Result result2 =
+                                              await CityPickers.showCityPicker(
+                                                  context: context);
+                                          if (result2 != null) {
+                                            mailAddressResult = result2;
+                                            print(mailAddressResult.toString());
+                                            setState(() {});
+                                          }
+                                        }
+                                      : null,
                                   child: Container(
                                     margin: EdgeInsets.all(10),
                                     child: new Row(
@@ -478,7 +540,8 @@ class _register2 extends State<register2> {
                                     ),
                                   )),
                               TextFormField(
-//                                controller: mailaddressController,
+                                enabled: canEdit,
+                                controller: mailaddressController,
                                 decoration: new InputDecoration(
                                   labelText: '请输入详细地址',
                                   labelStyle: new TextStyle(
@@ -513,16 +576,18 @@ class _register2 extends State<register2> {
                                 ],
                               ),
                               InkWell(
-                                  onTap: () async {
-                                    Result result3 =
-                                        await CityPickers.showCityPicker(
-                                            context: context);
-                                    if (result3 != null) {
-                                      nowAddressResult = result3;
-                                      print(nowAddressResult.toString());
-                                      setState(() {});
-                                    }
-                                  },
+                                  onTap: canEdit == true
+                                      ? () async {
+                                          Result result3 =
+                                              await CityPickers.showCityPicker(
+                                                  context: context);
+                                          if (result3 != null) {
+                                            nowAddressResult = result3;
+                                            print(nowAddressResult.toString());
+                                            setState(() {});
+                                          }
+                                        }
+                                      : null,
                                   child: Container(
                                     margin: EdgeInsets.all(10),
                                     child: new Row(
@@ -539,7 +604,8 @@ class _register2 extends State<register2> {
                                     ),
                                   )),
                               TextFormField(
-//                                controller: addressController,
+                                enabled: canEdit,
+                                controller: addressController,
                                 decoration: new InputDecoration(
                                   labelText: '请输入详细地址',
                                   labelStyle: new TextStyle(
@@ -548,8 +614,6 @@ class _register2 extends State<register2> {
                                   border: InputBorder.none,
                                 ),
                                 maxLines: 3,
-                                maxLength: 250,
-                                maxLengthEnforced: true,
                                 onChanged: (value) {
                                   address = value;
                                 },
@@ -582,7 +646,8 @@ class _register2 extends State<register2> {
                             thickness: 2,
                           ),
                           TextFormField(
-//                            controller: ICE1nameController,
+                            enabled: canEdit,
+                            controller: ICE1nameController,
                             decoration: new InputDecoration(
                               labelText: '请输入您的紧急联系人姓名',
                               labelStyle: new TextStyle(
@@ -605,7 +670,8 @@ class _register2 extends State<register2> {
                             thickness: 2,
                           ),
                           TextFormField(
-//                            controller: ICE1phoneController,
+                            enabled: canEdit,
+                            controller: ICE1phoneController,
                             decoration: new InputDecoration(
                               labelText: '请输入您的紧急联系人电话',
                               labelStyle: new TextStyle(
@@ -617,30 +683,11 @@ class _register2 extends State<register2> {
                               ICE1phone = value;
                             },
                             validator: (value) {
-
-
-                              RegExp exp1 = RegExp(
-                                  r'^[0-9]{3,4}(-)[\d]{6,8}$'
-                              );
-
-                              RegExp exp2 = RegExp(
-                                  r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$'
-                              );
-
-                              bool matched1 = exp1.hasMatch(value);
-                              bool matched2 = exp2.hasMatch(value);
-                              if (matched1 == false && matched2 == false) {
-                                return '请输入正确电话';
+                              if (value.isEmpty) {
+                                return '请输入您的紧急联系人电话';
                               } else {
                                 return null;
                               }
-
-//                              if (value.isEmpty) {
-//                                return '请输入您的紧急联系人电话';
-//                              } else {
-//                                return null;
-//                              }
-
                             },
                           ),
                           Divider(
@@ -650,27 +697,28 @@ class _register2 extends State<register2> {
                       ),
                     ),
                   ),
-                  new Container(
-//      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
-                    height: 50.0,
-                    margin: EdgeInsets.only(
-                        top: 0.0, bottom: 30, left: 30, right: 30),
-                    child: new SizedBox.expand(
-                      child: new RaisedButton(
-                        elevation: 0,
-                        onPressed: submit,
-                        color: Colors.blue,
-                        child: new Text(
-                          '确定',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: Color.fromARGB(255, 255, 255, 255)),
+                  Container(
+                    child: canEdit==true?new Container(
+                      height: 50.0,
+                      margin: EdgeInsets.only(
+                          top: 0.0, bottom: 30, left: 30, right: 30),
+                      child: new SizedBox.expand(
+                        child: new RaisedButton(
+                          elevation: 0,
+                          onPressed: submit,
+                          color: Colors.blue,
+                          child: new Text(
+                            '确定',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
                         ),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
                       ),
-                    ),
-                  ),
+                    ):null,
+                  )
                 ],
               ),
             )

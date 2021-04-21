@@ -269,7 +269,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                         hospital = value;
                       },
                       validator: (value) {
-                        if (value == null) {
+                        if (value.isEmpty) {
                           return '请填写就诊医院';
                         } else {
                           return null;
@@ -322,7 +322,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                         doctorname = value;
                       },
                       validator: (value) {
-                        if (value == null) {
+                        if (value.isEmpty) {
                           return '青填写医生姓名';
                         }
                       },
@@ -339,6 +339,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                         border: InputBorder.none,
                       ),
                       maxLines: 4,
+                      maxLength: 250,
                       onChanged: (value) {
                         recordcontent = value;
                       },

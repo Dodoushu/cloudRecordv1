@@ -184,7 +184,7 @@ class bloodPressureDialog extends Dialog {
                                 high = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -223,7 +223,7 @@ class bloodPressureDialog extends Dialog {
                                 low = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -447,7 +447,7 @@ class pulse extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -670,7 +670,7 @@ class tempretrue extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -756,7 +756,7 @@ class bloodSugar extends Dialog {
           List<FlatButton> bottonList = new List();
           bottonList.add(okButton);
           showAlertDialog(context,
-              titleText: '操作成功', contentText: '血压上传成功', ButtonList: bottonList);
+              titleText: '操作成功', contentText: '血糖上传成功', ButtonList: bottonList);
           print(data);
         }, (error) {
           print(error);
@@ -934,7 +934,7 @@ class bloodSugar extends Dialog {
                                   upload = value;
                                 },
                                 validator: (value) {
-                                  if (value != null) {
+                                  if (!value.isEmpty) {
                                     return null;
                                   } else {
                                     return '请正确填写信息';
@@ -1158,7 +1158,7 @@ class weight extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -1381,7 +1381,7 @@ class height extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';
@@ -1604,7 +1604,7 @@ class other extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (value != null) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
                                   return '请正确填写信息';

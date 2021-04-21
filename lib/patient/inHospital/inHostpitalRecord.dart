@@ -315,7 +315,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                       hospital = value;
                     },
                     validator: (value){
-                      if (value == null) {
+                      if (value.isEmpty) {
                         return '请填写就诊医院';
                       } else {
                         return null;
@@ -364,6 +364,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                       border: InputBorder.none,
                     ),
                     maxLines: 4,
+                    maxLength: 250,
                     onChanged: (value) {
                       recordcontent = value;
                     },
