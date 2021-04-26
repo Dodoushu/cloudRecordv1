@@ -21,6 +21,7 @@ class pathology extends StatefulWidget {
 }
 
 class _pathology extends State<pathology> {
+  @override
   void initState() {
     super.initState();
     getId();

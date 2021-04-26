@@ -1,71 +1,54 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:yaml/yaml.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'detail.dart';
 
 void main() {
   runApp(new MaterialApp(
-    title: '门诊病历查询',
+    title: '',
     theme: new ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: new InqueryPatient(),
+    home: new InqueryCheck(),
   ));
 }
 
-class InqueryPatient extends StatefulWidget {
+class InqueryCheck extends StatefulWidget {
   @override
   _State createState() => new _State();
 }
 
-class _State extends State<InqueryPatient> {
+class _State extends State<InqueryCheck> {
+
+  List checkClass = ['other','labortory','picture','invasive','pathology','other'];
+  List checkClassCN = ['其他','化验检查','影像检查','侵入式检查','病理学检查','其他'];
+  Map checkSubClass = new Map();
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    getYamlData().then((value){
+      checkSubClass = value;
+      print(value);
+      getId();
+      setState(() {
 
-    getId();
-//    getInfo();
+      });
+    });
+  }
+  Future getYamlData() async {
+    var yamlstr = await rootBundle.loadString('assets/userConfig.yaml');
+    var doc = loadYaml(yamlstr);
+    Map list = doc['checkClassfyNum'];
+    return list;
   }
 
-  getInfo() async{
-    Map<String, dynamic> formData = new Map();
-    formData['userId'] = uid;
-    formData['checkType'] = timeInt;
-    print(formData);
-    DioManager.getInstance().post(
-      'SelectOutPatientRecords',
-      formData,
-      (data) {
-        list.clear();
-        for (Map map in data['outPatientTreatRecords']) {
-          map['class'] = '治疗记录';
-          list.add(map);
-        }
-        for (Map map in data['outPatientClinicRecords']) {
-          map['class'] = '门诊病历';
-          list.add(map);
-        }
-        for (Map map in data['outPatientPrescriptionRecords']) {
-          map['class'] = '处方记录';
-          list.add(map);
-        }
-        list.sort((Map a, b) {
-          return b["date"].compareTo(a["date"]);
-        });
-        setState(() {
-
-        });
-      },
-      (error) {
-        print(error);
-      },
-    );
-  }
-
-  List<Map> list = new List();
-  List<Widget> cardList = new List();
+  var timeValue;
+  String uid;
+  int timeInt = 1;
+  List list = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('uid')) {
@@ -76,9 +59,40 @@ class _State extends State<InqueryPatient> {
       });
     }
   }
-  String uid;
-  int timeInt = 1;
-  var timeValue;
+  getInfo() async{
+    Map<String, dynamic> formData = new Map();
+    formData['userId'] = uid;
+    formData['checkType'] = timeInt;
+    print(formData);
+    DioManager.getInstance().post(
+      'CheckRecords',
+      formData,
+          (data) {
+        list.clear();
+        list = data["checkRecords"];
+        print(list);
+        setState(() {
+
+        });
+      },
+          (error) {
+        print(error);
+      },
+    );
+  }
+
+//  {
+//    id: 5,
+//    date: 2021-04-15,
+//    hospital: 123,
+//    section: 五官科,
+//    items: 1,
+//    subItems: 5,
+//    subSubItems: 0,
+//    description: 123,
+//    userId: 30,
+//    address: [39.100.100.198/picture/5/scaled_76b7e937-07aa-4588-b40e-bb4bdeebfecc175662189061542615.jpg]
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,20 +151,7 @@ class _State extends State<InqueryPatient> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '种类：',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          map['class'],
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '时间：',
+                          '检查时间：',
                           style: TextStyle(fontSize: 18),
                         ),
                         Text(
@@ -174,6 +175,51 @@ class _State extends State<InqueryPatient> {
                         )
                       ],
                     ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '科室：',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Flexible(
+                          child: Text(
+                            map['section'],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      ],
+                    ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '检查分类：',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Flexible(
+                          child: Text(
+                            checkClassCN[map['items']],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      ],
+                    ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '检查种类：',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Flexible(
+                          child: Text(
+                            checkSubClass[checkClass[map['items']]][map['subItems']],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               )),
@@ -185,7 +231,7 @@ class _State extends State<InqueryPatient> {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('门诊病历查询'),
+          title: new Text('检查记录查询'),
           centerTitle: true,
         ),
         body: new ListView(

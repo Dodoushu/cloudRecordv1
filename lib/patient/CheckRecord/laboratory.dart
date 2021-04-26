@@ -21,6 +21,7 @@ class laboratory extends StatefulWidget {
 }
 
 class _laboratory extends State<laboratory> {
+  @override
   void initState() {
     super.initState();
     getId();

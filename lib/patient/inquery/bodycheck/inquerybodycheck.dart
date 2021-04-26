@@ -5,22 +5,23 @@ import 'package:cloudrecord/untils/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'detail.dart';
 
+
 void main() {
   runApp(new MaterialApp(
-    title: '门诊病历查询',
+    title: '住院病历查询',
     theme: new ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: new InqueryPatient(),
+    home: new InqueryBodycheck(),
   ));
 }
 
-class InqueryPatient extends StatefulWidget {
+class InqueryBodycheck extends StatefulWidget {
   @override
   _State createState() => new _State();
 }
 
-class _State extends State<InqueryPatient> {
+class _State extends State<InqueryBodycheck> {
   @override
   void initState() {
     super.initState();
@@ -35,30 +36,20 @@ class _State extends State<InqueryPatient> {
     formData['checkType'] = timeInt;
     print(formData);
     DioManager.getInstance().post(
-      'SelectOutPatientRecords',
+      'SelectExamineRecords',
       formData,
-      (data) {
+          (data) {
         list.clear();
-        for (Map map in data['outPatientTreatRecords']) {
-          map['class'] = '治疗记录';
+        for (Map map in data['examineRecords']) {
+          map['class'] = '体检记录';
           list.add(map);
         }
-        for (Map map in data['outPatientClinicRecords']) {
-          map['class'] = '门诊病历';
-          list.add(map);
-        }
-        for (Map map in data['outPatientPrescriptionRecords']) {
-          map['class'] = '处方记录';
-          list.add(map);
-        }
-        list.sort((Map a, b) {
-          return b["date"].compareTo(a["date"]);
-        });
+        print(list);
         setState(() {
-
+          
         });
       },
-      (error) {
+          (error) {
         print(error);
       },
     );
@@ -137,20 +128,7 @@ class _State extends State<InqueryPatient> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '种类：',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          map['class'],
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '时间：',
+                          '体检时间：',
                           style: TextStyle(fontSize: 18),
                         ),
                         Text(
@@ -185,7 +163,7 @@ class _State extends State<InqueryPatient> {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('门诊病历查询'),
+          title: new Text('体检记录查询'),
           centerTitle: true,
         ),
         body: new ListView(

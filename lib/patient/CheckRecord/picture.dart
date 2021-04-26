@@ -21,6 +21,7 @@ class picture extends StatefulWidget {
 }
 
 class _picture extends State<picture> {
+  @override
   void initState() {
     super.initState();
     getId();

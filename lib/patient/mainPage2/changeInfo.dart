@@ -159,8 +159,20 @@ class _changeInfo extends State<changeInfo> {
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
+    DateTime old = startDate;
     if (selectdate == null) return; //点击DatePicker的cancel
 
+    if(old == selectdate){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '', contentText: '您未选择日期', ButtonList: bottonList);
+    }
     setState(() {
       //点击DatePicker的OK
       startDate = selectdate;

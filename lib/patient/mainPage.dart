@@ -8,6 +8,9 @@ import 'diseaseHistory/diseaseHistory.dart';
 import 'selfCheck/menu.dart' as selfCheckMenu;
 import 'CheckRecord/menu.dart' as CheckRecordMenu;
 import 'package:cloudrecord/patient/inquery/patient/inqueryPatient.dart';
+import 'package:cloudrecord/patient/inquery/inhospital/inqueryinhospital.dart';
+import 'package:cloudrecord/patient/inquery/bodycheck/inquerybodycheck.dart';
+import 'package:cloudrecord/patient/inquery/check/inqueryCheck.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -190,10 +193,10 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryPatient()));
                     }),
                     buttonBuilder('住院病历查询', Icons.book, () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryInhospital()));
                     }),
                     buttonBuilder('体检记录查询', Icons.card_travel, () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryBodycheck()));
                     }),
                   ],
                 ),
@@ -204,7 +207,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     buttonBuilder('检查查询', Icons.print, () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryCheck()));
                     }),
                     Container(
                       width: width_ / 5,
