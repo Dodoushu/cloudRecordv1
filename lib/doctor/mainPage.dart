@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'doctorCheck.dart';
+import 'patientQuery/query.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -29,6 +31,7 @@ class _mainPage extends State<MainPage> {
     jobTitle = prefs.get('jobTitle');
     hospital = prefs.get('hospital');
     section = prefs.get('section');
+    approve = prefs.get("approve");
     setState(() {
 
     });
@@ -38,11 +41,46 @@ class _mainPage extends State<MainPage> {
   String jobTitle = '职称';
   String hospital = '陕西省人民医院';
   String section = '内科';
+  String approve = '0';
 
   @override
   Widget build(BuildContext context) {
 
 
+    Widget buildApprove(){
+      if(approve == '1'){
+        return Container(
+//          padding: EdgeInsets.all(20),
+          child: RaisedButton(
+            child: new Text(
+              '已认证',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black54),
+            ),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0)),
+          ),
+        );
+      }else{
+        return Container(
+          margin: EdgeInsets.all(5),
+          child: RaisedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> new DoctorCheck()));
+            },
+            child: new Text(
+              '点击认证',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black54),
+            ),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0)),
+          ),
+        );
+      }
+    }
     double width_ = MediaQuery.of(context).size.width;
 
     Widget bar = new Container(
@@ -188,7 +226,9 @@ class _mainPage extends State<MainPage> {
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buttonBuilder('患者查询', Icons.search, (){}),
+                  buttonBuilder('患者查询', Icons.search, (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => new Query()));
+                  }),
                   Container(width: width_ / 5,),
                   Container(width: width_ / 5,)
                 ],
@@ -205,6 +245,9 @@ class _mainPage extends State<MainPage> {
           '主界面',
         ),
         centerTitle: true,
+        actions: <Widget>[
+          buildApprove()
+        ],
       ),
       body: ListView(
         children: <Widget>[bar,menu],

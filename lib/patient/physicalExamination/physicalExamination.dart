@@ -422,7 +422,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                           elevation: 0,
                           onPressed: _selectFile,
                           color: Colors.blue,
-                          child: new Text('选择文件',
+                          child: new Text('选择图片',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -438,7 +438,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '已选择文件:',
+                      '已选择图片:',
                       style: TextStyle(fontSize: 16),
                     ),
                   ],

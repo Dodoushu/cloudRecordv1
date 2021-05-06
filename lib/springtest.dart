@@ -1,4 +1,5 @@
 import 'package:cloudrecord/untils/http_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,8 @@ import 'untils/showToast.dart';
 import 'patient/register2.dart';
 import 'doctor/mainPage.dart' as doctorMain;
 import 'patient/bottomNavigationBar.dart' as patientMain;
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 void main() => runApp(new MaterialApp(home: new Login()));
 
@@ -285,30 +288,24 @@ class LLogin extends State<Login> {
                     child: new SizedBox.expand(
                       child: new RaisedButton(
                         elevation: 20,
-                        onPressed: () {
+                        onPressed: () async{
 
-                          var loginForm = loginKey.currentState;
-                          //验证Form表单
-                          if (loginForm.validate()) {
-                            Map map = Map();
-                            Map sign = Map();
-                            map['callType'] = select[0]? 0:1;
-                            sign['phoneNum'] = userName;
-                            sign['passWord'] = password;
-                            map['sign'] = sign;
+                          print("111");
+                          Dio dio = new Dio();
+                          dio.options.baseUrl = "http://192.168.1.103:8081/";
+                          dio.options.connectTimeout = 50000;
+                          dio.options.receiveTimeout = 30000;
+                          Map<String, dynamic> params = new Map();
+                          params['name'] = '123';
+                          params['pwd'] = '123';
+                          List<String> list = ['1','2','3'];
+                          params['list'] = list;
 
-                            DioManager.getInstance().post('Sign', map,
-                                    (data){
-                                      successCallback(data);
-                                },
-                                    (error){
-                                  print(error);
-                                  ShowToast.getShowToast().showToast('网络异常，请稍后再试');
-                                });
+                          Map body = params;
+                          Response response = await dio.get('user');
+                          String dataStr = json.encode(response.data);
+                          print(dataStr);
 
-                          } else {
-                            ShowToast.getShowToast().showToast('请填写账号密码');
-                          }
 
                         },
                         color: Colors.blue,
