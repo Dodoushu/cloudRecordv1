@@ -374,7 +374,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        '文件上传:',
+                        '图片上传:',
                         style: TextStyle(fontSize: 19),
                       ),
                       Row(
@@ -400,7 +400,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                                 elevation: 0,
                                 onPressed: _selectFile,
                                 color: Colors.blue,
-                                child: new Text('选择文件',
+                                child: new Text('选择图片',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
@@ -416,7 +416,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        '已选择文件:',
+                        '已选择图片:',
                         style: TextStyle(fontSize: 16),
                       ),
                     ],

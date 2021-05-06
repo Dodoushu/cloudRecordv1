@@ -427,7 +427,7 @@ class _picture extends State<picture> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '文件上传:',
+                          '图片上传:',
                           style: TextStyle(fontSize: 19),
                         ),
                         Row(
@@ -453,7 +453,7 @@ class _picture extends State<picture> {
                               elevation: 0,
                               onPressed: _selectFile,
                               color: Colors.blue,
-                              child: new Text('选择文件',
+                              child: new Text('选择图片',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
