@@ -33,7 +33,7 @@ class _physicalExanmination extends State<physicalExanmination> {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
   String uid;
-  DateTime date = DateTime.now();
+  DateTime date;
   String hospital;
   String office;
   String recordcontent;
@@ -173,7 +173,7 @@ class _physicalExanmination extends State<physicalExanmination> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() &&
+    if (loginForm.validate() &&(date!=null)&&
         (office != null) &&
         (recordcontent != null || displayPath.length != 0)) {
       Map<String, dynamic> map = Map();
@@ -224,7 +224,7 @@ class _physicalExanmination extends State<physicalExanmination> {
         List<FlatButton> bottonList = new List();
         bottonList.add(okButton);
         showAlertDialog(context,
-            titleText: '操作成功', contentText: '门诊病历上传成功', ButtonList: bottonList);
+            titleText: '操作成功', contentText: '体检记录上传成功', ButtonList: bottonList);
         print(data);
       }, (error) {
         print(error);
@@ -256,7 +256,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                   ),
                   Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                    DateFormat.yMd().format(date),
+                    date==null?'未选择日期':DateFormat.yMd().format(date),
                     style: TextStyle(fontSize: 19),
                   ),
                 ],

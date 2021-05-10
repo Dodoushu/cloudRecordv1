@@ -55,6 +55,67 @@ class LLogin extends State<Login> {
     });
   }
 
+  void patientNavigate2(Map data)async{
+    //患者
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', data["userId"].toString());
+    print('登录成功');
+
+    prefs.setString('name', null);
+    prefs.setString('sex', null);
+    prefs.setString('phoneNum', null);
+    prefs.setString('birthday', null);
+    prefs.setString('race', null);
+    prefs.setString('nowAddr', null);
+    prefs.setString('contactAddr', null);
+    prefs.setString('idCard', null);
+    prefs.setString('mergeName', null);
+    prefs.setString('mergeNum', null);
+    print('登录成功');
+    print('用户姓名:');
+    print('用户性别:');
+    print('用户年龄:');
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => patientMain.BottomNavigationWidget()),
+            (route) => false);
+  }
+
+
+  void patientNavigate(Map data)async{
+    //患者
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', data["userId"].toString());
+    Map<String, dynamic> data1 = data['patient'];
+    print('登录成功');
+    String sex = data1['sex'].toString();
+
+    DateTime now = DateTime.now();
+    String birthday2 = data1['birthday'].substring(0,10);
+    DateTime birth = DateTime.parse(birthday2);
+    var diff = now.difference(birth);
+    int age = (diff.inDays/365).toInt();
+    prefs.setString('age', age.toString());
+    prefs.setString('name', data1["name"]);
+    prefs.setString('sex', sex);
+    prefs.setString('phoneNum', data1["phoneNum"]);
+    prefs.setString('birthday', data1["birthday"]);
+    prefs.setString('race', data1["race"]);
+    prefs.setString('nowAddr', data1["nowAddr"]);
+    prefs.setString('contactAddr', data1["contactAddr"]);
+    prefs.setString('idCard', data1["idCard"]);
+    prefs.setString('mergeName', data1["mergeName"]);
+    prefs.setString('mergeNum', data1["mergeNum"]);
+    print('登录成功');
+    print('用户姓名:'+data1['name']);
+    print('用户性别:'+sex);
+    print('用户年龄:'+age.toString());
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => patientMain.BottomNavigationWidget()),
+            (route) => false);
+  }
+
   void successCallback(Map data) async{
     if(data['status_code'] == 11){
       Widget okButton = FlatButton(
@@ -69,48 +130,20 @@ class LLogin extends State<Login> {
     }else{
       if(data['status_code'] == 12){
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('uid', data["userId"].toString());
-        ShowToast.getShowToast().showToast('您尚未填写身份信息，即将跳转至填写页面');
-        Future.delayed(Duration(seconds: 3), (){
-          Navigator.of(context).pop();
-          print('延时3s执行');
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => register2()), (route) => false);
-        });
+        prefs.setString('detailInfo', "0");
+        print('该用户尚未填写身份信息');
+        patientNavigate2(data);
+//        ShowToast.getShowToast().showToast('您尚未填写身份信息，即将跳转至填写页面');
+//        Future.delayed(Duration(seconds: 3), (){
+//          Navigator.of(context).pop();
+//          print('延时3s执行');
+//          Navigator.pushAndRemoveUntil(
+//              context,
+//              MaterialPageRoute(builder: (context) => register2()), (route) => false);
+//        });
       }else if(data['status_code'] == 10){
         if(select[0]){
-          //患者
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('uid', data["userId"].toString());
-          Map<String, dynamic> data1 = data['patient'];
-          print('登录成功');
-          String sex = data1['sex'].toString();
-
-          DateTime now = DateTime.now();
-          String birthday2 = data1['birthday'].substring(0,10);
-          DateTime birth = DateTime.parse(birthday2);
-          var diff = now.difference(birth);
-          int age = (diff.inDays/365).toInt();
-          prefs.setString('age', age.toString());
-          prefs.setString('name', data1["name"]);
-          prefs.setString('sex', sex);
-          prefs.setString('phoneNum', data1["phoneNum"]);
-          prefs.setString('birthday', data1["birthday"]);
-          prefs.setString('race', data1["race"]);
-          prefs.setString('nowAddr', data1["nowAddr"]);
-          prefs.setString('contactAddr', data1["contactAddr"]);
-          prefs.setString('idCard', data1["idCard"]);
-          prefs.setString('mergeName', data1["mergeName"]);
-          prefs.setString('mergeNum', data1["mergeNum"]);
-          print('登录成功');
-          print('用户姓名:'+data1['name']);
-          print('用户性别:'+sex);
-          print('用户年龄:'+age.toString());
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => patientMain.BottomNavigationWidget()),
-                  (route) => false);
+          patientNavigate(data);
         }else{
           //医生
           SharedPreferences prefs = await SharedPreferences.getInstance();

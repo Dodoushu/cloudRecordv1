@@ -33,7 +33,7 @@ class _physicalExanmination extends State<physicalExanmination> {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
   String uid;
-  DateTime date = DateTime.now();
+  DateTime date = new DateTime.now();
   TimeOfDay time = TimeOfDay.now();
   String position;
   String recordcontent;
@@ -173,7 +173,7 @@ class _physicalExanmination extends State<physicalExanmination> {
     var loginForm = textFromKey.currentState;
     print(displayPath.length);
 //    验证Form表单
-    if (loginForm.validate() &&
+    if (loginForm.validate() &&(date!=null)&&
         ( displayPath.length != 0)) {
       Map<String, dynamic> map = Map();
 
@@ -212,7 +212,7 @@ class _physicalExanmination extends State<physicalExanmination> {
         List<FlatButton> bottonList = new List();
         bottonList.add(okButton);
         showAlertDialog(context,
-            titleText: '操作成功', contentText: '门诊病历上传成功', ButtonList: bottonList);
+            titleText: '操作成功', contentText: '病症自拍上传成功', ButtonList: bottonList);
         print(data);
       }, (error) {
         print(error);
@@ -234,7 +234,7 @@ class _physicalExanmination extends State<physicalExanmination> {
         child: Column(
           children: <Widget>[
             InkWell(
-              onTap: _selectDate,
+//              onTap: _selectDate,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -254,14 +254,14 @@ class _physicalExanmination extends State<physicalExanmination> {
               thickness: 2,
             ),
             InkWell(
-              onTap: () async {
-                var picker = await showTimePicker(
-                    context: context, initialTime: TimeOfDay.now());
-                if (picker == null) return;
-                setState(() {
-                  time = picker;
-                });
-              },
+//              onTap: () async {
+//                var picker = await showTimePicker(
+//                    context: context, initialTime: TimeOfDay.now());
+//                if (picker == null) return;
+//                setState(() {
+//                  time = picker;
+//                });
+//              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

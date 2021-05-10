@@ -35,8 +35,8 @@ class _InhospitalRecord extends State<InhospitalRecord> {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
   String uid;
-  DateTime startdate = DateTime.now();
-  DateTime enddate = DateTime.now();
+  DateTime startdate;
+  DateTime enddate;
   String hospital;
   String office;
   String recordcontent;
@@ -197,7 +197,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
     if (
-    loginForm.validate() &&
+    loginForm.validate() &&(startdate!=null)&&(enddate!=null)&&
         (office != null) &&
         (recordcontent != null || displayPath.length != 0)
     ) {
@@ -241,7 +241,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
             List<FlatButton> bottonList = new List();
             bottonList.add(okButton);
             showAlertDialog(context,
-                titleText: '操作成功', contentText: '门诊病历上传成功', ButtonList: bottonList);
+                titleText: '操作成功', contentText: '住院记录上传成功', ButtonList: bottonList);
             print(data);
           }, (error) {
             print(error);
@@ -268,12 +268,12 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '开始日期:',
+                      '入院日期:',
                       style: TextStyle(fontSize: 19),
                     ),
                     Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                      DateFormat.yMd().format(startdate),
+                      startdate==null?'未选择日期':DateFormat.yMd().format(startdate),
                       style: TextStyle(fontSize: 19),
                     ),
                   ],
@@ -288,12 +288,12 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '结束日期:',
+                      '出院日期:',
                       style: TextStyle(fontSize: 19),
                     ),
                     Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                      DateFormat.yMd().format(enddate),
+                      enddate==null?'未选择日期':DateFormat.yMd().format(enddate),
                       style: TextStyle(fontSize: 19),
                     ),
                   ],

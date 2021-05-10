@@ -42,7 +42,7 @@ class _invasive extends State<invasive> {
 
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
-  DateTime date = DateTime.now();
+  DateTime date;
   String hospital;
   String office;
   int subSubItems;
@@ -243,7 +243,7 @@ class _invasive extends State<invasive> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() &&
+    if (loginForm.validate() &&(date!=null)&&
         (office != null) &&
         (recordcontent != null || displayPath.length != 0)) {
       Map<String, dynamic> map = Map();
@@ -287,7 +287,7 @@ class _invasive extends State<invasive> {
         List<FlatButton> bottonList = new List();
         bottonList.add(okButton);
         showAlertDialog(context,
-            titleText: '操作成功', contentText: '门诊病历上传成功', ButtonList: bottonList);
+            titleText: '操作成功', contentText: '侵入式检查记录上传成功', ButtonList: bottonList);
         print(data);
       }, (error) {
         print(error);
@@ -319,7 +319,7 @@ class _invasive extends State<invasive> {
                       ),
                       Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                        DateFormat.yMd().format(date),
+                        date==null?'未选择日期':DateFormat.yMd().format(date),
                         style: TextStyle(fontSize: 19),
                       ),
                     ],

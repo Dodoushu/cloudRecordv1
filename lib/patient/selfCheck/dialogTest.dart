@@ -68,7 +68,7 @@ class bloodPressureDialog extends Dialog {
           child: Container(
               //比较常用的一个控件，设置具体尺寸
               width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+              height: width_ * 0.7 * 1.9,
               child: Form(
                   key: textFromKey,
                   child: Container(
@@ -161,7 +161,7 @@ class bloodPressureDialog extends Dialog {
                             new Row(
                               children: [
                                 new Text(
-                                  '高压:',
+                                  '收缩压（高压）:',
                                   style: new TextStyle(
                                     fontSize: 20,
                                   ),
@@ -173,7 +173,7 @@ class bloodPressureDialog extends Dialog {
                             ),
                             TextFormField(
                               decoration: new InputDecoration(
-                                labelText: '请输入高压/mmHg',
+                                labelText: '请输入收缩压/mmHg',
                                 labelStyle: new TextStyle(
                                     fontSize: 15.0,
                                     color: Color.fromARGB(255, 93, 93, 93)),
@@ -184,9 +184,10 @@ class bloodPressureDialog extends Dialog {
                                 high = value;
                               },
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (!value.isEmpty) {
                                   return null;
                                 } else {
+                                  print(value);
                                   return '请正确填写信息';
                                 }
                               },
@@ -200,7 +201,7 @@ class bloodPressureDialog extends Dialog {
                             new Row(
                               children: [
                                 new Text(
-                                  '低压:',
+                                  '舒张压（低压）:',
                                   style: new TextStyle(
                                     fontSize: 20,
                                   ),
@@ -212,7 +213,7 @@ class bloodPressureDialog extends Dialog {
                             ),
                             TextFormField(
                               decoration: new InputDecoration(
-                                labelText: '请输入低压/mmHg',
+                                labelText: '请输入舒张压/mmHg',
                                 labelStyle: new TextStyle(
                                     fontSize: 15.0,
                                     color: Color.fromARGB(255, 93, 93, 93)),

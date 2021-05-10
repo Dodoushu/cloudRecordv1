@@ -115,14 +115,14 @@ class _register2 extends State<register2> {
     return items;
   }
 
-  DateTime startDate = DateTime.now();
+  DateTime startDate;
   Future<void> _selectstartDate() async //异步
   {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
       context: context,
-      initialDate: startDate,
+      initialDate: new DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
@@ -151,7 +151,7 @@ class _register2 extends State<register2> {
   void submit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() && sex != null) {
+    if (loginForm.validate() && sex != null&&(startDate!=null)) {
       Map map = Map();
       Map patient = Map();
 
@@ -386,7 +386,7 @@ class _register2 extends State<register2> {
                                     ),
                                     Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                                      DateFormat.yMd().format(startDate),
+                                      startDate==null?'未选择日期':DateFormat.yMd().format(startDate),
                                       style: TextStyle(fontSize: 19),
                                     ),
                                   ],

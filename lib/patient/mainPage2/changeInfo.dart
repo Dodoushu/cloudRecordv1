@@ -24,14 +24,28 @@ class _changeInfo extends State<changeInfo> {
   @override
   void initState() {
     super.initState();
-    getId();
+    VeriInfo();
+    setState(() {
+
+    });
+  }
+
+  void VeriInfo()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String info = prefs.getString('detailInfo');
+
+    if (prefs.containsKey('uid')) {
+      uid = prefs.getString('uid');
+    }
+    if(info == '0'){
+
+    }else{
+      getId();
+    }
   }
 
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
-    }
 
     name = prefs.getString('name');
     nameController = new TextEditingController(text: name);
@@ -43,20 +57,51 @@ class _changeInfo extends State<changeInfo> {
     ethnicityController = new TextEditingController(text: ethnicity);
 
     mailAddress = prefs.getString('contactAddr');
-    mailaddressController =
-        new TextEditingController(text: mailAddress.split('.')[3]);
+
+    if(mailAddress!=null){
+      mailaddressController =
+      new TextEditingController(text: mailAddress.split('.')[3]);
+      mailAddressResult = new Result(
+          provinceName: mailAddress.split('.')[0],
+          cityName: mailAddress.split('.')[1],
+          areaName: mailAddress.split('.')[2]);
+      mailAddress = mailAddress.split('.').length>=3?mailAddress.split('.')[3]:null;
+
+
+    }else{
+      mailaddressController = new TextEditingController();
+      mailAddressResult = new Result(
+//      provinceId: '110000',
+        provinceName: "北京市",
+        cityName: '北京城区',
+//      cityId: '110100',
+        areaName: '东城区',
+//      areaId: '110101'
+      );;
+    }
 
     address = prefs.getString('nowAddr');
-    addressController = new TextEditingController(text: address.split('.')[3]);
 
-    nowAddressResult = new Result(
-        provinceName: address.split('.')[0],
-        cityName: address.split('.')[1],
-        areaName: address.split('.')[2]);
-    mailAddressResult = new Result(
-        provinceName: mailAddress.split('.')[0],
-        cityName: mailAddress.split('.')[1],
-        areaName: mailAddress.split('.')[2]);
+    if(address != null){
+      addressController = new TextEditingController(text: address.split('.')[3]);
+      nowAddressResult = new Result(
+          provinceName: address.split('.')[0],
+          cityName: address.split('.')[1],
+          areaName: address.split('.')[2]);
+      address = address.split('.')[3].length>=3?address.split('.')[3]:null;
+
+
+    }else{
+      addressController = new TextEditingController();
+      nowAddressResult = new Result(
+//      provinceId: '110000',
+        provinceName: "北京市",
+        cityName: '北京城区',
+//      cityId: '110100',
+        areaName: '东城区',
+//      areaId: '110101'
+      );;
+    }
 
     ID = prefs.containsKey('idCard') ? prefs.getString('idCard') : null;
     if (ID != null) {
@@ -79,27 +124,27 @@ class _changeInfo extends State<changeInfo> {
   String uid;
 
   String name;
-  TextEditingController nameController;
+  TextEditingController nameController = new TextEditingController();
 
   String sex;
 
   String ethnicity;
-  TextEditingController ethnicityController;
+  TextEditingController ethnicityController = new TextEditingController();
 
   String ID;
-  TextEditingController idController;
+  TextEditingController idController = new TextEditingController();
 
   String mailAddress;
-  TextEditingController mailaddressController;
+  TextEditingController mailaddressController = new TextEditingController();
 
   String address;
-  TextEditingController addressController;
+  TextEditingController addressController = new TextEditingController();
 
   String ICE1name;
-  TextEditingController ICE1nameController;
+  TextEditingController ICE1nameController = new TextEditingController();
 
   String ICE1phone;
-  TextEditingController ICE1phoneController;
+  TextEditingController ICE1phoneController = new TextEditingController();
 
   String lebalContent = '请选择性别';
   Map labelmap = {
@@ -107,23 +152,25 @@ class _changeInfo extends State<changeInfo> {
     '1': '女',
   };
 
-  Result nowAddressResult;
-//  = new Result(
+  Result nowAddressResult
+  = new Result(
 //      provinceId: '110000',
-//      provinceName: "北京市",
-//      cityName: '北京城区',
+      provinceName: "北京市",
+      cityName: '北京城区',
 //      cityId: '110100',
-//      areaName: '东城区',
-//      areaId: '110101');
+      areaName: '东城区',
+//      areaId: '110101'
+  );
 
-  Result mailAddressResult;
-//  = new Result(
+  Result mailAddressResult
+  = new Result(
 //      provinceId: '110000',
-//      provinceName: "北京市",
-//      cityName: '北京城区',
+      provinceName: "北京市",
+      cityName: '北京城区',
 //      cityId: '110100',
-//      areaName: '东城区',
-//      areaId: '110101');
+      areaName: '东城区',
+//      areaId: '110101'
+  );
 //  Result addressResult = new Result('110000', '110100', '110101', '北京市', '北京城区', '东城区');
 
   String emptyValid(String value) {
@@ -184,7 +231,9 @@ class _changeInfo extends State<changeInfo> {
   void submit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() && sex != null) {
+    if (true
+//    loginForm.validate() && sex != null
+    ) {
       Map map = Map();
       Map patient = Map();
 
@@ -199,7 +248,7 @@ class _changeInfo extends State<changeInfo> {
           nowAddressResult.areaName +
           '.' +
           (address == null ? ' ' : address);
-      patient['contactAddr'] = mailAddressResult.provinceName +
+      patient['contactAddr'] = mailAddress==null?null:mailAddressResult.provinceName +
           '.' +
           mailAddressResult.cityName +
           '.' +
@@ -244,32 +293,28 @@ class _changeInfo extends State<changeInfo> {
     // {"id":6,"name":"0","sex":0,"birthday":"0","race":"0","nowAddr":"0","contactAddr":"0","idCard":"0","mergeName":"0","mergeNum":"0","userId":4}}
     if (data1['status_code'] == 1) {
       Map<String, dynamic> data = data1['patient'];
-      print('注册成功');
-      print('用户姓名:' + data['name']);
-      String sex = data['sex'].toString();
-      print('用户性别:' + sex);
-      DateTime now = DateTime.now();
-      String birthday2 = data['birthday'].substring(0, 10);
-      DateTime birth = DateTime.parse(birthday2);
-      var diff = now.difference(birth);
-      int age = (diff.inDays / 365).toInt();
-      print('用户年龄:' + age.toString());
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('age', age.toString());
-      prefs.setString('name', data['name']);
+      if(data!=null){
+        print('注册成功');
+        print('用户姓名:');
+        String sex = data['sex'].toString();
+        print('用户性别:');
+        print('用户年龄:');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      prefs.setString('age', age.toString());
-      prefs.setString('name', data["name"]);
-      prefs.setString('sex', sex);
-      prefs.setString('phoneNum', data["phoneNum"]);
-      prefs.setString('birthday', data["birthday"]);
-      prefs.setString('race', data["race"]);
-      prefs.setString('nowAddr', data["nowAddr"]);
-      prefs.setString('contactAddr', data["contactAddr"]);
-      prefs.setString('idCard', data["idCard"]);
-      prefs.setString('mergeName', data["mergeName"]);
-      prefs.setString('mergeNum', data["mergeNum"]);
+        prefs.setString('name', data['name']);
 
+        prefs.setString('name', data["name"]);
+        prefs.setString('sex', sex);
+        prefs.setString('phoneNum', data["phoneNum"]);
+        prefs.setString('birthday', data["birthday"]);
+        prefs.setString('race', data["race"]);
+        prefs.setString('nowAddr', data["nowAddr"]);
+        prefs.setString('contactAddr', data["contactAddr"]);
+        prefs.setString('idCard', data["idCard"]);
+        prefs.setString('mergeName', data["mergeName"]);
+        prefs.setString('mergeNum', data["mergeNum"]);
+        prefs.setString('detailInfo', '1');
+      }
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
@@ -290,7 +335,7 @@ class _changeInfo extends State<changeInfo> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '用户注册',
+            '用户个人信息',
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
@@ -325,7 +370,7 @@ class _changeInfo extends State<changeInfo> {
               )),
             ),
             Form(
-              autovalidate: true,
+//              autovalidate: true,
               key: textFromKey,
               child: new Column(
                 children: [
@@ -385,12 +430,13 @@ class _changeInfo extends State<changeInfo> {
                                     items: getListData(),
                                     hint: new Text(
                                         lebalContent), //当没有默认值的时候可以设置的提示
-                                    disabledHint: Text(labelmap[sex]),
+                                    disabledHint: Text(sex!=null?labelmap[sex]:lebalContent),
                                     onChanged: canEdit != true
                                         ? null
                                         : (value) {
                                             //下拉菜单item点击之后的回调
                                             sex = value;
+                                            print(sex);
                                             print(sex);
                                             setState(() {
                                               lebalContent = labelmap[value];

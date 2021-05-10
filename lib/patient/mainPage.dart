@@ -58,85 +58,85 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
 
-    Widget bar = new Container(
-      //宽度
-      width: width_,
-      //高度
-      height: width_ * 0.3,
-      // 盒子样式
-      decoration: new BoxDecoration(
-        color: Colors.lightBlueAccent,
-        //设置Border属性给容器添加边框
-        border: new Border.all(
-          //为边框添加颜色
-          color: Colors.black54,
-          width: 0, //边框宽度
-        ),
-      ),
-      child: Container(
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            new Container(),
-            new Container(
-              //宽度
-              width: width_ * 0.3 * (4 / 7),
-              //高度
-              height: width_ * 0.3 * (4 / 7),
-              // 盒子样式
-              child: Icon(
-                Icons.android,
-                size: 60,
-              ),
-            ),
-            new Container(),
-            new Container(
-              //宽度
-              width: width_ * 0.4,
-              //高度
-              height: width_ * 0.3 * (4 / 7),
-              child: Container(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    new Text(
-                      name,
-                      style: new TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        new Text(
-                          age + '岁',
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        new Text(
-                          sex,
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        new Container(),
-                        new Container()
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            new Container()
-          ],
-        ),
-      ),
-    );
+//    Widget bar = new Container(
+//      //宽度
+//      width: width_,
+//      //高度
+//      height: width_ * 0.3,
+//      // 盒子样式
+//      decoration: new BoxDecoration(
+//        color: Colors.lightBlueAccent,
+//        //设置Border属性给容器添加边框
+//        border: new Border.all(
+//          //为边框添加颜色
+//          color: Colors.black54,
+//          width: 0, //边框宽度
+//        ),
+//      ),
+//      child: Container(
+//        child: new Row(
+//          mainAxisAlignment: MainAxisAlignment.spaceAround,
+//          children: [
+//            new Container(),
+//            new Container(
+//              //宽度
+//              width: width_ * 0.3 * (4 / 7),
+//              //高度
+//              height: width_ * 0.3 * (4 / 7),
+//              // 盒子样式
+//              child: Icon(
+//                Icons.android,
+//                size: 60,
+//              ),
+//            ),
+//            new Container(),
+//            new Container(
+//              //宽度
+//              width: width_ * 0.4,
+//              //高度
+//              height: width_ * 0.3 * (4 / 7),
+//              child: Container(
+//                child: new Column(
+//                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: [
+//                    new Text(
+//                      name,
+//                      style: new TextStyle(
+//                        color: Colors.black,
+//                        fontSize: 20,
+//                      ),
+//                    ),
+//                    new Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: [
+//                        new Text(
+//                          age + '岁',
+//                          style: new TextStyle(
+//                            color: Colors.black,
+//                            fontSize: 16,
+//                          ),
+//                        ),
+//                        new Text(
+//                          sex,
+//                          style: new TextStyle(
+//                            color: Colors.black,
+//                            fontSize: 16,
+//                          ),
+//                        ),
+//                        new Container(),
+//                        new Container()
+//                      ],
+//                    ),
+//                  ],
+//                ),
+//              ),
+//            ),
+//            new Container()
+//          ],
+//        ),
+//      ),
+//    );
 
     Widget buttonBuilder(
         String text, IconData icondata, Function clickFunction) {
@@ -322,7 +322,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
           //第一个页面 记录录入
           Container(
             child: Column(
-              children: <Widget>[bar, menu],
+              children: <Widget>[ menu],
             ),
           ),
 

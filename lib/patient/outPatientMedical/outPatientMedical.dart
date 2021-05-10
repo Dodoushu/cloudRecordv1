@@ -24,7 +24,7 @@ class _outpatientMedical extends State<outpatientMedical> {
   }
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
-  DateTime date = DateTime.now();
+  DateTime date;
   String hospital;
   String office;
   String doctorname;
@@ -173,7 +173,7 @@ class _outpatientMedical extends State<outpatientMedical> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate()&&(office!=null)&&(recordcontent!=null || displayPath.length != 0)) {
+    if (loginForm.validate()&&(date!=null)&&(office!=null)&&(recordcontent!=null || displayPath.length != 0)) {
       Map<String, dynamic> map = Map();
 
       map['date'] = date.toIso8601String().substring(0, 10);
@@ -246,7 +246,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                       ),
                       Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                        DateFormat.yMd().format(date),
+                        date==null?'未选择日期':DateFormat.yMd().format(date),
                         style: TextStyle(fontSize: 19),
                       ),
                     ],

@@ -55,7 +55,7 @@ Widget smallPicGridView(List list) {
     );
   } else {
     return Text(
-      '未选择文件',
+      '未选择图片',
       style: TextStyle(fontSize: 16),
     );
   }
