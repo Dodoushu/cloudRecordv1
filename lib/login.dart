@@ -329,7 +329,7 @@ class LLogin extends State<Login> {
                             sign['phoneNum'] = userName;
                             sign['passWord'] = password;
                             map['sign'] = sign;
-
+                            print(map);
                             DioManager.getInstance().post('Sign', map,
                                     (data){
                                       successCallback(data);

@@ -70,7 +70,24 @@ class _laboratory extends State<laboratory> {
     getMultiFilesPath().then((value) {
       filesPaths = value;
       var selectedFilePaths = filesPaths.values;
-//      MultipartFile tempfile;
+      List newList = new List();
+      for (String path in selectedFilePaths) {
+        newList.add(path);
+      }
+      if(newList.length+displayPath.length>9){
+        Widget okButton = FlatButton(
+          child: Text("好的"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        );
+
+        List<FlatButton> bottonList = new List();
+        bottonList.add(okButton);
+        showAlertDialog(context,
+            titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+        return;
+      }
       for (String path in selectedFilePaths) {
         displayPath.add(path);
 //        MultipartFile.fromFile(path).then((value) {
