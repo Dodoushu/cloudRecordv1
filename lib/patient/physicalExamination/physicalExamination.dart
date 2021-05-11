@@ -217,10 +217,11 @@ class _physicalExanmination extends State<physicalExanmination> {
           if (value != Null) {
             flag2 = 1;
           }
-          MultipartFile tempfile = value;
+          MultipartFile tempsubfile = value;
           print('*****************' + file);
-          selectedFiles.add(tempfile);
-          print(selectedFiles.length);
+          List subFiles = new List();
+          subFiles.add(tempsubfile);
+          map['subFiles'] = subFiles;
         });
       }
 

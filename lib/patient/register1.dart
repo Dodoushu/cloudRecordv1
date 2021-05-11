@@ -227,6 +227,15 @@ class _register1 extends State<register1> {
                       onChanged: (value) {
                         password = value;
                       },
+                      validator: (value){
+                        if(value.isEmpty){
+                          return '请输入密码';
+                        }if(value.length>8||value.length<6){
+                          return '请输入6~8位密码';
+                        }else{
+                          return null;
+                        }
+                      },
                     ),
                   ),
                   new Container(
@@ -245,7 +254,7 @@ class _register1 extends State<register1> {
                       ),
                       obscureText: !isShowPassWord,
                       validator: (value) {
-                        if (password != null && value != password) {
+                        if (!password.isEmpty && value != password) {
                           return '请确认两次密码输入相同';
                         }
                         return null;

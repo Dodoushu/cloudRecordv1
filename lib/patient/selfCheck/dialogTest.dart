@@ -30,6 +30,7 @@ class bloodPressureDialog extends Dialog {
         dseaseSelfBaseInfo['lowPressure'] = low;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 1;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -184,11 +185,12 @@ class bloodPressureDialog extends Dialog {
                                 high = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
+                                if (value.isEmpty) {
+                                  return '请填写血压';
+                                } else if(int.parse(value)>300){
+                                  return '血压过高，请正确输入血压';
+                                }else{
                                   return null;
-                                } else {
-                                  print(value);
-                                  return '请正确填写信息';
                                 }
                               },
                             ),
@@ -224,10 +226,14 @@ class bloodPressureDialog extends Dialog {
                                 low = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
+                                if (value.isEmpty) {
+                                  return '请填写血压';
+                                } else if(int.parse(value)>300){
+                                  return '请正确输入血压';
+                                }else if(int.parse(value)>int.parse(high)){
+                                  return '舒张压大于收缩压，请正确输入血压数值';
+                                } else{
                                   return null;
-                                } else {
-                                  return '请正确填写信息';
                                 }
                               },
                             ),
@@ -294,6 +300,7 @@ class pulse extends Dialog {
         dseaseSelfBaseInfo['pulse'] = upload;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 2;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -448,11 +455,14 @@ class pulse extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
-                                  return null;
-                                } else {
-                                  return '请正确填写信息';
+                                if (value.isEmpty) {
+                                  return '请输入脉搏';
+                                } else if(int.parse(value)>220){
+                                  return '脉搏超过上限，请正确输入脉搏';
                                 }
+
+                                return null;
+
                               },
                             ),
                             Divider(
@@ -517,6 +527,7 @@ class tempretrue extends Dialog {
         dseaseSelfBaseInfo['temperature'] = upload;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 3;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -671,11 +682,14 @@ class tempretrue extends Dialog {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
-                                  return null;
-                                } else {
-                                  return '请正确填写信息';
+                                if (value.isEmpty) {
+                                  return '请输入体温';
+                                } else if(int.parse(value)>43||int.parse(value)<32){
+                                  return '正确输入体温值';
                                 }
+
+                                return null;
+
                               },
                             ),
                             Divider(
@@ -723,7 +737,7 @@ class bloodSugar extends Dialog {
     this.uid = uid;
   }
 
-  var _value;
+  var _value = 1;
   String uid;
   String upload;
   DateTime date = DateTime.now();
@@ -743,6 +757,7 @@ class bloodSugar extends Dialog {
         dseaseSelfBaseInfo['bloodType'] = type;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 4;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -1005,6 +1020,7 @@ class weight extends Dialog {
         dseaseSelfBaseInfo['weight'] = upload;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 5;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -1228,6 +1244,7 @@ class height extends Dialog {
         dseaseSelfBaseInfo['height'] = upload;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 6;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
@@ -1451,6 +1468,7 @@ class other extends Dialog {
         dseaseSelfBaseInfo['description'] = upload;
         dseaseSelfBaseInfo['date'] = dateString.substring(0, 10);
         dseaseSelfBaseInfo['time'] = dateString.substring(11, 16);
+        dseaseSelfBaseInfo['type'] = 7;
         map['diseaseSelfBaseInfo'] = dseaseSelfBaseInfo;
         print(map.toString());
         DioManager.getInstance().post('DiseaseSelfCheck/SelfInfo', map, (data) {
