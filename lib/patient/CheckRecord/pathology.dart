@@ -323,7 +323,7 @@ class _pathology extends State<pathology> {
                         ),
                         new DropdownButton(
                           items: getListData(),
-                          hint: new Text(lebalContent), //当没有默认值的时候可以设置的提示
+                          hint: new Text(lebalContent),
 //                  value: value,//下拉菜单选择完之后显示给用户的值
                           onChanged: (value) {
                             //下拉菜单item点击之后的回调

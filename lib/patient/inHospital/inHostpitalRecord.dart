@@ -192,6 +192,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
     });
   }
 
+  List errorList;
 
   void summit() async {
     var loginForm = textFromKey.currentState;
@@ -316,6 +317,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                     },
                     validator: (value){
                       if (value.isEmpty) {
+                        errorList.add("住院医院");
                         return '请填写就诊医院';
                       } else {
                         return null;

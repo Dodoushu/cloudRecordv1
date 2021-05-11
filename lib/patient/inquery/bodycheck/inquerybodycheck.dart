@@ -104,6 +104,7 @@ class _State extends State<InqueryBodycheck> {
                 print(timeInt);
                 setState(() {
                   timeValue = value;
+                  print(timeValue);
                 });
               })
         ],
