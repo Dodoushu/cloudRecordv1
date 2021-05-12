@@ -8,7 +8,7 @@ import 'package:cloudrecord/untils/showToast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 import 'package:yaml/yaml.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(
@@ -355,6 +355,9 @@ class _invasive extends State<invasive> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(30)//限制长度
+                      ],
                       onChanged: (value) {
                         hospital = value;
                       },

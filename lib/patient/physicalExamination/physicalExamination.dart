@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:cloudrecord/untils/pickFileMethod.dart';
@@ -292,6 +293,9 @@ class _physicalExanmination extends State<physicalExanmination> {
                         fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    LengthLimitingTextInputFormatter(30)//限制长度
+                  ],
                   onChanged: (value) {
                     hospital = value;
                   },

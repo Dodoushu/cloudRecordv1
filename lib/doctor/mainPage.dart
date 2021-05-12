@@ -27,20 +27,31 @@ class _mainPage extends State<MainPage> {
 
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.get('name');
-    jobTitle = prefs.get('jobTitle');
-    hospital = prefs.get('hospital');
-    section = prefs.get('section');
+    name = name + prefs.get('name')+"1312313231";
+    jobTitle = jobTitle + prefs.get('jobTitle') +"1312313231";
+    hospital = hospital + prefs.get('hospital') +"1312313231";
+    section = section + prefs.get('section') +"1312313231";
     approve = prefs.get("approve");
+    name = CutString(name);
+    jobTitle = CutString(jobTitle);
+    hospital = CutString(hospital);
+    section = CutString(section);
     setState(() {
 
     });
   }
+  String CutString(String string)
+  {
+    if(string.length > 6)
+      {
+        return string.substring(0,6) + "..";
+      }
+  }
 
-  String name = '姓名';
-  String jobTitle = '职称';
-  String hospital = '陕西省人民医院';
-  String section = '内科';
+  String name = '姓名:';
+  String jobTitle = '职称:';
+  String hospital = '医院:';
+  String section = '科室:';
   String approve = '0';
 
   @override
@@ -82,7 +93,6 @@ class _mainPage extends State<MainPage> {
       }
     }
     double width_ = MediaQuery.of(context).size.width;
-
     Widget bar = new Container(
       //宽度
       width: width_,
@@ -102,10 +112,9 @@ class _mainPage extends State<MainPage> {
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            new Container(),
             new Container(
               //宽度
-              width: width_ * 0.3 * (4 / 7),
+              width: width_ * 0.1 * (4 / 7),
               //高度
               height: width_ * 0.3 * (4 / 7),
               // 盒子样式
@@ -114,10 +123,10 @@ class _mainPage extends State<MainPage> {
                 size: 60,
               ),
             ),
-            new Container(),
+
             new Container(
               //宽度
-              width: width_ * 0.4,
+              width: width_ * 0.5,
               //高度
               height: width_ * 0.3 * (4 / 7),
               child: Container(
@@ -129,42 +138,55 @@ class _mainPage extends State<MainPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        new Text(
-                          name,
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
+                        new Container(
+                          width: 100,
+                          child: new Text(
+                            name,
+                            maxLines: 1,
+                            style: new TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                        new Text(
-                          jobTitle,
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
+                        new Container(
+                          width: 100,
+                          child: new Text(
+                            jobTitle,
+                            maxLines: 1,
+                            style: new TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                        )
                         ),
-                        new Container(),
                       ],
                     ),
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        new Text(
-                          hospital,
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                        new Container(
+                          width: 100,
+                          child: new Text(
+                            hospital,
+                            maxLines: 1,
+                            style: new TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                        new Text(
-                          section,
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                        new Container(
+                          width: 100,
+                          child: new Text(
+                            section,
+                            maxLines: 1,
+                            style: new TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        new Container(),
-                        new Container()
+                        )
                       ],
                     ),
                   ],

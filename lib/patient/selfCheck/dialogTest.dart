@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/showToast.dart';
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 import 'package:cloudrecord/untils/http_service.dart';
+import 'package:flutter/services.dart';
 
 class bloodPressureDialog extends Dialog {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
@@ -180,6 +181,9 @@ class bloodPressureDialog extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 high = value;
@@ -221,6 +225,9 @@ class bloodPressureDialog extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 low = value;
@@ -450,6 +457,9 @@ class pulse extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
@@ -677,6 +687,9 @@ class tempretrue extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
@@ -945,6 +958,9 @@ class bloodSugar extends Dialog {
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                ],
                                 maxLines: 1,
                                 onChanged: (value) {
                                   upload = value;
@@ -1170,6 +1186,9 @@ class weight extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
@@ -1394,6 +1413,9 @@ class height extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;

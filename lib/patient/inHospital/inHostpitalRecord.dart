@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:cloudrecord/untils/pickFileMethod.dart';
@@ -214,12 +215,18 @@ class _InhospitalRecord extends State<InhospitalRecord> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
+    if(startdate.isAfter(enddate))
+      {
+        ShowToast.getShowToast().showToast('出入院时间填写有误！');
+        return ;
+      }
     if (
     loginForm.validate() &&(startdate!=null)&&(enddate!=null)&&
         (office != null) &&
         (recordcontent != null || displayPath.length != 0)
     ) {
       Map<String, dynamic> map = Map();
+
 
       map['sDate'] = startdate.toIso8601String().substring(0, 10);
       map['oDate'] = enddate.toIso8601String().substring(0, 10);
@@ -329,6 +336,9 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                           fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                       border: InputBorder.none,
                     ),
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(30)//限制长度
+                    ],
                     onChanged: (value) {
                       hospital = value;
                     },
