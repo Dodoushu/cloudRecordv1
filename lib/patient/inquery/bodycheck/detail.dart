@@ -39,14 +39,16 @@ class _State extends State<detailPage> {
     this.map['description'] = map['description'];
     List urlList = new List();
     for (String url in map['address']) {
-      print(url.split('.')[url.split('.').length - 1]);
-      if (url.split('.')[url.split('.').length - 1] == 'jpg') {
-        urlList.add(url);
-      } else {
-        this.map['file'] = url;
-      }
+      urlList.add(url);
+    }
+    List fileList = new List();
+    for (String url in map['fileAddress']) {
+      fileList.add(url);
     }
     this.map['address'] = urlList;
+    if(urlList.length>=1){
+      this.map['fileAddress'] = fileList;
+    }
     print(this.map);
   }
 
@@ -72,7 +74,7 @@ class _State extends State<detailPage> {
   Widget build(BuildContext context) {
     Future downloadFile({String url}) async {
       Dio dio = new Dio();
-      String path = 'http://' + map['file'];
+      String path = 'http://' + map['fileAddress'][0];
       //设置连接超时时间
       dio.options.connectTimeout = 100000;
       //设置数据接收超时时间
@@ -94,7 +96,7 @@ class _State extends State<detailPage> {
               return new NetLoadingDialog();
             }
         );
-        response = await dio.download(path, "/storage/emulated/0/test.zip");
+        response = await dio.download(path, "/storage/emulated/0/"+map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]);
         if (response.statusCode == 200) {
           print('下载请求成功');
           ShowToast.getShowToast().showToast('下载文件保存至/storage/emulated/0');
@@ -122,12 +124,13 @@ class _State extends State<detailPage> {
               ),
             ),
             Text(
-              map.containsKey('file')?map['file'].split('/')[map['file'].split('/').length - 1]:'无',
+              map.containsKey('fileAddress')?map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]:'无',
               style: TextStyle(fontSize: 19),
             ),
           ],
         ),
         onTap: (){
+          print('download file');
 
           Widget okButton = FlatButton(
             child: Text("下载"),
@@ -150,7 +153,7 @@ class _State extends State<detailPage> {
           showAlertDialog(context, titleText: '下载文件', contentText: '您即将下载附件', ButtonList: bottonList);
         },
       );
-      if(map.containsKey('file')){
+      if(map.containsKey('fileAddress')){
         return download;
       }else{
         return new Container(
@@ -164,7 +167,7 @@ class _State extends State<detailPage> {
               ),
             ),
             Text(
-              map.containsKey('file')?map['file'].split('/')[map['file'].split('/').length - 1]:'无',
+              map.containsKey('fileAddress')?map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]:'无',
               style: TextStyle(fontSize: 19),
             ),
           ],

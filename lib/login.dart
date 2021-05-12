@@ -59,6 +59,7 @@ class LLogin extends State<Login> {
     //患者
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('uid', data["userId"].toString());
+    print(prefs.getString('uid'));
     print('登录成功');
 
     prefs.setString('name', null);
@@ -86,6 +87,7 @@ class LLogin extends State<Login> {
     //患者
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('uid', data["userId"].toString());
+    print(prefs.getString('uid'));
     Map<String, dynamic> data1 = data['patient'];
     print('登录成功');
     String sex = data1['sex'].toString();

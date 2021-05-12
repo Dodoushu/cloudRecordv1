@@ -21,12 +21,17 @@ class _physicalExanmination extends State<physicalExanmination> {
   void initState() {
     super.initState();
     getId();
+    setState(() {
+
+    });
   }
 
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('uid')) {
       uid = prefs.getString('uid');
+    }else{
+      print("no uid");
     }
   }
 

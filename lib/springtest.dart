@@ -292,25 +292,22 @@ class LLogin extends State<Login> {
 
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           Map map = new Map();
-                          prefs.setString('sex', 'sex');
-                          prefs.setString('sex', map["sex"]);
-                          print(prefs.getString("sex")==null);
 
-//                          print("111");
-//                          Dio dio = new Dio();
-//                          dio.options.baseUrl = "http://192.168.1.103:8081/";
-//                          dio.options.connectTimeout = 50000;
-//                          dio.options.receiveTimeout = 30000;
-//                          Map<String, dynamic> params = new Map();
-//                          params['name'] = '123';
-//                          params['pwd'] = '123';
-//                          List<String> list = ['1','2','3'];
-//                          params['list'] = list;
-//
-//                          Map body = params;
-//                          Response response = await dio.get('user');
-//                          String dataStr = json.encode(response.data);
-//                          print(dataStr);
+
+                          Dio dio = new Dio();
+                          dio.options.baseUrl = "http://192.168.1.101:8081/";
+                          dio.options.connectTimeout = 50000;
+                          dio.options.receiveTimeout = 30000;
+                          Map<String, dynamic> params = new Map();
+                          params['name'] = '123';
+                          params['pwd'] = '123';
+                          List<String> list = ['1','2','3'];
+                          params['list'] = list;
+
+                          Map body = params;
+                          Response response = await dio.get('rabbitmq/send');
+                          String dataStr = json.encode(response.data);
+                          print(dataStr);
 
 
                         },
