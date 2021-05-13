@@ -85,7 +85,7 @@ class _physicalExanmination extends State<physicalExanmination> {
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((value) {
 
-      if(value){
+      if(value!=null){
         if(displayPath.length<9){
           displayPath.add(value);
         }else{
