@@ -302,11 +302,12 @@ class _physicalExanmination extends State<physicalExanmination> {
                         fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
+                  maxLength: 30,
                   onChanged: (value) {
                     position = value;
                   },
                   validator: (value) {
-                    if (value == null) {
+                    if (value .isEmpty) {
                       return '请填写拍照部位';
                     } else {
                       return null;
@@ -329,11 +330,11 @@ class _physicalExanmination extends State<physicalExanmination> {
                     recordcontent = value;
                   },
                   validator: (value) {
-                    if (value == null) {
-                      return '请填写文字描述';
-                    } else {
-                      return null;
-                    }
+//                    if (value.isEmpty) {
+//                      return '请填写文字描述';
+//                    } else {
+//                      return null;
+//                    }
                   },
                 ),
                 Divider(

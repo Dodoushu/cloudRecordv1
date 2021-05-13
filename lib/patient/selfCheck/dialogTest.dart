@@ -59,225 +59,244 @@ class bloodPressureDialog extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
-          // 让子控件显示到中间
-          child: Container(
-              //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.9,
-              child: Form(
-                  key: textFromKey,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: 10, bottom: 0, left: 10, right: 10),
-                        child: new Column(
-                          children: [
-                            new Row(
-                              children: [
-                                new Text(
-                                  '当前时间:',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                )
-                              ],
-                            ),
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  dateString.substring(0, 4),
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  '年',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  dateString.substring(5, 7),
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  '月',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  dateString.substring(8, 10),
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  '日',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  dateString.substring(11, 13),
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  '时',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  dateString.substring(14, 16),
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  '分',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: 15,
-                            ),
-                            new Row(
-                              children: [
-                                new Text(
-                                  '收缩压（高压）:',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Divider(
-                              thickness: 2,
-                            ),
-                            TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: '请输入收缩压/mmHg',
-                                labelStyle: new TextStyle(
-                                    fontSize: 15.0,
-                                    color: Color.fromARGB(255, 93, 93, 93)),
-                                border: InputBorder.none,
-                              ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
-                              ],
-                              maxLines: 1,
-                              onChanged: (value) {
-                                high = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return '请填写血压';
-                                } else if(int.parse(value)>300){
-                                  return '血压过高，请正确输入血压';
-                                }else{
-                                  return null;
-                                }
-                              },
-                            ),
-                            Divider(
-                              thickness: 2,
-                            ),
-                            Container(
-                              height: 20,
-                            ),
-                            new Row(
-                              children: [
-                                new Text(
-                                  '舒张压（低压）:',
-                                  style: new TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Divider(
-                              thickness: 2,
-                            ),
-                            TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: '请输入舒张压/mmHg',
-                                labelStyle: new TextStyle(
-                                    fontSize: 15.0,
-                                    color: Color.fromARGB(255, 93, 93, 93)),
-                                border: InputBorder.none,
-                              ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
-                              ],
-                              maxLines: 1,
-                              onChanged: (value) {
-                                low = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return '请填写血压';
-                                } else if(int.parse(value)>300){
-                                  return '请正确输入血压';
-                                }else if(int.parse(value)>int.parse(high)){
-                                  return '舒张压大于收缩压，请正确输入血压数值';
-                                } else{
-                                  return null;
-                                }
-                              },
-                            ),
-                            Divider(
-                              thickness: 2,
-                            ),
-                            Container(
-                              height: 20,
-                            ),
-                            new Container(
-//      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
-                              height: 50.0,
-                              margin: EdgeInsets.only(
-                                  top: 0.0, bottom: 30, left: 30, right: 30),
-                              child: new SizedBox.expand(
-                                child: new RaisedButton(
-                                  elevation: 0,
-                                  onPressed: summit,
-                                  color: Colors.blue,
-                                  child: new Text(
-                                    '确定',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255)),
-                                  ),
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(40.0)),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )))),
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
         ),
-      ),
+        Container(
+            width: width_ * 0.7,
+            height: width_ * 0.7 * 1.9,
+            child: Card(
+                //比较常用的一个控件，设置具体尺寸
+                child: Form(
+                    key: textFromKey,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: 10, bottom: 0, left: 10, right: 10),
+                          child: new Column(
+                            children: [
+                              new Row(
+                                children: [
+                                  new Text(
+                                    '当前时间:',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              new Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    dateString.substring(0, 4),
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '年',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    dateString.substring(5, 7),
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '月',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    dateString.substring(8, 10),
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '日',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    dateString.substring(11, 13),
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '时',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    dateString.substring(14, 16),
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '分',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 15,
+                              ),
+                              new Row(
+                                children: [
+                                  new Text(
+                                    '收缩压（高压）:',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: false, signed: false),
+                                decoration: new InputDecoration(
+                                  labelText: '请输入收缩压/mmHg',
+                                  labelStyle: new TextStyle(
+                                      fontSize: 15.0,
+                                      color: Color.fromARGB(255, 93, 93, 93)),
+                                  border: InputBorder.none,
+                                ),
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter
+                                      .digitsOnly, //只输入数字
+                                ],
+                                maxLines: 1,
+                                onChanged: (value) {
+                                  high = value;
+                                },
+                                validator: (value) {
+                                  RegExp exp = RegExp(r'^\d*$');
+                                  bool matched = exp.hasMatch(value);
+                                  if (value.isEmpty) {
+                                    return '请填写血压';
+                                  } else if (matched == false) {
+                                    return '请输入整数血压数值';
+                                  } else if (int.parse(value) > 300) {
+                                    return '血压过高，请正确输入血压';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                              Container(
+                                height: 20,
+                              ),
+                              new Row(
+                                children: [
+                                  new Text(
+                                    '舒张压（低压）:',
+                                    style: new TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: false, signed: false),
+                                decoration: new InputDecoration(
+                                  labelText: '请输入舒张压/mmHg',
+                                  labelStyle: new TextStyle(
+                                      fontSize: 15.0,
+                                      color: Color.fromARGB(255, 93, 93, 93)),
+                                  border: InputBorder.none,
+                                ),
+                                inputFormatters: <TextInputFormatter>[
+                                  WhitelistingTextInputFormatter
+                                      .digitsOnly, //只输入数字
+                                ],
+                                maxLines: 1,
+                                onChanged: (value) {
+                                  low = value;
+                                },
+                                validator: (value) {
+                                  RegExp exp = RegExp(r'^\d*$');
+                                  bool matched = exp.hasMatch(value);
+                                  if (value.isEmpty) {
+                                    return '请填写血压';
+                                  } else if (matched == false) {
+                                    return '请输入整数血压数值';
+                                  } else if (int.parse(value) > 300) {
+                                    return '血压过高，请正确输入血压';
+                                  } else if (int.parse(value) >
+                                      int.parse(high)) {
+                                    return '舒张压大于收缩压，请正确输入血压数值';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                              Container(
+                                height: 20,
+                              ),
+                              new Container(
+//      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
+                                height: 50.0,
+                                margin: EdgeInsets.only(
+                                    top: 0.0, bottom: 30, left: 30, right: 30),
+                                child: new SizedBox.expand(
+                                  child: new RaisedButton(
+                                    elevation: 0,
+                                    onPressed: summit,
+                                    color: Colors.blue,
+                                    child: new Text(
+                                      '确定',
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
+                                    ),
+                                    shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(40.0)),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )))))
+      ],
     );
   }
 }
@@ -291,7 +310,6 @@ class pulse extends Dialog {
   String uid;
   String upload;
   DateTime date = DateTime.now();
-
 
   @override
   Widget build(BuildContext context) {
@@ -335,18 +353,24 @@ class pulse extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
+        ),
+        Container(
+          width: width_ * 0.7,
+          height: width_ * 0.7 * 1.6,
           // 让子控件显示到中间
-          child: Container(
+          child: Card(
               //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+
               child: Form(
                   key: textFromKey,
                   child: Container(
@@ -450,6 +474,9 @@ class pulse extends Dialog {
                               thickness: 2,
                             ),
                             TextFormField(
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: false, signed: false),
+                              autofocus: true,
                               decoration: new InputDecoration(
                                 labelText: '请输入脉搏 次/分钟',
                                 labelStyle: new TextStyle(
@@ -458,21 +485,24 @@ class pulse extends Dialog {
                                 border: InputBorder.none,
                               ),
                               inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                WhitelistingTextInputFormatter
+                                    .digitsOnly, //只输入数字
                               ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
                               },
                               validator: (value) {
+                                RegExp exp = RegExp(r'^\d*$');
+                                bool matched = exp.hasMatch(value);
+
                                 if (value.isEmpty) {
                                   return '请输入脉搏';
-                                } else if(int.parse(value)>220){
+                                } else if (int.parse(value) > 220) {
                                   return '脉搏超过上限，请正确输入脉搏';
                                 }
 
                                 return null;
-
                               },
                             ),
                             Divider(
@@ -507,8 +537,8 @@ class pulse extends Dialog {
                           ],
                         ),
                       )))),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
@@ -565,23 +595,26 @@ class tempretrue extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        Container(
+          width: width_ * 0.7,
+          height: width_ * 0.7 * 1.6,
           // 让子控件显示到中间
-          child: Container(
-              //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+          child: Card(
+            //比较常用的一个控件，设置具体尺寸
               child: Form(
                   key: textFromKey,
                   child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20)),
                           color: Colors.white),
                       child: Container(
                         margin: EdgeInsets.only(
@@ -599,7 +632,8 @@ class tempretrue extends Dialog {
                               ],
                             ),
                             new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
                                   dateString.substring(0, 4),
@@ -680,6 +714,9 @@ class tempretrue extends Dialog {
                               thickness: 2,
                             ),
                             TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true, signed: false),
                               decoration: new InputDecoration(
                                 labelText: '请输入体温 ℃',
                                 labelStyle: new TextStyle(
@@ -688,21 +725,25 @@ class tempretrue extends Dialog {
                                 border: InputBorder.none,
                               ),
                               inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                WhitelistingTextInputFormatter
+                                    .digitsOnly, //只输入数字
                               ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
                               },
                               validator: (value) {
+                                RegExp exp = RegExp(
+                                    r'^((3[2-9]|4[0-3])(\.[0-9])?)$');
+                                bool matched = exp.hasMatch(value);
+
                                 if (value.isEmpty) {
                                   return '请输入体温';
-                                } else if(int.parse(value)>43||int.parse(value)<32){
+                                } else if (matched == false) {
                                   return '正确输入体温值';
                                 }
 
                                 return null;
-
                               },
                             ),
                             Divider(
@@ -715,7 +756,10 @@ class tempretrue extends Dialog {
 //      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
                               height: 50.0,
                               margin: EdgeInsets.only(
-                                  top: 0.0, bottom: 30, left: 30, right: 30),
+                                  top: 0.0,
+                                  bottom: 30,
+                                  left: 30,
+                                  right: 30),
                               child: new SizedBox.expand(
                                 child: new RaisedButton(
                                   elevation: 0,
@@ -725,20 +769,20 @@ class tempretrue extends Dialog {
                                     '确定',
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255)),
+                                        color: Color.fromARGB(
+                                            255, 255, 255, 255)),
                                   ),
                                   shape: new RoundedRectangleBorder(
                                       borderRadius:
-                                          new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                                 ),
                               ),
                             )
                           ],
                         ),
                       )))),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
@@ -799,18 +843,23 @@ class bloodSugar extends Dialog {
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
     return StatefulBuilder(builder: (context, state) {
-      return GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Material(
-          type: MaterialType.transparency, //设置透明的效果
-          child: Center(
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Material(
+              type: MaterialType.transparency, //设置透明的效果
+            ),
+          ),
+          Container(
+            width: width_ * 0.7,
+            height: width_ * 0.7 * 1.6,
             // 让子控件显示到中间
-            child: Container(
-                //比较常用的一个控件，设置具体尺寸
-                width: width_ * 0.7,
-                height: width_ * 0.7 * 1.6,
+            child: Card(
+              //比较常用的一个控件，设置具体尺寸
                 child: Form(
                     key: textFromKey,
                     child: Container(
@@ -834,7 +883,7 @@ class bloodSugar extends Dialog {
                               ),
                               new Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     dateString.substring(0, 4),
@@ -903,7 +952,7 @@ class bloodSugar extends Dialog {
                                   icon: Icon(Icons.arrow_right),
                                   iconSize: 40,
                                   iconEnabledColor:
-                                      Colors.green.withOpacity(0.7),
+                                  Colors.green.withOpacity(0.7),
                                   hint: Text('请选择血糖类型'),
                                   isExpanded: true,
                                   underline: Container(
@@ -928,12 +977,11 @@ class bloodSugar extends Dialog {
                                         ]),
                                         value: 3)
                                   ],
-                                  onChanged: (value){
+                                  onChanged: (value) {
                                     print(value);
                                     type = value;
                                     state(() => _value = value);
-                                  }
-                              ),
+                                  }),
                               Container(
                                 height: 15,
                               ),
@@ -951,6 +999,9 @@ class bloodSugar extends Dialog {
                                 thickness: 2,
                               ),
                               TextFormField(
+                                autofocus: true,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true, signed: false),
                                 decoration: new InputDecoration(
                                   labelText: '请输入血糖 mmol/L',
                                   labelStyle: new TextStyle(
@@ -959,17 +1010,24 @@ class bloodSugar extends Dialog {
                                   border: InputBorder.none,
                                 ),
                                 inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                  WhitelistingTextInputFormatter
+                                      .digitsOnly, //只输入数字
                                 ],
                                 maxLines: 1,
                                 onChanged: (value) {
                                   upload = value;
                                 },
                                 validator: (value) {
-                                  if (!value.isEmpty) {
-                                    return null;
+                                  RegExp exp =
+                                  RegExp(r'^(([0-9][0-9])(\.[0-9])?)$');
+                                  bool matched = exp.hasMatch(value);
+
+                                  if (value.isEmpty) {
+                                    return '请填写血糖';
+                                  } else if (matched == false) {
+                                    return '请正确填写血糖';
                                   } else {
-                                    return '请正确填写信息';
+                                    return null;
                                   }
                                 },
                               ),
@@ -998,15 +1056,15 @@ class bloodSugar extends Dialog {
                                     ),
                                     shape: new RoundedRectangleBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(40.0)),
+                                        new BorderRadius.circular(40.0)),
                                   ),
                                 ),
                               )
                             ],
                           ),
                         )))),
-          ),
-        ),
+          )
+        ],
       );
     });
   }
@@ -1064,18 +1122,24 @@ class weight extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
+        ),
+        Container(
+          width: width_ * 0.7,
+          height: width_ * 0.7 * 1.6,
           // 让子控件显示到中间
-          child: Container(
-              //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+          child: Card(
+            //比较常用的一个控件，设置具体尺寸
+
               child: Form(
                   key: textFromKey,
                   child: Container(
@@ -1179,6 +1243,9 @@ class weight extends Dialog {
                               thickness: 2,
                             ),
                             TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true, signed: false),
                               decoration: new InputDecoration(
                                 labelText: '请输入体重 kg',
                                 labelStyle: new TextStyle(
@@ -1187,17 +1254,26 @@ class weight extends Dialog {
                                 border: InputBorder.none,
                               ),
                               inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                WhitelistingTextInputFormatter
+                                    .digitsOnly, //只输入数字
                               ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
-                                  return null;
+                                RegExp exp = RegExp(
+                                    r'^((([0-9][0-9])|([0-9][0-9][0-9]))(\.[0-9])?)$');
+                                bool matched = exp.hasMatch(value);
+
+                                if (value.isEmpty) {
+                                  return '请填写体重';
+                                } else if (matched == false) {
+                                  return '请正确填写体重';
+                                } else if (int.parse(value) > 300) {
+                                  return '请正确填写体重';
                                 } else {
-                                  return '请正确填写信息';
+                                  return null;
                                 }
                               },
                             ),
@@ -1222,19 +1298,19 @@ class weight extends Dialog {
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color:
-                                            Color.fromARGB(255, 255, 255, 255)),
+                                        Color.fromARGB(255, 255, 255, 255)),
                                   ),
                                   shape: new RoundedRectangleBorder(
                                       borderRadius:
-                                          new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                                 ),
                               ),
                             )
                           ],
                         ),
                       )))),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
@@ -1291,18 +1367,24 @@ class height extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
+        ),
+        Container(
+          width: width_ * 0.7,
+          height: width_ * 0.7 * 1.6,
           // 让子控件显示到中间
-          child: Container(
-              //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+          child: Card(
+            //比较常用的一个控件，设置具体尺寸
+
               child: Form(
                   key: textFromKey,
                   child: Container(
@@ -1406,6 +1488,9 @@ class height extends Dialog {
                               thickness: 2,
                             ),
                             TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true, signed: false),
                               decoration: new InputDecoration(
                                 labelText: '请输入身高 cm',
                                 labelStyle: new TextStyle(
@@ -1414,17 +1499,26 @@ class height extends Dialog {
                                 border: InputBorder.none,
                               ),
                               inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                WhitelistingTextInputFormatter
+                                    .digitsOnly, //只输入数字
                               ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
                               },
                               validator: (value) {
-                                if (!value.isEmpty) {
-                                  return null;
+                                RegExp exp = RegExp(
+                                    r'^((([0-9][0-9][0-9]))(\.[0-9])?)$');
+                                bool matched = exp.hasMatch(value);
+
+                                if (value.isEmpty) {
+                                  return '请填写身高';
+                                } else if (matched == false) {
+                                  return '请正确填写身高';
+                                } else if (int.parse(value) > 280) {
+                                  return '请正确填写身高';
                                 } else {
-                                  return '请正确填写信息';
+                                  return null;
                                 }
                               },
                             ),
@@ -1449,19 +1543,19 @@ class height extends Dialog {
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color:
-                                            Color.fromARGB(255, 255, 255, 255)),
+                                        Color.fromARGB(255, 255, 255, 255)),
                                   ),
                                   shape: new RoundedRectangleBorder(
                                       borderRadius:
-                                          new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                                 ),
                               ),
                             )
                           ],
                         ),
                       )))),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
@@ -1518,18 +1612,23 @@ class other extends Dialog {
 
     double width_ = MediaQuery.of(context).size.width;
     // TODO: implement build
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Material(
-        type: MaterialType.transparency, //设置透明的效果
-        child: Center(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
+        ),
+        Container(
+          width: width_ * 0.7,
+          height: width_ * 0.7 * 1.6,
           // 让子控件显示到中间
-          child: Container(
-              //比较常用的一个控件，设置具体尺寸
-              width: width_ * 0.7,
-              height: width_ * 0.7 * 1.6,
+          child: Card(
+            //比较常用的一个控件，设置具体尺寸
               child: Form(
                   key: textFromKey,
                   child: Container(
@@ -1633,6 +1732,7 @@ class other extends Dialog {
                               thickness: 2,
                             ),
                             TextFormField(
+                              autofocus: true,
                               decoration: new InputDecoration(
                                 labelText: '请输入您要输入的内容',
                                 labelStyle: new TextStyle(
@@ -1641,6 +1741,7 @@ class other extends Dialog {
                                 border: InputBorder.none,
                               ),
                               maxLines: 4,
+                              maxLength: 250,
                               onChanged: (value) {
                                 upload = value;
                               },
@@ -1673,19 +1774,19 @@ class other extends Dialog {
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color:
-                                            Color.fromARGB(255, 255, 255, 255)),
+                                        Color.fromARGB(255, 255, 255, 255)),
                                   ),
                                   shape: new RoundedRectangleBorder(
                                       borderRadius:
-                                          new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                                 ),
                               ),
                             )
                           ],
                         ),
                       )))),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
