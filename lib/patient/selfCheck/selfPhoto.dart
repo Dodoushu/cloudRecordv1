@@ -84,19 +84,24 @@ class _physicalExanmination extends State<physicalExanmination> {
 
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((value) {
-      displayPath.add(value);
-//      var selectedFilePaths = value;
-//      MultipartFile tempfile;
-//
-//      MultipartFile.fromFile(selectedFilePaths).then((value) {
-//        if (value != Null) {
-//          flag2 = 1;
-//        }
-//        tempfile = value;
-//        print('1111111111111111111111' + selectedFilePaths);
-//        selectedFiles.add(tempfile);
-//        print(selectedFiles.length);
-//      });
+
+      if(value){
+        if(displayPath.length<9){
+          displayPath.add(value);
+        }else{
+          Widget okButton = FlatButton(
+            child: Text("好的"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          );
+
+          List<FlatButton> bottonList = new List();
+          bottonList.add(okButton);
+          showAlertDialog(context,
+              titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+        }
+      }
 
       setState(() {
         filesname = displayPath.toString();
