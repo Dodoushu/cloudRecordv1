@@ -188,10 +188,10 @@ class bloodPressureDialog extends Dialog {
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
-                                inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter
-                                      .digitsOnly, //只输入数字
-                                ],
+//                                inputFormatters: <TextInputFormatter>[
+//                                  WhitelistingTextInputFormatter
+//                                      .digitsOnly, //只输入数字
+//                                ],
                                 maxLines: 1,
                                 onChanged: (value) {
                                   high = value;
@@ -239,10 +239,10 @@ class bloodPressureDialog extends Dialog {
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
-                                inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter
-                                      .digitsOnly, //只输入数字
-                                ],
+//                                inputFormatters: <TextInputFormatter>[
+//                                  WhitelistingTextInputFormatter
+//                                      .digitsOnly, //只输入数字
+//                                ],
                                 maxLines: 1,
                                 onChanged: (value) {
                                   low = value;
@@ -484,21 +484,24 @@ class pulse extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter
-                                    .digitsOnly, //只输入数字
-                              ],
+//                              inputFormatters: <TextInputFormatter>[
+//                                WhitelistingTextInputFormatter
+//                                    .digitsOnly, //只输入数字
+//                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
                               },
                               validator: (value) {
-                                RegExp exp = RegExp(r'^\d*$');
+                                RegExp exp = RegExp(r'^[0-9]{2,3}$');
                                 bool matched = exp.hasMatch(value);
 
                                 if (value.isEmpty) {
                                   return '请输入脉搏';
-                                } else if (int.parse(value) > 220) {
+                                }else if(matched==false){
+                                  return '请输入正确脉搏';
+                                }
+                                else if (int.parse(value) > 220) {
                                   return '脉搏超过上限，请正确输入脉搏';
                                 }
 
@@ -724,10 +727,10 @@ class tempretrue extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter
-                                    .digitsOnly, //只输入数字
-                              ],
+//                              inputFormatters: <TextInputFormatter>[
+//                                WhitelistingTextInputFormatter
+//                                    .digitsOnly, //只输入数字
+//                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
@@ -1009,10 +1012,10 @@ class bloodSugar extends Dialog {
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
-                                inputFormatters: <TextInputFormatter>[
-                                  WhitelistingTextInputFormatter
-                                      .digitsOnly, //只输入数字
-                                ],
+//                                inputFormatters: <TextInputFormatter>[
+//                                  WhitelistingTextInputFormatter
+//                                      .digitsOnly, //只输入数字
+//                                ],
                                 maxLines: 1,
                                 onChanged: (value) {
                                   upload = value;
@@ -1253,10 +1256,10 @@ class weight extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter
-                                    .digitsOnly, //只输入数字
-                              ],
+//                              inputFormatters: <TextInputFormatter>[
+//                                WhitelistingTextInputFormatter
+//                                    .digitsOnly, //只输入数字
+//                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
@@ -1498,10 +1501,10 @@ class height extends Dialog {
                                     color: Color.fromARGB(255, 93, 93, 93)),
                                 border: InputBorder.none,
                               ),
-                              inputFormatters: <TextInputFormatter>[
-                                WhitelistingTextInputFormatter
-                                    .digitsOnly, //只输入数字
-                              ],
+//                              inputFormatters: <TextInputFormatter>[
+//                                WhitelistingTextInputFormatter
+//                                    .digitsOnly, //只输入数字
+//                              ],
                               maxLines: 1,
                               onChanged: (value) {
                                 upload = value;
