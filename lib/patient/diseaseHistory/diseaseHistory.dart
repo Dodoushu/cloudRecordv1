@@ -1,3 +1,4 @@
+import 'package:cloudrecord/untils/MessageMethod.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
@@ -228,8 +229,19 @@ class _diseaseHistory extends State<diseaseHistory> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if ((office != null) &&(date!=null)&&
-        (recordcontent != null || displayPath.length != 0)) {
+    List MessageList = ['检查日期','检查科室','文字描述','图片'];
+    List NullList = [];
+    if(displayPath.length == 0)
+      NullList = [date,office,recordcontent,null];
+    else
+      NullList = [date,office,recordcontent,1];
+
+    MessageMethod Message = new MessageMethod(MessageList,NullList);
+    List messageAndifture = Message.getMessage();
+    String message = messageAndifture[0];
+    bool IfTrue = messageAndifture[1];
+
+    if (IfTrue) {
       Map<String, dynamic> map = Map();
 
       map['date'] = date.toIso8601String().substring(0, 10);
@@ -274,7 +286,7 @@ class _diseaseHistory extends State<diseaseHistory> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       }, ContentType: 'multipart/form-data');
     } else {
-      ShowToast.getShowToast().showToast('请将信息填写完整');
+      ShowToast.getShowToast().showToast(message);
     }
   }
 

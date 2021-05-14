@@ -1,3 +1,4 @@
+import 'package:cloudrecord/untils/MessageMethod.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
@@ -255,9 +256,25 @@ class _laboratory extends State<laboratory> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() &&(date!=null)&&
-        (office != null) &&
-        (recordcontent != null || displayPath.length != 0)) {
+
+    List MessageList = ['检查日期','检查科室','文字描述','图片'];
+    List NullList = [];
+    if(displayPath.length == 0)
+      NullList = [date,office,recordcontent,null];
+    else
+      NullList = [date,office,recordcontent,1];
+
+    MessageMethod Message = new MessageMethod(MessageList,NullList);
+    List messageAndifture = Message.getMessage();
+    String message = messageAndifture[0];
+    bool IfTrue = messageAndifture[1];
+
+
+
+
+
+    if (loginForm.validate() && IfTrue) {
+      
       Map<String, dynamic> map = Map();
 
       map['date'] = date.toIso8601String().substring(0, 10);
@@ -267,11 +284,14 @@ class _laboratory extends State<laboratory> {
       map['items'] = 1;
       map['subItems'] = subSubItems;
       map['subSubItems'] = 0;
+      map['subSubItems'] = 0;
+      map['subSubItems'] = 0;
       map['userId'] = uid;
+      
       selectedFiles.clear();
       for (String path in displayPath) {
         await MultipartFile.fromFile(path).then((value) {
-          if (value != Null) {
+              if (value != Null) {
             flag2 = 1;
           }
           MultipartFile tempfile = value;
@@ -306,7 +326,8 @@ class _laboratory extends State<laboratory> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       }, ContentType: 'multipart/form-data');
     } else {
-      ShowToast.getShowToast().showToast('请将信息填写完整');
+
+      ShowToast.getShowToast().showToast(message);
     }
   }
 
@@ -385,6 +406,8 @@ class _laboratory extends State<laboratory> {
                               lebalContent = value;
                             });
                           },
+
+
                           elevation: 24, //设置阴影的高度
                           style: new TextStyle(
                               //设置文本框里面文字的样式

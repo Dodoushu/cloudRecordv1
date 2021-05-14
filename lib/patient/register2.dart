@@ -1,3 +1,4 @@
+import 'package:cloudrecord/untils/MessageMethod.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:intl/intl.dart';
@@ -151,7 +152,15 @@ class _register2 extends State<register2> {
   void submit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if (loginForm.validate() && sex != null&&(startDate!=null)) {
+    List MessageList = ['性别','生日'];
+    List NullList = [sex,startDate];
+
+    MessageMethod Message = new MessageMethod(MessageList,NullList);
+    List messageAndifture = Message.getMessage();
+    String message = messageAndifture[0];
+    bool IfTrue = messageAndifture[1];
+
+    if (loginForm.validate() && IfTrue) {
       Map map = Map();
       Map patient = Map();
 
@@ -193,9 +202,7 @@ class _register2 extends State<register2> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       });
     } else {
-      if(sex == null) ShowToast.getShowToast().showToast('请填写所需信息并选择性别和生日');
-      else
-        ShowToast.getShowToast().showToast('请填写所需信息并选择生日');
+        ShowToast.getShowToast().showToast(message);
     }
   }
 

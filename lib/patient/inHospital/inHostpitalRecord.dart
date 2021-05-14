@@ -1,3 +1,4 @@
+import 'package:cloudrecord/untils/MessageMethod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -215,16 +216,26 @@ class _InhospitalRecord extends State<InhospitalRecord> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    if(startdate.isAfter(enddate))
-      {
-        ShowToast.getShowToast().showToast('出入院时间填写有误！');
-        return ;
-      }
-    if (
-    loginForm.validate() &&(startdate!=null)&&(enddate!=null)&&
-        (office != null) &&
-        (recordcontent != null || displayPath.length != 0)
-    ) {
+    List MessageList = ['入院日期','出院日期','检查科室','文字描述','图片'];
+    List NullList = [];
+    if(displayPath.length == 0)
+      NullList = [startdate,enddate,office,recordcontent,null];
+    else
+      NullList = [startdate,enddate,office,recordcontent,1];
+
+    MessageMethod Message = new MessageMethod(MessageList,NullList);
+    List messageAndifture = Message.getMessage();
+    String message = messageAndifture[0];
+    bool IfTrue = messageAndifture[1];
+
+    if(startdate.isAfter(enddate)) {
+      if(IfTrue)
+        message = '请检查出入院时间';
+      else
+        message += '，并检查出入院时间';
+      IfTrue = false;
+    }
+    if (loginForm.validate() && IfTrue) {
       Map<String, dynamic> map = Map();
 
 
@@ -273,7 +284,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
             ShowToast.getShowToast().showToast('网络异常，请稍后再试');
           }, ContentType: 'multipart/form-data');
     } else {
-      ShowToast.getShowToast().showToast('请将信息填写完整');
+      ShowToast.getShowToast().showToast(message);
     }
   }
 
@@ -344,7 +355,6 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                     },
                     validator: (value){
                       if (value.isEmpty) {
-                        errorList.add("住院医院");
                         return '请填写就诊医院';
                       } else {
                         return null;

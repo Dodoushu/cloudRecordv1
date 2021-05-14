@@ -456,7 +456,15 @@ class _Login extends State<register> {
                                 ),
                                 onChanged: (value){
                                   verificationCode = value;
-                                }
+                                },
+                                validator: (value) {
+                                  if(value.isEmpty){
+                                    return '请输入验证码';
+                                  }
+                                  else{
+                                    return null;
+                                  }
+                                },
                             ),
                           ),
                         ),
