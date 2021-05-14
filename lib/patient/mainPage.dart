@@ -189,10 +189,10 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('门诊病历查询', Icons.border_all, () {
+                    buttonBuilder('门诊记录查询', Icons.border_all, () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryPatient()));
                     }),
-                    buttonBuilder('住院病历查询', Icons.book, () {
+                    buttonBuilder('住院记录查询', Icons.book, () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryInhospital()));
                     }),
                     buttonBuilder('体检记录查询', Icons.card_travel, () {
@@ -206,7 +206,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('检查查询', Icons.print, () {
+                    buttonBuilder('检查记录查询', Icons.print, () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryCheck()));
                     }),
                     Container(
@@ -243,20 +243,24 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('病症自检', Icons.border_all, () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => selfCheckMenu.menu()));
-                    }),
-                    buttonBuilder('门诊记录', Icons.book, () {
+                    buttonBuilder('门诊记录', Icons.border_all, () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => outpatientMenu.menu()));
                     }),
-                    buttonBuilder('检查记录', Icons.card_travel, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CheckRecordMenu.menu()));
+                    buttonBuilder('住院记录', Icons.book, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => inHospitalMenu.menu()));
+                    }),
+                    buttonBuilder('体检记录', Icons.card_travel, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  physicalExamination.menu()));
                     }),
                   ],
                 ),
@@ -266,25 +270,23 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('既往病史', Icons.print, () {
+                    buttonBuilder('检查记录', Icons.print, () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CheckRecordMenu.menu()));
+                    }),
+                    buttonBuilder('病症自检', Icons.beenhere, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => selfCheckMenu.menu()));
+                    }),
+                    buttonBuilder('既往病史', Icons.perm_identity, () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => diseaseHistory()));
                     }),
-                    buttonBuilder('体检记录', Icons.album, () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  physicalExamination.menu()));
-                    }),
-                    buttonBuilder('住院记录', Icons.brightness_medium, () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => inHospitalMenu.menu()));
-                    }),
+
+
                   ],
                 ),
               ),

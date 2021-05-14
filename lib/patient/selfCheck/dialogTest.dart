@@ -1022,7 +1022,7 @@ class bloodSugar extends Dialog {
                                 },
                                 validator: (value) {
                                   RegExp exp =
-                                  RegExp(r'^(([0-9][0-9])(\.[0-9])?)$');
+                                  RegExp(r'^(([0-2][0-9]|[0-9])(\.[0-9])?)$');
                                   bool matched = exp.hasMatch(value);
 
                                   if (value.isEmpty) {
@@ -1266,14 +1266,12 @@ class weight extends Dialog {
                               },
                               validator: (value) {
                                 RegExp exp = RegExp(
-                                    r'^((([0-9][0-9])|([0-9][0-9][0-9]))(\.[0-9])?)$');
+                                    r'^((([0-9][0-9])|([0-2][0-9][0-9]))(\.[0-9])?)$');
                                 bool matched = exp.hasMatch(value);
 
                                 if (value.isEmpty) {
                                   return '请填写体重';
                                 } else if (matched == false) {
-                                  return '请正确填写体重';
-                                } else if (int.parse(value) > 300) {
                                   return '请正确填写体重';
                                 } else {
                                   return null;

@@ -176,7 +176,7 @@ class _State extends State<InqueryInhospital> {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('住院病历查询'),
+          title: new Text('住院记录查询'),
           centerTitle: true,
         ),
         body: new ListView(

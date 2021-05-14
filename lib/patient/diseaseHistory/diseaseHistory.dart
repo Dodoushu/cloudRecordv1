@@ -111,6 +111,7 @@ class _diseaseHistory extends State<diseaseHistory> {
   List<String> dieaseHistory = [
     '其他或难以界定的分类',
     '神经系统',
+    '心血管系统',
     '呼吸系统',
     '消化系统',
     '内分泌代谢系统',
@@ -141,70 +142,75 @@ class _diseaseHistory extends State<diseaseHistory> {
     );
     items.add(dropdownMenuItem1);
     DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
-      child: new Text('呼吸系统'),
+      child: new Text('心血管系统'),
       value: 2,
     );
     items.add(dropdownMenuItem2);
     DropdownMenuItem dropdownMenuItem3 = new DropdownMenuItem(
-      child: new Text('消化系统'),
+      child: new Text('呼吸系统'),
       value: 3,
     );
     items.add(dropdownMenuItem3);
     DropdownMenuItem dropdownMenuItem4 = new DropdownMenuItem(
-      child: new Text('内分泌代谢系统'),
+      child: new Text('消化系统'),
       value: 4,
     );
     items.add(dropdownMenuItem4);
     DropdownMenuItem dropdownMenuItem5 = new DropdownMenuItem(
-      child: new Text('血液系统'),
+      child: new Text('内分泌代谢系统'),
       value: 5,
     );
     items.add(dropdownMenuItem5);
     DropdownMenuItem dropdownMenuItem6 = new DropdownMenuItem(
-      child: new Text('泌尿系统'),
+      child: new Text('血液系统'),
       value: 6,
     );
     items.add(dropdownMenuItem6);
     DropdownMenuItem dropdownMenuItem7 = new DropdownMenuItem(
-      child: new Text('男性生殖系统'),
+      child: new Text('泌尿系统'),
       value: 7,
     );
     items.add(dropdownMenuItem7);
     DropdownMenuItem dropdownMenuItem8 = new DropdownMenuItem(
-      child: new Text('女性生殖系统'),
+      child: new Text('男性生殖系统'),
       value: 8,
     );
     items.add(dropdownMenuItem8);
     DropdownMenuItem dropdownMenuItem9 = new DropdownMenuItem(
-      child: new Text('运动系统'),
+      child: new Text('女性生殖系统'),
       value: 9,
     );
     items.add(dropdownMenuItem9);
     DropdownMenuItem dropdownMenuItem10 = new DropdownMenuItem(
-      child: new Text('免疫系统'),
+      child: new Text('运动系统'),
       value: 10,
     );
     items.add(dropdownMenuItem10);
     DropdownMenuItem dropdownMenuItem11 = new DropdownMenuItem(
-      child: new Text('眼科疾病'),
+      child: new Text('免疫系统'),
       value: 11,
     );
     items.add(dropdownMenuItem11);
     DropdownMenuItem dropdownMenuItem12 = new DropdownMenuItem(
-      child: new Text('口腔牙齿疾病'),
+      child: new Text('眼科疾病'),
       value: 12,
     );
     items.add(dropdownMenuItem12);
     DropdownMenuItem dropdownMenuItem13 = new DropdownMenuItem(
-      child: new Text('耳鼻喉头颈部疾病'),
+      child: new Text('口腔牙齿疾病'),
       value: 13,
     );
     items.add(dropdownMenuItem13);
     DropdownMenuItem dropdownMenuItem14 = new DropdownMenuItem(
-      child: new Text('皮肤病'),
+      child: new Text('耳鼻喉头颈部疾病'),
       value: 14,
     );
     items.add(dropdownMenuItem14);
+    DropdownMenuItem dropdownMenuItem15 = new DropdownMenuItem(
+      child: new Text('皮肤病'),
+      value: 15,
+    );
+    items.add(dropdownMenuItem15);
     return items;
   }
 
@@ -324,7 +330,7 @@ class _diseaseHistory extends State<diseaseHistory> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '确诊科室:',
+                      '既往病史分类:',
                       style: TextStyle(fontSize: 19),
                     ),
                     new DropdownButton(
@@ -333,6 +339,7 @@ class _diseaseHistory extends State<diseaseHistory> {
 //                      value: dropValue, //下拉菜单选择完之后显示给用户的值
                       onChanged: (value) {
                         print(value);
+                        print(dieaseHistory[value]);
                         //下拉菜单item点击之后的回调
                         setState(() {
 //                          dropValue = value;

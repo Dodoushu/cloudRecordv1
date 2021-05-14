@@ -329,6 +329,7 @@ class _pathology extends State<pathology> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
+                      maxLength: 30,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(30)//限制长度
                       ],

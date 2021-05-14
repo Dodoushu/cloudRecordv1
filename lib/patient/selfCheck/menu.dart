@@ -176,7 +176,7 @@ class _State extends State<menu> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '病症自检',
+          '病症自检菜单',
         ),
         centerTitle: true,
       ),

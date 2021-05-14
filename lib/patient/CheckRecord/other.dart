@@ -91,15 +91,6 @@ class _other extends State<other> {
       }
       for (String path in selectedFilePaths) {
         displayPath.add(path);
-//        MultipartFile.fromFile(path).then((value) {
-//          if (value != Null) {
-//            flag2 = 1;
-//          }
-//          tempfile = value;
-//          print('*****************' + path);
-//          selectedFiles.add(tempfile);
-//          print(selectedFiles.length);
-//        });
       }
       setState(() {
         filesname = displayPath.toString();
@@ -109,25 +100,93 @@ class _other extends State<other> {
 
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((value) {
-      displayPath.add(value);
-//      var selectedFilePaths = value;
-//      MultipartFile tempfile;
-//
-//      MultipartFile.fromFile(selectedFilePaths).then((value) {
-//        if (value != Null) {
-//          flag2 = 1;
-//        }
-//        tempfile = value;
-//        print('1111111111111111111111' + selectedFilePaths);
-//        selectedFiles.add(tempfile);
-//        print(selectedFiles.length);
-//      });
+
+      if(value!=null){
+        if(displayPath.length<9){
+          displayPath.add(value);
+        }else{
+          Widget okButton = FlatButton(
+            child: Text("好的"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          );
+
+          List<FlatButton> bottonList = new List();
+          bottonList.add(okButton);
+          showAlertDialog(context,
+              titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+        }
+      }
 
       setState(() {
         filesname = displayPath.toString();
       });
     });
   }
+
+//  Future<void> _selectFile() async {
+//    Map filesPaths;
+//    getMultiFilesPath().then((value) {
+//      filesPaths = value;
+//      var selectedFilePaths = filesPaths.values;
+//      List newList = new List();
+//      for (String path in selectedFilePaths) {
+//        newList.add(path);
+//      }
+//      if(newList.length+displayPath.length>9){
+//        Widget okButton = FlatButton(
+//          child: Text("好的"),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        );
+//
+//        List<FlatButton> bottonList = new List();
+//        bottonList.add(okButton);
+//        showAlertDialog(context,
+//            titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+//        return;
+//      }
+//      for (String path in selectedFilePaths) {
+//        displayPath.add(path);
+////        MultipartFile.fromFile(path).then((value) {
+////          if (value != Null) {
+////            flag2 = 1;
+////          }
+////          tempfile = value;
+////          print('*****************' + path);
+////          selectedFiles.add(tempfile);
+////          print(selectedFiles.length);
+////        });
+//      }
+//      setState(() {
+//        filesname = displayPath.toString();
+//      });
+//    });
+//  }
+//
+//  Future<void> _selectFilefromCamera() async {
+//    getImageFileFromCamera().then((value) {
+//      displayPath.add(value);
+////      var selectedFilePaths = value;
+////      MultipartFile tempfile;
+////
+////      MultipartFile.fromFile(selectedFilePaths).then((value) {
+////        if (value != Null) {
+////          flag2 = 1;
+////        }
+////        tempfile = value;
+////        print('1111111111111111111111' + selectedFilePaths);
+////        selectedFiles.add(tempfile);
+////        print(selectedFiles.length);
+////      });
+//
+//      setState(() {
+//        filesname = displayPath.toString();
+//      });
+//    });
+//  }
 
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
@@ -335,6 +394,7 @@ class _other extends State<other> {
                       onChanged: (value) {
                         hospital = value;
                       },
+                      maxLength: 30,
                       validator: (value) {
                         if (value.isEmpty) {
                           return '请填写检查医院';

@@ -51,7 +51,6 @@ class _InhospitalRecord extends State<InhospitalRecord> {
   List displayPath = [];
   var flag2 = 0;
 
-
   Future<void> _selectFile() async {
     Map filesPaths;
     getMultiFilesPath().then((value) {
@@ -77,15 +76,6 @@ class _InhospitalRecord extends State<InhospitalRecord> {
       }
       for (String path in selectedFilePaths) {
         displayPath.add(path);
-//        MultipartFile.fromFile(path).then((value) {
-//          if(value!=Null){
-//            flag2=1;
-//          }
-//          tempfile = value;
-//          print('*****************' + path);
-//          selectedFiles.add(tempfile);
-//          print(selectedFiles.length);
-//        });
       }
       setState(() {
         filesname = displayPath.toString();
@@ -95,25 +85,94 @@ class _InhospitalRecord extends State<InhospitalRecord> {
 
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((value) {
-      displayPath.add(value);
-//      var selectedFilePaths = value;
-//      MultipartFile tempfile;
-//
-//      MultipartFile.fromFile(selectedFilePaths).then((value) {
-//        if(value!=Null){
-//          flag2=1;
-//        }
-//        tempfile = value;
-//        print('1111111111111111111111' + selectedFilePaths);
-//        selectedFiles.add(tempfile);
-//        print(selectedFiles.length);
-//      });
+
+      if(value!=null){
+        if(displayPath.length<9){
+          displayPath.add(value);
+        }else{
+          Widget okButton = FlatButton(
+            child: Text("好的"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          );
+
+          List<FlatButton> bottonList = new List();
+          bottonList.add(okButton);
+          showAlertDialog(context,
+              titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+        }
+      }
 
       setState(() {
         filesname = displayPath.toString();
       });
     });
   }
+
+
+//  Future<void> _selectFile() async {
+//    Map filesPaths;
+//    getMultiFilesPath().then((value) {
+//      filesPaths = value;
+//      var selectedFilePaths = filesPaths.values;
+//      List newList = new List();
+//      for (String path in selectedFilePaths) {
+//        newList.add(path);
+//      }
+//      if(newList.length+displayPath.length>9){
+//        Widget okButton = FlatButton(
+//          child: Text("好的"),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        );
+//
+//        List<FlatButton> bottonList = new List();
+//        bottonList.add(okButton);
+//        showAlertDialog(context,
+//            titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+//        return;
+//      }
+//      for (String path in selectedFilePaths) {
+//        displayPath.add(path);
+////        MultipartFile.fromFile(path).then((value) {
+////          if(value!=Null){
+////            flag2=1;
+////          }
+////          tempfile = value;
+////          print('*****************' + path);
+////          selectedFiles.add(tempfile);
+////          print(selectedFiles.length);
+////        });
+//      }
+//      setState(() {
+//        filesname = displayPath.toString();
+//      });
+//    });
+//  }
+//
+//  Future<void> _selectFilefromCamera() async {
+//    getImageFileFromCamera().then((value) {
+//      displayPath.add(value);
+////      var selectedFilePaths = value;
+////      MultipartFile tempfile;
+////
+////      MultipartFile.fromFile(selectedFilePaths).then((value) {
+////        if(value!=Null){
+////          flag2=1;
+////        }
+////        tempfile = value;
+////        print('1111111111111111111111' + selectedFilePaths);
+////        selectedFiles.add(tempfile);
+////        print(selectedFiles.length);
+////      });
+//
+//      setState(() {
+//        filesname = displayPath.toString();
+//      });
+//    });
+//  }
 
 
   List<DropdownMenuItem> getListData(){
@@ -497,7 +556,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '住院病历',
+            '住院记录',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,

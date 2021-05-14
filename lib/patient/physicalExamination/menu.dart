@@ -74,7 +74,7 @@ class _State extends State<menu> {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('体检报告', Icons.book, (){
+                    buttonBuilder('体检记录', Icons.book, (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => physicalExanmination()));
                     }),
                     Container(width: width_ / 5,),
@@ -93,7 +93,7 @@ class _State extends State<menu> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '体检报告',
+          '体检记录菜单',
         ),
         centerTitle: true,
       ),
