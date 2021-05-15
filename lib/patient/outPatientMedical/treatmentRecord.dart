@@ -252,12 +252,12 @@ class _treatmentRecord extends State<treatmentRecord> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    List MessageList = ['检查日期','检查科室','文字描述','图片'];
+    List MessageList = ['检查日期','检查科室','请填写文字描述或上传图片'];
     List NullList = [];
-    if(displayPath.length == 0)
-      NullList = [date,office,recordcontent,null];
+    if(displayPath.length == 0 && recordcontent == null)
+      NullList = [date,office,null];
     else
-      NullList = [date,office,recordcontent,1];
+      NullList = [date,office,1];
 
     MessageMethod Message = new MessageMethod(MessageList,NullList);
     List messageAndifture = Message.getMessage();
@@ -312,7 +312,12 @@ class _treatmentRecord extends State<treatmentRecord> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       }, ContentType: 'multipart/form-data');
     } else {
-      ShowToast.getShowToast().showToast(message);
+      if(IfTrue == true){
+        ShowToast.getShowToast().showToast("信息填写不全，请检查");
+      }
+      else{
+        ShowToast.getShowToast().showToast(message);
+      }
     }
   }
 

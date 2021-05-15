@@ -151,15 +151,30 @@ class _register2 extends State<register2> {
 
   void submit() async {
     var loginForm = textFromKey.currentState;
-//    验证Form表单
-    List MessageList = ['性别','生日'];
-    List NullList = [sex,startDate];
 
-    MessageMethod Message = new MessageMethod(MessageList,NullList);
-    List messageAndifture = Message.getMessage();
-    String message = messageAndifture[0];
-    bool IfTrue = messageAndifture[1];
+    bool IfTrue = true;
+    String message;
+    if(sex == null && startDate == null){
+      message = "请填写性别、生日";
+      IfTrue = false;
+    }
+    else if(sex == null){
+      message = "请填写性别";
+      IfTrue = false;
+    }
+    else if(startDate == null){
+      message = "请填写生日";
+      IfTrue = false;
+    }
 
+//    List MessageList = ['性别','生日'];
+//    List NullList = [sex,startDate];
+//    MessageMethod Message = new MessageMethod(MessageList,NullList);
+//    List messageAndifture = Message.getMessage();
+//    String message = messageAndifture[0];
+//    bool IfTrue = messageAndifture[1];
+
+    //    验证Form表单
     if (loginForm.validate() && IfTrue) {
       Map map = Map();
       Map patient = Map();
@@ -202,7 +217,12 @@ class _register2 extends State<register2> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       });
     } else {
+      if(IfTrue == true){
+        ShowToast.getShowToast().showToast("信息填写不全，请检查");
+      }
+      else{
         ShowToast.getShowToast().showToast(message);
+      }
     }
   }
 

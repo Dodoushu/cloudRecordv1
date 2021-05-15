@@ -190,20 +190,33 @@ class _physicalExanmination extends State<physicalExanmination> {
 
   void summit() async {
     var loginForm = textFromKey.currentState;
-    print(displayPath.length);
+
+    bool IfTrue = true;
+    String message;
+    if(date == null && displayPath.length == 0 && recordcontent == null){
+      message = "请填写检查日期\n请填写文字描述或上传图片";
+      IfTrue = false;
+    }
+    else if(displayPath.length == 0 && recordcontent == null){
+      message = "请填写文字描述或上传图片";
+      IfTrue = false;
+    }
+    else if(date == null){
+      message = "请填写检查日期";
+      IfTrue = false;
+    }
+//    List MessageList = ['检查日期','图片'];
+//    List NullList = [];
+//    if(displayPath.length == 0)
+//      NullList = [date,null];
+//    else
+//      NullList = [date,1];
+//    MessageMethod Message = new MessageMethod(MessageList,NullList);
+//    List messageAndifture = Message.getMessage();
+//    String message = messageAndifture[0];
+//    bool IfTrue = messageAndifture[1];
+
 //    验证Form表单
-    List MessageList = ['检查日期','图片'];
-    List NullList = [];
-    if(displayPath.length == 0)
-      NullList = [date,null];
-    else
-      NullList = [date,1];
-
-    MessageMethod Message = new MessageMethod(MessageList,NullList);
-    List messageAndifture = Message.getMessage();
-    String message = messageAndifture[0];
-    bool IfTrue = messageAndifture[1];
-
     if (loginForm.validate() && IfTrue) {
       Map<String, dynamic> map = Map();
 
@@ -249,7 +262,12 @@ class _physicalExanmination extends State<physicalExanmination> {
         ShowToast.getShowToast().showToast('网络异常，请稍后再试');
       }, ContentType: 'multipart/form-data');
     } else {
-      ShowToast.getShowToast().showToast(message);
+      if(IfTrue == true){
+        ShowToast.getShowToast().showToast("信息填写不全，请检查");
+      }
+      else{
+        ShowToast.getShowToast().showToast(message);
+      }
     }
   }
 
