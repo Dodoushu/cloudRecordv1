@@ -305,7 +305,8 @@ class LLogin extends State<Login> {
                           params['list'] = list;
 
                           Map body = params;
-                          Response response = await dio.get('rabbitmq/send');
+                          print("111111");
+                          Response response = await dio.get('jpaGet');
                           String dataStr = json.encode(response.data);
                           print(dataStr);
 

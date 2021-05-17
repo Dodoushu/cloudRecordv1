@@ -426,7 +426,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                       maxLength: 30,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return '青填写医生姓名';
+                          return '请填写医生姓名';
                         }
                       },
                     ),

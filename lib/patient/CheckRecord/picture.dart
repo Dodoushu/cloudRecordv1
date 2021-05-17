@@ -428,6 +428,7 @@ class _picture extends State<picture> {
                       onChanged: (value) {
                         hospital = value;
                       },
+                      maxLength: 30,
                       validator: (value) {
                         if (value.isEmpty) {
                           return '请填写检查医院';

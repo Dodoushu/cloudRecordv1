@@ -252,12 +252,12 @@ class _treatmentRecord extends State<treatmentRecord> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    List MessageList = ['检查日期','检查科室','请填写文字描述或上传图片'];
+    List MessageList = ['检查日期','检查科室',"治疗医院",'请填写文字描述或上传图片'];
     List NullList = [];
     if(displayPath.length == 0 && recordcontent == null)
-      NullList = [date,office,null];
+      NullList = [date,office,hospital,null];
     else
-      NullList = [date,office,1];
+      NullList = [date,office,hospital,1];
 
     MessageMethod Message = new MessageMethod(MessageList,NullList);
     List messageAndifture = Message.getMessage();

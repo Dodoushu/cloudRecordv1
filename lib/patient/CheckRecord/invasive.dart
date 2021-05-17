@@ -321,12 +321,12 @@ class _invasive extends State<invasive> {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
 
-    List MessageList = ['检查日期','检查科室','请填写文字描述或上传图片'];
+    List MessageList = ['检查日期','检查科室','检查分类','请填写文字描述或上传图片'];
     List NullList = [];
     if(displayPath.length == 0 && recordcontent == null)
-        NullList = [date,office,null];
+        NullList = [date,office,subSubItems,null];
     else
-      NullList = [date,office,1];
+      NullList = [date,office,subSubItems,1];
 
     MessageMethod Message = new MessageMethod(MessageList,NullList);
     List messageAndifture = Message.getMessage();
