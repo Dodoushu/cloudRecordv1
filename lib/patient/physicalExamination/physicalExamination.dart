@@ -45,8 +45,10 @@ class _physicalExanmination extends State<physicalExanmination> {
   String file;
   String filename;
   List selectedFiles = [];
+  List fileList = [];
   List displayPath = [];
   var flag2 = 0;
+  Map<String, String> filesMap;
 
   Future<void> _selectFile() async {
     Map filesPaths;
@@ -73,15 +75,6 @@ class _physicalExanmination extends State<physicalExanmination> {
       }
       for (String path in selectedFilePaths) {
         displayPath.add(path);
-//        MultipartFile.fromFile(path).then((value) {
-//          if (value != Null) {
-//            flag2 = 1;
-//          }
-//          tempfile = value;
-//          print('*****************' + path);
-//          selectedFiles.add(tempfile);
-//          print(selectedFiles.length);
-//        });
       }
       setState(() {
 
@@ -91,25 +84,84 @@ class _physicalExanmination extends State<physicalExanmination> {
 
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((value) {
-      displayPath.add(value);
-//      var selectedFilePaths = value;
-//      MultipartFile tempfile;
-//
-//      MultipartFile.fromFile(selectedFilePaths).then((value) {
-//        if (value != Null) {
-//          flag2 = 1;
-//        }
-//        tempfile = value;
-//        print('1111111111111111111111' + selectedFilePaths);
-//        selectedFiles.add(tempfile);
-//        print(selectedFiles.length);
-//      });
+
+      if(value!=null){
+        if(displayPath.length<9){
+          displayPath.add(value);
+        }else{
+          Widget okButton = FlatButton(
+            child: Text("好的"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          );
+
+          List<FlatButton> bottonList = new List();
+          bottonList.add(okButton);
+          showAlertDialog(context,
+              titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+        }
+      }
 
       setState(() {
 
       });
     });
   }
+
+//  Future<void> _selectFile() async {
+//    Map filesPaths;
+//    getMultiFilesPath().then((value) {
+//      filesPaths = value;
+//      var selectedFilePaths = filesPaths.values;
+//      List newList = new List();
+//      for (String path in selectedFilePaths) {
+//        newList.add(path);
+//      }
+//      if(newList.length+displayPath.length>9){
+//        Widget okButton = FlatButton(
+//          child: Text("好的"),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        );
+//
+//        List<FlatButton> bottonList = new List();
+//        bottonList.add(okButton);
+//        showAlertDialog(context,
+//            titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
+//        return;
+//      }
+//      for (String path in selectedFilePaths) {
+//        displayPath.add(path);
+//      }
+//      setState(() {
+//
+//      });
+//    });
+//  }
+//
+//  Future<void> _selectFilefromCamera() async {
+//    getImageFileFromCamera().then((value) {
+//      displayPath.add(value);
+////      var selectedFilePaths = value;
+////      MultipartFile tempfile;
+////
+////      MultipartFile.fromFile(selectedFilePaths).then((value) {
+////        if (value != Null) {
+////          flag2 = 1;
+////        }
+////        tempfile = value;
+////        print('1111111111111111111111' + selectedFilePaths);
+////        selectedFiles.add(tempfile);
+////        print(selectedFiles.length);
+////      });
+//
+//      setState(() {
+//
+//      });
+//    });
+//  }
 
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
@@ -189,6 +241,19 @@ class _physicalExanmination extends State<physicalExanmination> {
     });
   }
 
+  String buildFilesName(){
+//    print(filesMap.values.toString());
+//    return '';
+    List nameList;
+    nameList = filesMap.keys.toList();
+    String name= nameList[0].toString();
+    for(int i = 1; i < nameList.length; i++){
+      name = name + "\n";
+      name = name.toString() + nameList[i].toString();
+    }
+    return name;
+  }
+
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
@@ -203,10 +268,10 @@ class _physicalExanmination extends State<physicalExanmination> {
     List messageAndifture = Message.getMessage();
     String message = messageAndifture[0];
     bool IfTrue = messageAndifture[1];
-    if(file == null){
-      IfTrue = false;
-      message += '\n请上传文件';
-    }
+//    if(file == null){
+//      IfTrue = false;
+//      message += '\n请上传文件';
+//    }
     if (loginForm.validate() && IfTrue) {
       Map<String, dynamic> map = Map();
 
@@ -227,20 +292,28 @@ class _physicalExanmination extends State<physicalExanmination> {
           print(selectedFiles.length);
         });
       }
-      if(file != null){
-        await MultipartFile.fromFile(file).then((value){
-          if (value != Null) {
-            flag2 = 1;
-          }
-          MultipartFile tempsubfile = value;
-          print('*****************' + file);
-          List subFiles = new List();
-          subFiles.add(tempsubfile);
-          map['subFiles'] = subFiles;
-        });
+
+      if(selectedFiles.length!=0){
+        map['files'] = selectedFiles;
       }
 
-      map['files'] = selectedFiles;
+      if(filesMap != null){
+        List<String> fileNameList = filesMap.values.toList();
+
+        for(String path in fileNameList){
+
+          await MultipartFile.fromFile(path).then((value){
+            MultipartFile tempsubfile = value;
+            print('*****************' + path);
+            fileList.add(tempsubfile);
+          });
+
+        }
+
+        map['subFiles'] = fileList;
+      }
+
+
       print(map.toString());
       FormData formData = new FormData.fromMap(map);
       print(formData.toString());
@@ -318,6 +391,7 @@ class _physicalExanmination extends State<physicalExanmination> {
                   onChanged: (value) {
                     hospital = value;
                   },
+                  maxLength: 30,
                   validator: (value) {
                     if (value.isEmpty) {
                       return '请填写就诊医院';
@@ -391,16 +465,40 @@ class _physicalExanmination extends State<physicalExanmination> {
                             child: RaisedButton(
                               elevation: 0,
                               onPressed: (){
-                                getSingleFilePath().then((value){
-                                  String pathtemp = value;
-                                  List<String> paths = pathtemp.split('/');
-                                  print(paths[paths.length - 1]);
-                                  file = value;
-                                  filename = paths[paths.length - 1];
+
+                                getMultiFilesPath().then((value){
+
+                                  if(value.length>3){
+                                    Widget okButton = FlatButton(
+                                      child: Text("好的"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    );
+
+                                    List<FlatButton> bottonList = new List();
+                                    bottonList.add(okButton);
+                                    showAlertDialog(context,
+                                        titleText: '文件过多', contentText: '文件数量最多为3个', ButtonList: bottonList);
+                                    return;
+                                  }
+
+                                  filesMap = value;
                                   setState(() {
 
                                   });
                                 });
+
+//                                getSingleFilePath().then((value){
+//                                  String pathtemp = value;
+//                                  List<String> paths = pathtemp.split('/');
+//                                  print(paths[paths.length - 1]);
+//                                  file = value;
+//                                  filename = paths[paths.length - 1];
+//                                  setState(() {
+//
+//                                  });
+//                                });
                               },
                               color: Colors.blue,
                               child: new Text('选择文件',
@@ -423,7 +521,8 @@ class _physicalExanmination extends State<physicalExanmination> {
                       style: TextStyle(fontSize: 16),
                     ),
                     Text(
-                      filename==null?'无':filename,
+                      filesMap==null?'无':buildFilesName(),
+//                    buildFilesName(),
                       style: TextStyle(fontSize: 16),
                     ),
                   ],

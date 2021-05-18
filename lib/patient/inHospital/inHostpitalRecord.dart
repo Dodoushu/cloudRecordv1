@@ -275,7 +275,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
   void summit() async {
     var loginForm = textFromKey.currentState;
 //    验证Form表单
-    List MessageList = ['入院日期','出院日期','检查科室','请填写文字描述或上传图片'];
+    List MessageList = ['入院日期','出院日期','住院科室','请填写文字描述或上传图片'];
     List NullList = [];
     if(displayPath.length == 0 && recordcontent == null)
       NullList = [startdate,enddate,office,null];

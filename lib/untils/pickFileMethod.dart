@@ -25,7 +25,7 @@ Future getSingleFilePath() async {
   return filesPath;
 }
 
-Future getMultiFilesPath() async {
+Future<Map<String, String>> getMultiFilesPath() async {
   Map<String, String> filesPaths;
   filesPaths = await FilePicker.getMultiFilePath(type: FileType.image);
 

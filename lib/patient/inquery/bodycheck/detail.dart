@@ -32,6 +32,7 @@ class detailPage extends StatefulWidget {
 
 class _State extends State<detailPage> {
   _State(Map map) {
+    print(map);
     this.map['date'] = map['date'];
     this.map['hospital'] = map['hospital'];
     this.map['section'] = map['section'];
@@ -46,10 +47,10 @@ class _State extends State<detailPage> {
       fileList.add(url);
     }
     this.map['address'] = urlList;
-    if(urlList.length>=1){
+    if(fileList.length>=1){
       this.map['fileAddress'] = fileList;
     }
-    print(this.map);
+//    print(this.map);
   }
 
   static final Random random = Random();
@@ -72,9 +73,9 @@ class _State extends State<detailPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future downloadFile({String url}) async {
+    Future downloadFile(String url, String name) async {
       Dio dio = new Dio();
-      String path = 'http://' + map['fileAddress'][0];
+      String path = 'http://' + url;
       //设置连接超时时间
       dio.options.connectTimeout = 100000;
       //设置数据接收超时时间
@@ -96,7 +97,7 @@ class _State extends State<detailPage> {
               return new NetLoadingDialog();
             }
         );
-        response = await dio.download(path, "/storage/emulated/0/"+map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]);
+        response = await dio.download(path, "/storage/emulated/0/"+name);
         if (response.statusCode == 200) {
           print('下载请求成功');
           ShowToast.getShowToast().showToast('下载文件保存至/storage/emulated/0');
@@ -112,69 +113,91 @@ class _State extends State<detailPage> {
       }
     }
 
-    Widget downloadBuilder(){
-      Widget download = InkWell(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Flexible(
-              child: Text(
+    Widget multiDownloadBuilder(){
+
+      if(map.containsKey('fileAddress')&&map['fileAddress'].length != 0){
+
+        List<Widget> columnList = new List();
+        columnList.add(
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 '附带文件:',
                 style: TextStyle(fontSize: 19),
               ),
-            ),
-            Text(
-              map.containsKey('fileAddress')?map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]:'无',
-              style: TextStyle(fontSize: 19),
-            ),
-          ],
-        ),
-        onTap: (){
-          print('download file');
+              Container()
+            ],
+          )
+        );
 
-          Widget okButton = FlatButton(
-            child: Text("下载"),
-            onPressed: () {
-              Navigator.pop(context);
-              downloadFile().then((value){
+        for(String path in map['fileAddress']){
+          String name = path.split('/')[path.split('/').length-1];
+          String url = path;
+          Widget download = InkWell(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(),
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 19),
+                ),
+              ],
+            ),
+            onTap: (){
+              print('download file');
 
-              });
+              Widget okButton = FlatButton(
+                child: Text("下载"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  downloadFile(url, name).then((value){
+
+                  });
+                },
+              );
+              Widget cancelButton = FlatButton(
+                child: Text("取消"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              );
+              List<FlatButton> bottonList = new List();
+              bottonList.add(okButton);
+              bottonList.add(cancelButton);
+              showAlertDialog(context, titleText: '下载文件', contentText: '您即将下载附件', ButtonList: bottonList);
             },
           );
-          Widget cancelButton = FlatButton(
-            child: Text("取消"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          );
-          List<FlatButton> bottonList = new List();
-          bottonList.add(okButton);
-          bottonList.add(cancelButton);
-          showAlertDialog(context, titleText: '下载文件', contentText: '您即将下载附件', ButtonList: bottonList);
-        },
-      );
-      if(map.containsKey('fileAddress')){
-        return download;
+          columnList.add(download);
+        }
+
+        return new Column(
+          children: columnList,
+        );
       }else{
         return new Container(
           child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Flexible(
-              child: Text(
-                '附带文件:',
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Text(
+                  '附带文件:',
+                  style: TextStyle(fontSize: 19),
+                ),
+              ),
+              Text(
+                '无',
                 style: TextStyle(fontSize: 19),
               ),
-            ),
-            Text(
-              map.containsKey('fileAddress')?map['fileAddress'][0].split('/')[map['fileAddress'][0].split('/').length - 1]:'无',
-              style: TextStyle(fontSize: 19),
-            ),
-          ],
-        ),
+            ],
+          ),
         );
       }
+
+
     }
+
 
     Widget basicInfo = Container(
       margin: EdgeInsets.only(top: 20),
@@ -263,7 +286,7 @@ class _State extends State<detailPage> {
                 Divider(
                   thickness: 2,
                 ),
-                downloadBuilder(),
+                multiDownloadBuilder(),
                 Divider(
                   thickness: 2,
                 ),

@@ -61,7 +61,7 @@ class _State extends State<InqueryInhospital> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('uid')) {
       uid = prefs.getString('uid');
-      getInfo();
+//      getInfo();
       setState(() {
 
       });
@@ -78,34 +78,91 @@ class _State extends State<InqueryInhospital> {
     Container timeScope = new Container(
       color: Colors.lightBlueAccent,
       width: width_,
-      height: width_ * 0.15,
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+//      height: width_ * 0.15,
+      child: new Column(
         children: [
-          Text(
-            '时间范围:',
-            style: TextStyle(fontSize: 18),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                '时间范围:',
+                style: TextStyle(fontSize: 18),
+              ),
+              DropdownButton(
+                  value: timeInt,
+                  icon: Icon(Icons.arrow_right),
+                  iconSize: 40,
+                  iconEnabledColor: Colors.green.withOpacity(0.7),
+                  hint: Text('请选择时间范围'),
+                  items: [
+                    DropdownMenuItem(child: Text('三个月'), value: 1),
+                    DropdownMenuItem(child: Text('半年'), value: 2),
+                    DropdownMenuItem(child: Text('一年'), value: 3),
+                    DropdownMenuItem(child: Text('三年'), value: 4)
+                  ],
+                  onChanged: (value) {
+                    timeInt = value;
+//                getInfo();
+                    print(timeInt);
+                    setState(() {
+                      timeValue = value;
+                    });
+                  }),
+              RaisedButton(
+                onPressed: () {
+                  getInfo();
+                  print(timeInt);
+                  setState(() {});
+                },
+                color: Colors.blue,
+                child: Text(
+                  '查询',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+              )
+            ],
           ),
-          DropdownButton(
-              value: timeInt,
-              icon: Icon(Icons.arrow_right),
-              iconSize: 40,
-              iconEnabledColor: Colors.green.withOpacity(0.7),
-              hint: Text('请选择时间范围'),
-              items: [
-                DropdownMenuItem(child: Text('三个月'), value: 1),
-                DropdownMenuItem(child: Text('半年'), value: 2),
-                DropdownMenuItem(child: Text('一年'), value: 3),
-                DropdownMenuItem(child: Text('三年'), value: 4)
-              ],
-              onChanged: (value) {
-                timeInt = value;
-                getInfo();
-                print(timeInt);
-                setState(() {
-                  timeValue = value;
-                });
-              })
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                '时间范围:',
+                style: TextStyle(fontSize: 18),
+              ),
+              DropdownButton(
+                  value: timeInt,
+                  icon: Icon(Icons.arrow_right),
+                  iconSize: 40,
+                  iconEnabledColor: Colors.green.withOpacity(0.7),
+                  hint: Text('请选择时间范围'),
+                  items: [
+                    DropdownMenuItem(child: Text('三个月'), value: 1),
+                    DropdownMenuItem(child: Text('半年'), value: 2),
+                    DropdownMenuItem(child: Text('一年'), value: 3),
+                    DropdownMenuItem(child: Text('三年'), value: 4)
+                  ],
+                  onChanged: (value) {
+                    timeInt = value;
+//                getInfo();
+                    print(timeInt);
+                    setState(() {
+                      timeValue = value;
+                    });
+                  }),
+              RaisedButton(
+                onPressed: () {
+                  getInfo();
+                  print(timeInt);
+                  setState(() {});
+                },
+                color: Colors.blue,
+                child: Text(
+                  '查询',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
