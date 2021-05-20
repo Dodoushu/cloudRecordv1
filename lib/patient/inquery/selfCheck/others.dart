@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'detail.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -11,16 +10,16 @@ void main() {
     theme: new ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: new InqueryPatient(),
+    home: new others(),
   ));
 }
 
-class InqueryPatient extends StatefulWidget {
+class others extends StatefulWidget {
   @override
   _State createState() => new _State();
 }
 
-class _State extends State<InqueryPatient> {
+class _State extends State<others> {
   @override
   void initState() {
     super.initState();
@@ -74,7 +73,7 @@ class _State extends State<InqueryPatient> {
     formData['eDate'] = eDate.add(Duration(days: 1)).toIso8601String().substring(0,10);
     print(formData);
     DioManager.getInstance().post(
-      'SelectOutPatientRecords',
+      '/SelectDiseaseSelf',
       formData,
           (data) {
         list.clear();
@@ -109,30 +108,22 @@ class _State extends State<InqueryPatient> {
     formData['checkType'] = timeInt;
     print(formData);
     DioManager.getInstance().post(
-      'SelectOutPatientRecords',
+      '/SelectDiseaseSelf',
       formData,
-      (data) {
+          (data) {
+//        log(data['diseaseSelfBaseInfos'].toString());
         list.clear();
-        for (Map map in data['outPatientTreatRecords']) {
-          map['class'] = '治疗记录';
+        for (Map map in data['diseaseSelfBaseInfos']) {
           list.add(map);
         }
-        for (Map map in data['outPatientClinicRecords']) {
-          map['class'] = '门诊病历';
-          list.add(map);
-        }
-        for (Map map in data['outPatientPrescriptionRecords']) {
-          map['class'] = '处方记录';
-          list.add(map);
-        }
-        list.sort((Map a, b) {
-          return b["date"].compareTo(a["date"]);
-        });
+        log(list.toString());
+
+
         setState(() {
 
         });
       },
-      (error) {
+          (error) {
         print(error);
       },
     );
@@ -243,69 +234,166 @@ class _State extends State<InqueryPatient> {
       List<Widget> temp = new List();
       temp.add(timeScope);
       for (Map map in list) {
-        Widget w = InkWell(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>new detailPage(map)));
-          },
-          child: new Card(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-              child: Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                child: new Column(
-                  children: [
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        switch(map['type']){
+          case 1 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
                       children: [
-                        Text(
-                          '种类：',
-                          style: TextStyle(fontSize: 18),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
                         ),
-                        Text(
-                          map['class'],
-                          style: TextStyle(fontSize: 18),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '收缩压：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Flexible(
+                              child: Text(
+                                map['highPressure'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '舒张压：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Flexible(
+                              child: Text(
+                                map['lowPressure'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  )),
+            );
+            temp.add(w);
+            }
+            break;
+          case 2 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
                       children: [
-                        Text(
-                          '时间：',
-                          style: TextStyle(fontSize: 18),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
                         ),
-                        Text(
-                          map['date'],
-                          style: TextStyle(fontSize: 18),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '脉搏：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Flexible(
+                              child: Text(
+                                map['pulse'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  )),
+            );
+            temp.add(w);
+          }
+          break;
+          case 6 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
                       children: [
-                        Text(
-                          '医院：',
-                          style: TextStyle(fontSize: 18),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
                         ),
-                        Flexible(
-                          child: Text(
-                            map['hospital'],
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        )
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '身高：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Flexible(
+                              child: Text(
+                                map['height'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              )),
-        );
-        temp.add(w);
+                  )),
+            );
+            temp.add(w);
+            }
+            break;
+          default:{}
+        }
       }
       return temp;
     }
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('门诊记录查询'),
+          title: new Text('身体指标查询'),
           centerTitle: true,
         ),
         body: new ListView(

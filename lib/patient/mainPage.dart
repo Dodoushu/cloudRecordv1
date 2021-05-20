@@ -11,7 +11,8 @@ import 'package:cloudrecord/patient/inquery/patient/inqueryPatient.dart';
 import 'package:cloudrecord/patient/inquery/inhospital/inqueryinhospital.dart';
 import 'package:cloudrecord/patient/inquery/bodycheck/inquerybodycheck.dart';
 import 'package:cloudrecord/patient/inquery/check/inqueryCheck.dart';
-import 'package:cloudrecord/patient/inquery/selfcheck/dieaseHistoryCheck.dart';
+import 'package:cloudrecord/patient/inquery/dieaseHistory/dieaseHistoryCheck.dart';
+import 'package:cloudrecord/patient/inquery/selfCheck/menu.dart' as inqueryselfcheckmenu;
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -210,9 +211,12 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                     buttonBuilder('检查记录查询', Icons.print, () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryCheck()));
                     }),
-                    Container(
-                      width: width_ / 5,
-                    ),
+                    buttonBuilder('病症自检查询', Icons.beenhere, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => inqueryselfcheckmenu.menu()));
+                    }),
                     buttonBuilder('既往病史查询', Icons.perm_identity, () {
                       Navigator.push(
                           context,

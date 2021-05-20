@@ -30,6 +30,70 @@ class _State extends State<InqueryInhospital> {
 //    getInfo();
   }
 
+  DateTime sDate = new DateTime.now();
+  DateTime eDate = new DateTime.now();
+  Future<void> _selectsDate() async //异步
+  {
+    final DateTime selectdate = await showDatePicker(
+      //等待异步处理的结果
+      //等待返回
+      context: context,
+      initialDate: sDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selectdate == null) return; //点击DatePicker的cancel
+
+    setState(() {
+      //点击DatePicker的OK
+      sDate = selectdate;
+    });
+  }
+  Future<void> _selecteDate() async //异步
+  {
+    final DateTime selectdate = await showDatePicker(
+      //等待异步处理的结果
+      //等待返回
+      context: context,
+      initialDate: eDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selectdate == null) return; //点击DatePicker的cancel
+
+    setState(() {
+      //点击DatePicker的OK
+      eDate = selectdate;
+    });
+  }
+
+  getDateInfo() async{
+    Map<String, dynamic> formData = new Map();
+    formData['userId'] = uid;
+    formData['checkType'] = 5;
+    formData['sDate'] = sDate.toIso8601String().substring(0,10);
+    formData['eDate'] = eDate.add(Duration(days: 1)).toIso8601String().substring(0,10);
+    print(formData);
+    DioManager.getInstance().post(
+      'SelectHospitalRecords',
+      formData,
+          (data) {
+        list.clear();
+        for (Map map in data['hospitalMedicalRecords']) {
+          map['class'] = '住院病历';
+          list.add(map);
+        }
+        print(list);
+        setState(() {
+
+        });
+      },
+          (error) {
+        print(error);
+      },
+    );
+  }
+
   getInfo() async{
     Map<String, dynamic> formData = new Map();
     formData['userId'] = uid;
@@ -126,32 +190,21 @@ class _State extends State<InqueryInhospital> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                '时间范围:',
+                '自定义:',
                 style: TextStyle(fontSize: 18),
               ),
-              DropdownButton(
-                  value: timeInt,
-                  icon: Icon(Icons.arrow_right),
-                  iconSize: 40,
-                  iconEnabledColor: Colors.green.withOpacity(0.7),
-                  hint: Text('请选择时间范围'),
-                  items: [
-                    DropdownMenuItem(child: Text('三个月'), value: 1),
-                    DropdownMenuItem(child: Text('半年'), value: 2),
-                    DropdownMenuItem(child: Text('一年'), value: 3),
-                    DropdownMenuItem(child: Text('三年'), value: 4)
-                  ],
-                  onChanged: (value) {
-                    timeInt = value;
-//                getInfo();
-                    print(timeInt);
-                    setState(() {
-                      timeValue = value;
-                    });
-                  }),
+              InkWell(
+                child: Text(sDate.toIso8601String().substring(0,10)),
+                onTap: _selectsDate,
+              ),
+
+              InkWell(
+                child: Text(eDate.toIso8601String().substring(0,10)),
+                onTap: _selecteDate,
+              ),
               RaisedButton(
                 onPressed: () {
-                  getInfo();
+                  getDateInfo();
                   print(timeInt);
                   setState(() {});
                 },
