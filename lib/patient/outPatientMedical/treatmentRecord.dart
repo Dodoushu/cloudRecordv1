@@ -535,7 +535,7 @@ class _treatmentRecord extends State<treatmentRecord> {
         appBar: AppBar(
           title: Text(
             '治疗记录',
-            style: TextStyle(color: Colors.black),
+//            style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
 //          backgroundColor: Colors.white,

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:yaml/yaml.dart';
 import 'detail.dart';
+import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -81,6 +82,20 @@ class _State extends State<DieaseHistoryCheck> {
   }
 
   getDateInfo() async {
+    if(sDate.isAfter(eDate)){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context,
+          titleText: '日期错误', contentText: '开始日期晚于结束日期', ButtonList: bottonList);
+      return;
+    }
     Map<String, dynamic> formData = new Map();
     formData['userId'] = uid;
     formData['checkType'] = 5;
@@ -119,6 +134,7 @@ class _State extends State<DieaseHistoryCheck> {
         list.clear();
         for (Map map in data['patientDiseaseInfos']) {
           list.add(map);
+          print(map);
         }
         list.sort((Map a, b) {
           return b["date"].compareTo(a["date"]);

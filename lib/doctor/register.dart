@@ -409,101 +409,101 @@ class _Login extends State<register> {
                       },
                     ),
                   ),
-                  Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(left: 0, right: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-//                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.ideographic,
-                      children: <Widget>[
-//                          Text(
-//                            '验证码',
-//                            style: TextStyle(
-//                                fontSize: 13, color: Color(0xff333333)),
+//                  Container(
+//                    color: Colors.white,
+//                    padding: EdgeInsets.only(left: 0, right: 0),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+////                        crossAxisAlignment: CrossAxisAlignment.baseline,
+//                      textBaseline: TextBaseline.ideographic,
+//                      children: <Widget>[
+////                          Text(
+////                            '验证码',
+////                            style: TextStyle(
+////                                fontSize: 13, color: Color(0xff333333)),
+////                          ),
+//                        Expanded(
+//                          child: Padding(
+//                            padding:
+//                            EdgeInsets.only(left: 0, right: 0, top: 0),
+//                            child: TextFormField(
+//                                maxLines: 1,
+//                                onSaved: (value) {},
+//                                controller: mController,
+//                                textAlign: TextAlign.left,
+//                                inputFormatters: [
+//                                  WhitelistingTextInputFormatter.digitsOnly,
+//                                  LengthLimitingTextInputFormatter(6)
+//                                ],
+//                                decoration: InputDecoration(
+////                                  hintText: ('填写验证码'),
+////                                  contentPadding:
+////                                      EdgeInsets.only(top: -5, bottom: 0),
+////                                  hintStyle: TextStyle(
+////                                    color: Color(0xff999999),
+////                                    fontSize: 13,
+////                                  ),
+////                                  alignLabelWithHint: true,
+////                                  border: OutlineInputBorder(
+////                                      borderSide: BorderSide.none),
+//
+//                                  labelText: '请输入验证码',
+//                                  labelStyle: new TextStyle(
+//                                      fontSize: 15.0,
+//                                      color: Color.fromARGB(255, 93, 93, 93)),
+//                                  border: InputBorder.none,
+//                                ),
+//                                onChanged: (value){
+//                                  verificationCode = value;
+//                                },
+//                                validator: (value) {
+//                                  if(value.isEmpty){
+//                                    return '请输入验证码';
+//                                  }
+//                                  else{
+//                                    return null;
+//                                  }
+//                                },
+//                            ),
 //                          ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                            EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: TextFormField(
-                                maxLines: 1,
-                                onSaved: (value) {},
-                                controller: mController,
-                                textAlign: TextAlign.left,
-                                inputFormatters: [
-                                  WhitelistingTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(6)
-                                ],
-                                decoration: InputDecoration(
-//                                  hintText: ('填写验证码'),
-//                                  contentPadding:
-//                                      EdgeInsets.only(top: -5, bottom: 0),
-//                                  hintStyle: TextStyle(
-//                                    color: Color(0xff999999),
-//                                    fontSize: 13,
-//                                  ),
-//                                  alignLabelWithHint: true,
-//                                  border: OutlineInputBorder(
-//                                      borderSide: BorderSide.none),
-
-                                  labelText: '请输入验证码',
-                                  labelStyle: new TextStyle(
-                                      fontSize: 15.0,
-                                      color: Color.fromARGB(255, 93, 93, 93)),
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (value){
-                                  verificationCode = value;
-                                },
-                                validator: (value) {
-                                  if(value.isEmpty){
-                                    return '请输入验证码';
-                                  }
-                                  else{
-                                    return null;
-                                  }
-                                },
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 120,
-                          child: FlatButton(
-                            disabledColor: Colors.grey.withOpacity(0.1),
-                            //按钮禁用时的颜色
-                            disabledTextColor: Colors.white,
-                            //按钮禁用时的文本颜色
-                            textColor: isButtonEnable
-                                ? Colors.white
-                                : Colors.black.withOpacity(0.2),
-                            //文本颜色
-                            color: isButtonEnable
-                                ? Color(0xff44c5fe)
-                                : Colors.grey.withOpacity(0.1),
-                            //按钮的颜色
-                            splashColor: isButtonEnable
-                                ? Colors.white.withOpacity(0.1)
-                                : Colors.transparent,
-                            shape: StadiumBorder(side: BorderSide.none),
-                            onPressed: () {
-                              setState(() {
-                                _buttonClickListen();
-                              });
-                            },
-//                        child: Text('重新发送 (${secondSy})'),
-                            child: Text(
-                              '$buttonText',
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+//                        ),
+//                        Container(
+//                          width: 120,
+//                          child: FlatButton(
+//                            disabledColor: Colors.grey.withOpacity(0.1),
+//                            //按钮禁用时的颜色
+//                            disabledTextColor: Colors.white,
+//                            //按钮禁用时的文本颜色
+//                            textColor: isButtonEnable
+//                                ? Colors.white
+//                                : Colors.black.withOpacity(0.2),
+//                            //文本颜色
+//                            color: isButtonEnable
+//                                ? Color(0xff44c5fe)
+//                                : Colors.grey.withOpacity(0.1),
+//                            //按钮的颜色
+//                            splashColor: isButtonEnable
+//                                ? Colors.white.withOpacity(0.1)
+//                                : Colors.transparent,
+//                            shape: StadiumBorder(side: BorderSide.none),
+//                            onPressed: () {
+//                              setState(() {
+//                                _buttonClickListen();
+//                              });
+//                            },
+////                        child: Text('重新发送 (${secondSy})'),
+//                            child: Text(
+//                              '$buttonText',
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
 
                   new Container(
                     decoration: new BoxDecoration(

@@ -544,7 +544,7 @@ class _outpatientMedical extends State<outpatientMedical> {
         appBar: AppBar(
           title: Text(
             '门诊病历',
-            style: TextStyle(color: Colors.black),
+//            style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
 //          backgroundColor: Colors.white,

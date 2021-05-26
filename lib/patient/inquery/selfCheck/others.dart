@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -66,6 +67,20 @@ class _State extends State<others> {
   }
 
   getDateInfo() async{
+    if(sDate.isAfter(eDate)){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context,
+          titleText: '日期错误', contentText: '开始日期晚于结束日期', ButtonList: bottonList);
+      return;
+    }
     Map<String, dynamic> formData = new Map();
     formData['userId'] = uid;
     formData['checkType'] = 5;
@@ -76,25 +91,17 @@ class _State extends State<others> {
       '/SelectDiseaseSelf',
       formData,
           (data) {
-        list.clear();
-        for (Map map in data['outPatientTreatRecords']) {
-          map['class'] = '治疗记录';
-          list.add(map);
-        }
-        for (Map map in data['outPatientClinicRecords']) {
-          map['class'] = '门诊病历';
-          list.add(map);
-        }
-        for (Map map in data['outPatientPrescriptionRecords']) {
-          map['class'] = '处方记录';
-          list.add(map);
-        }
-        list.sort((Map a, b) {
-          return b["date"].compareTo(a["date"]);
-        });
-        setState(() {
+//        log(data['diseaseSelfBaseInfos'].toString());
+            list.clear();
+            for (Map map in data['diseaseSelfBaseInfos']) {
+              list.add(map);
+            }
+            log(list.toString());
 
-        });
+
+            setState(() {
+
+            });
       },
           (error) {
         print(error);
@@ -265,7 +272,7 @@ class _State extends State<others> {
                               '收缩压：',
                               style: TextStyle(fontSize: 18),
                             ),
-                            Flexible(
+                            Container(
                               child: Text(
                                 map['highPressure'],
                                 style: TextStyle(fontSize: 18),
@@ -325,9 +332,150 @@ class _State extends State<others> {
                               '脉搏：',
                               style: TextStyle(fontSize: 18),
                             ),
-                            Flexible(
+                            Container(
                               child: Text(
                                 map['pulse'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+            temp.add(w);
+          }
+          break;
+          case 3 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
+                      children: [
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '体温：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Container(
+                              child: Text(
+                                map['temperature'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+            temp.add(w);
+          }
+          break;
+          case 4 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
+                      children: [
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '血糖：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Container(
+                              child: Text(
+                                map['bloodType']==1?'空腹':(map['bloodType']==2?'饭后1小时':'即刻血糖'),
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                map['bloodSugar'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+            temp.add(w);
+          }
+          break;
+          case 5 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
+                      children: [
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '体重：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Container(
+                              child: Text(
+                                map['weight'],
                                 style: TextStyle(fontSize: 18),
                               ),
                             )
@@ -370,7 +518,7 @@ class _State extends State<others> {
                               '身高：',
                               style: TextStyle(fontSize: 18),
                             ),
-                            Flexible(
+                            Container(
                               child: Text(
                                 map['height'],
                                 style: TextStyle(fontSize: 18),
@@ -385,6 +533,52 @@ class _State extends State<others> {
             temp.add(w);
             }
             break;
+          case 7 :{
+            print(map['type']);
+            Widget w = InkWell(
+              onTap: (){},
+              child: new Card(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: new Column(
+                      children: [
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '时间：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              map['date']+' '+map['time'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '其他：',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Flexible(
+                              child: Text(
+                                map['description'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  )),
+            );
+            temp.add(w);
+          }
+          break;
           default:{}
         }
       }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'doctorCheck.dart';
-import 'patientQuery/query.dart';
+import 'patientManager/patientQuery/query.dart';
+import 'package:cloudrecord/doctor/patientManager/menu.dart' as patientManagerMenu;
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -248,8 +249,8 @@ class _mainPage extends State<MainPage> {
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buttonBuilder('患者查询', Icons.search, (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => new Query()));
+                  buttonBuilder('患者管理', Icons.beenhere, (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => new patientManagerMenu.menu()));
                   }),
                   Container(width: width_ / 5,),
                   Container(width: width_ / 5,)

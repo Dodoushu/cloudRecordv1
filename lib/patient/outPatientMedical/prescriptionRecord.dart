@@ -541,7 +541,7 @@ class _prescriptionRecord extends State<prescriptionRecord> {
         appBar: AppBar(
           title: Text(
             '处方记录',
-            style: TextStyle(color: Colors.black),
+//            style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
 //          backgroundColor: Colors.white,

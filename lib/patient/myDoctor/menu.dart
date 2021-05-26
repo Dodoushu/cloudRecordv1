@@ -1,9 +1,8 @@
+import 'package:cloudrecord/doctor/patientManager/patientQuery/patientResult.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloudrecord/untils/showToast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'others.dart';
-import 'selfPhoto.dart';
+import 'package:cloudrecord/patient/myDoctor/query/query.dart';
 
 
 void main() {
@@ -22,21 +21,6 @@ class menu extends StatefulWidget {
 }
 
 class _State extends State<menu> {
-
-  void initState() {
-    super.initState();
-    getId();
-  }
-
-  getId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
-    }
-  }
-
-  String uid;
-
   @override
   Widget build(BuildContext context) {
 
@@ -71,7 +55,6 @@ class _State extends State<menu> {
       );
     }
 
-
     Widget menu = new Container(
       //宽度
         width: width_,
@@ -92,13 +75,16 @@ class _State extends State<menu> {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buttonBuilder('身体指标', Icons.book, (){
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=> new others()));
+                    buttonBuilder('查找医生', Icons.search, (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
                     }),
-                    buttonBuilder('病症自拍', Icons.replay_5, (){
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=> new selfPhoto()));
+                    buttonBuilder('查看授权列表', Icons.beach_access, (){
+//                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
                     }),
-                    Container(width: width_ / 5,),
+                    buttonBuilder('授权医生列表', Icons.people, (){
+//                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
+                    }),
+//                    Container(width: width_ / 5,),
                   ],
                 ),
               ),
@@ -110,7 +96,7 @@ class _State extends State<menu> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '病症自检查询',
+          '患者管理',
         ),
         centerTitle: true,
       ),

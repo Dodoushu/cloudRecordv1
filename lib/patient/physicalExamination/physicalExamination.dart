@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloudrecord/untils/MessageMethod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,60 +110,6 @@ class _physicalExanmination extends State<physicalExanmination> {
       });
     });
   }
-
-//  Future<void> _selectFile() async {
-//    Map filesPaths;
-//    getMultiFilesPath().then((value) {
-//      filesPaths = value;
-//      var selectedFilePaths = filesPaths.values;
-//      List newList = new List();
-//      for (String path in selectedFilePaths) {
-//        newList.add(path);
-//      }
-//      if(newList.length+displayPath.length>9){
-//        Widget okButton = FlatButton(
-//          child: Text("好的"),
-//          onPressed: () {
-//            Navigator.pop(context);
-//          },
-//        );
-//
-//        List<FlatButton> bottonList = new List();
-//        bottonList.add(okButton);
-//        showAlertDialog(context,
-//            titleText: '图片过多', contentText: '图片数量最多为9张', ButtonList: bottonList);
-//        return;
-//      }
-//      for (String path in selectedFilePaths) {
-//        displayPath.add(path);
-//      }
-//      setState(() {
-//
-//      });
-//    });
-//  }
-//
-//  Future<void> _selectFilefromCamera() async {
-//    getImageFileFromCamera().then((value) {
-//      displayPath.add(value);
-////      var selectedFilePaths = value;
-////      MultipartFile tempfile;
-////
-////      MultipartFile.fromFile(selectedFilePaths).then((value) {
-////        if (value != Null) {
-////          flag2 = 1;
-////        }
-////        tempfile = value;
-////        print('1111111111111111111111' + selectedFilePaths);
-////        selectedFiles.add(tempfile);
-////        print(selectedFiles.length);
-////      });
-//
-//      setState(() {
-//
-//      });
-//    });
-//  }
 
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
@@ -346,6 +294,64 @@ class _physicalExanmination extends State<physicalExanmination> {
     }
   }
 
+  getFileLength(String path) async{
+    int length;
+    await File(path).length().then((value){
+      length = value;
+    });
+    return length;
+  }
+
+  getOtherFile() async{
+
+    //20971520
+    getMultiFilesPath().then((value) async{
+      bool istrue = true;
+      for(String path in value.values){
+        int length = await getFileLength(path);
+        print(length);
+        if(length >= 20971520){
+          istrue = false;
+        }
+      }
+
+      if(istrue == false){
+        Widget okButton = FlatButton(
+          child: Text("好的"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        );
+
+        List<FlatButton> bottonList = new List();
+        bottonList.add(okButton);
+        showAlertDialog(context,
+            titleText: '文件体积过大', contentText: '单个文件大小最多为20MB', ButtonList: bottonList);
+        return;
+      }
+
+      if(value.length>3){
+        Widget okButton = FlatButton(
+          child: Text("好的"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        );
+
+        List<FlatButton> bottonList = new List();
+        bottonList.add(okButton);
+        showAlertDialog(context,
+            titleText: '文件过多', contentText: '文件数量最多为3个', ButtonList: bottonList);
+        return;
+      }
+
+      filesMap = value;
+      setState(() {
+
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -464,42 +470,7 @@ class _physicalExanmination extends State<physicalExanmination> {
 //                    margin: EdgeInsets.only(left: 30),
                             child: RaisedButton(
                               elevation: 0,
-                              onPressed: (){
-
-                                getMultiFilesPath().then((value){
-
-                                  if(value.length>3){
-                                    Widget okButton = FlatButton(
-                                      child: Text("好的"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    );
-
-                                    List<FlatButton> bottonList = new List();
-                                    bottonList.add(okButton);
-                                    showAlertDialog(context,
-                                        titleText: '文件过多', contentText: '文件数量最多为3个', ButtonList: bottonList);
-                                    return;
-                                  }
-
-                                  filesMap = value;
-                                  setState(() {
-
-                                  });
-                                });
-
-//                                getSingleFilePath().then((value){
-//                                  String pathtemp = value;
-//                                  List<String> paths = pathtemp.split('/');
-//                                  print(paths[paths.length - 1]);
-//                                  file = value;
-//                                  filename = paths[paths.length - 1];
-//                                  setState(() {
-//
-//                                  });
-//                                });
-                              },
+                              onPressed: getOtherFile,
                               color: Colors.blue,
                               child: new Text('选择文件',
                                   style: TextStyle(

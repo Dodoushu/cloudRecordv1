@@ -3,25 +3,26 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'detail.dart';
+//import 'detail.dart';
+import 'selfCheckDetail.dart';
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 
 void main() {
   runApp(new MaterialApp(
-    title: '住院病历查询',
+    title: '门诊病历查询',
     theme: new ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: new InqueryInhospital(),
+    home: new selfPhoto(),
   ));
 }
 
-class InqueryInhospital extends StatefulWidget {
+class selfPhoto extends StatefulWidget {
   @override
   _State createState() => new _State();
 }
 
-class _State extends State<InqueryInhospital> {
+class _State extends State<selfPhoto> {
   @override
   void initState() {
     super.initState();
@@ -89,15 +90,17 @@ class _State extends State<InqueryInhospital> {
     formData['eDate'] = eDate.add(Duration(days: 1)).toIso8601String().substring(0,10);
     print(formData);
     DioManager.getInstance().post(
-      'SelectHospitalRecords',
+      'SelectDiseaseSelfInfo',
       formData,
           (data) {
+        print(data);
         list.clear();
-        for (Map map in data['hospitalMedicalRecords']) {
-          map['class'] = '住院病历';
+        for (Map map in data['diseaseSelfInfos']) {
           list.add(map);
         }
-        print(list);
+        list.sort((Map a, b) {
+          return b["date"].compareTo(a["date"]);
+        });
         setState(() {
 
         });
@@ -114,15 +117,17 @@ class _State extends State<InqueryInhospital> {
     formData['checkType'] = timeInt;
     print(formData);
     DioManager.getInstance().post(
-      'SelectHospitalRecords',
+      'SelectDiseaseSelfInfo',
       formData,
           (data) {
+        print(data);
         list.clear();
-        for (Map map in data['hospitalMedicalRecords']) {
-          map['class'] = '住院病历';
+        for (Map map in data['diseaseSelfInfos']) {
           list.add(map);
         }
-        print(list);
+        list.sort((Map a, b) {
+          return b["date"].compareTo(a["date"]);
+        });
         setState(() {
 
         });
@@ -252,24 +257,11 @@ class _State extends State<InqueryInhospital> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '开始时间：',
+                          '日期：',
                           style: TextStyle(fontSize: 18),
                         ),
                         Text(
-                          map['sDate'],
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '结束时间：',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          map['oDate'],
+                          map['date'],
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -278,12 +270,25 @@ class _State extends State<InqueryInhospital> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '医院：',
+                          '时间：',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                          map['time'],
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '拍照部位：',
                           style: TextStyle(fontSize: 18),
                         ),
                         Flexible(
                           child: Text(
-                            map['hospital'],
+                            map['position'],
                             style: TextStyle(fontSize: 18),
                           ),
                         )
@@ -300,7 +305,7 @@ class _State extends State<InqueryInhospital> {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('住院记录查询'),
+          title: new Text('病症自拍查询'),
           centerTitle: true,
         ),
         body: new ListView(

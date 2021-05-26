@@ -1,6 +1,8 @@
-
-
+import 'package:cloudrecord/untils/http_service.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloudrecord/untils/showToast.dart';
+import 'dart:developer';
 
 //void main() {
 //  runApp(new MaterialApp(
@@ -30,11 +32,19 @@ class _State extends State<PatientResult> {
 
   @override
   void initState() {
+    getId();
     setState(() {
 
     });
   }
 
+  getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('uid')) {
+      uid = prefs.getString('uid');
+    }
+  }
+  String uid;
   List patientList;
 
   List<Widget> cardBuild() {
@@ -42,7 +52,7 @@ class _State extends State<PatientResult> {
     for (Map map in patientList) {
 
       DateTime now = DateTime.now();
-      print(map['birthday']);
+      print(map);
       String birthday2;
       if(map['birthday'].toString().length>=10){
         birthday2 = map['birthday'].substring(0,10);
@@ -61,7 +71,7 @@ class _State extends State<PatientResult> {
         child: new Card(
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             child: Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
+              margin: EdgeInsets.only(left: 20, right: 20),
               child: new Column(
                 children: [
                   new Row(
@@ -72,7 +82,7 @@ class _State extends State<PatientResult> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Text(
-                        map['name'],
+                        map['name']==null?'null':map['name'],
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -105,6 +115,56 @@ class _State extends State<PatientResult> {
                       )
                     ],
                   ),
+                  //author
+                  Center(
+                    child: 1!=1?
+                    RaisedButton(
+                      elevation: 0,
+//                      onPressed: () async {
+//
+//                      },
+                      disabledColor: Colors.grey,
+                      color: Colors.blue,
+                      child: new Text(
+                        '已授权',
+                        style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                    )
+                        :
+                    RaisedButton(
+                      elevation: 0,
+                      onPressed: () async {
+
+                        Map formdata = new Map();
+                        formdata['doctorId'] = uid;
+                        formdata['patientId'] = map['userId'];
+
+                        print(formdata);
+
+                        DioManager.getInstance().post('DoctorWatchPatient', formdata,
+                                (data) {
+                          ShowToast.getShowToast().showToast('申请已发送，请耐心等待');
+                            }, (error) {
+                              print(error);
+                              ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+                            });
+                      },
+                      disabledColor: Colors.grey,
+                      color: Colors.blue,
+                      child: new Text(
+                        '申请授权',
+                        style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                    ),
+                  )
                 ],
               ),
             )),

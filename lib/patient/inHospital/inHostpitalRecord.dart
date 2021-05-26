@@ -417,6 +417,7 @@ class _InhospitalRecord extends State<InhospitalRecord> {
                     onChanged: (value) {
                       hospital = value;
                     },
+                    maxLength: 30,
                     validator: (value){
                       if (value.isEmpty) {
                         return '请填写就诊医院';

@@ -13,6 +13,7 @@ import 'package:cloudrecord/patient/inquery/bodycheck/inquerybodycheck.dart';
 import 'package:cloudrecord/patient/inquery/check/inqueryCheck.dart';
 import 'package:cloudrecord/patient/inquery/dieaseHistory/dieaseHistoryCheck.dart';
 import 'package:cloudrecord/patient/inquery/selfCheck/menu.dart' as inqueryselfcheckmenu;
+import 'package:cloudrecord/patient/myDoctor/menu.dart' as myDoctorPageMenu;
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -60,86 +61,6 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
 
-//    Widget bar = new Container(
-//      //宽度
-//      width: width_,
-//      //高度
-//      height: width_ * 0.3,
-//      // 盒子样式
-//      decoration: new BoxDecoration(
-//        color: Colors.lightBlueAccent,
-//        //设置Border属性给容器添加边框
-//        border: new Border.all(
-//          //为边框添加颜色
-//          color: Colors.black54,
-//          width: 0, //边框宽度
-//        ),
-//      ),
-//      child: Container(
-//        child: new Row(
-//          mainAxisAlignment: MainAxisAlignment.spaceAround,
-//          children: [
-//            new Container(),
-//            new Container(
-//              //宽度
-//              width: width_ * 0.3 * (4 / 7),
-//              //高度
-//              height: width_ * 0.3 * (4 / 7),
-//              // 盒子样式
-//              child: Icon(
-//                Icons.android,
-//                size: 60,
-//              ),
-//            ),
-//            new Container(),
-//            new Container(
-//              //宽度
-//              width: width_ * 0.4,
-//              //高度
-//              height: width_ * 0.3 * (4 / 7),
-//              child: Container(
-//                child: new Column(
-//                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: [
-//                    new Text(
-//                      name,
-//                      style: new TextStyle(
-//                        color: Colors.black,
-//                        fontSize: 20,
-//                      ),
-//                    ),
-//                    new Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: [
-//                        new Text(
-//                          age + '岁',
-//                          style: new TextStyle(
-//                            color: Colors.black,
-//                            fontSize: 16,
-//                          ),
-//                        ),
-//                        new Text(
-//                          sex,
-//                          style: new TextStyle(
-//                            color: Colors.black,
-//                            fontSize: 16,
-//                          ),
-//                        ),
-//                        new Container(),
-//                        new Container()
-//                      ],
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
-//            new Container()
-//          ],
-//        ),
-//      ),
-//    );
-
     Widget buttonBuilder(
         String text, IconData icondata, Function clickFunction) {
       return InkWell(
@@ -171,18 +92,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
     }
 
     Widget InquireMenu = new Container(
-      //宽度
         width: width_,
-//      // 盒子样式
-//      decoration: new BoxDecoration(
-//        color: Colors.black12,
-//        //设置Border属性给容器添加边框
-//        border: new Border.all(
-//          //为边框添加颜色
-//          color: Colors.black,
-//          width: 0, //边框宽度
-//        ),
-//      ),
         child: new Container(
           child: new Column(
             children: [
@@ -233,16 +143,6 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
     Widget menu = new Container(
         //宽度
         width: width_,
-//      // 盒子样式
-//      decoration: new BoxDecoration(
-//        color: Colors.black12,
-//        //设置Border属性给容器添加边框
-//        border: new Border.all(
-//          //为边框添加颜色
-//          color: Colors.black,
-//          width: 0, //边框宽度
-//        ),
-//      ),
         child: new Container(
           child: new Column(
             children: [
@@ -302,6 +202,32 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
           ),
         ));
 
+    Widget myDoctorMenu = new Container(
+      //宽度
+        width: width_,
+        child: new Container(
+          child: new Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 30),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    buttonBuilder('我的医生', Icons.perm_identity, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => myDoctorPageMenu.menu()));
+                    }),
+                    Container(width: width_ / 5,),
+                    Container(width: width_ / 5,),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
+
     return Scaffold(
         appBar: AppBar(
           title: new TabBar(
@@ -332,7 +258,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
           //第一个页面 记录录入
           Container(
             child: Column(
-              children: <Widget>[ menu],
+              children: <Widget>[menu],
             ),
           ),
 
@@ -344,7 +270,11 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
           ),
 
           //第三个页面 我的医生
-          Container()
+          Container(
+            child: Column(
+              children: <Widget>[myDoctorMenu],
+            ),
+          )
         ]));
   }
 }
