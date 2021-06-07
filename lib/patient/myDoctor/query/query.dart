@@ -52,7 +52,7 @@ class _State extends State<Query> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('患者查询'),
+        title: new Text('查找医生'),
         centerTitle: true,
       ),
         body: Container(

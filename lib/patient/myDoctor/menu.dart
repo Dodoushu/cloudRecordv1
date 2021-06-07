@@ -1,9 +1,10 @@
+import 'package:cloudrecord/doctor/patientManager/applyingList.dart';
 import 'package:cloudrecord/doctor/patientManager/patientQuery/patientResult.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloudrecord/untils/showToast.dart';
 import 'package:cloudrecord/patient/myDoctor/query/query.dart';
-
+import 'package:cloudrecord/patient/myDoctor/authorized.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -78,11 +79,11 @@ class _State extends State<menu> {
                     buttonBuilder('查找医生', Icons.search, (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
                     }),
-                    buttonBuilder('查看授权列表', Icons.beach_access, (){
-//                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
+                    buttonBuilder('查看授权申请', Icons.beach_access, (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Applying()));
                     }),
                     buttonBuilder('授权医生列表', Icons.people, (){
-//                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
                     }),
 //                    Container(width: width_ / 5,),
                   ],
@@ -96,7 +97,7 @@ class _State extends State<menu> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '患者管理',
+          '我的医生',
         ),
         centerTitle: true,
       ),

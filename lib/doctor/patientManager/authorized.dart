@@ -1,3 +1,4 @@
+import 'package:cloudrecord/patient/myDoctor/query/doctorDetailPage.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,42 +15,65 @@ import 'dart:developer';
 //  ));
 //}
 
-class PatientResult extends StatefulWidget {
+class Authorized extends StatefulWidget {
   @override
-  PatientResult(List list) {
-    this.list = list;
-  }
-  List list;
-  @override
-  _State createState() => new _State(list);
+  _State createState() => new _State();
 }
 
-class _State extends State<PatientResult> {
-  @override
-  _State(List list) {
-    if(list != null){
-      patientList = list;
-    }
-  }
-
+class _State extends State<Authorized> {
   @override
   void initState() {
     getId();
-    setState(() {
 
+
+
+    Future.delayed(Duration(milliseconds: 100), () {
+      getDoctorList();
     });
+
+    setState(() {});
   }
 
+  void getDoctorList() async {
+    typemap['1'] = '3天';
+    typemap['2'] = '1周';
+    typemap['3'] = '2周';
+    typemap['4'] = '1月';
+    typemap['5'] = '3月';
+    typemap['6'] = '半年';
+    typemap['7'] = '永久';
+    Map map = new Map();
+    map['userId'] = uid;
+    print(map);
+    await DioManager.getInstance().post('/AuthorisedPatientList', map, (data) {
+      print(data);
+      if(data["patients"] != null){
+        patientList = data["patients"];
+      }
+      setState(() {});
+    }, (error) {
+      print(error);
+      ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+    }, ContentType: 'application/json');
+
+  }
+
+  Map typemap = new Map();
+  Map<int, int> doctorid2type = new Map();
+  List<Map> infoList = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+      uid = await prefs.getString('uid');
     }
+    setState(() {});
   }
+
   String uid;
   List patientList = new List();
 
   List<Widget> cardBuild() {
+    print(1);
     List<Widget> temp = new List();
     for (Map map in patientList) {
 
@@ -67,8 +91,11 @@ class _State extends State<PatientResult> {
       int age = (diff.inDays/365).toInt();
 
       Widget w = InkWell(
-        onTap: (){
-//          Navigator.push(context, MaterialPageRoute(builder: (context)=>new detailPage(map)));
+        onTap: () {
+//          Navigator.push(
+//              context,
+//              MaterialPageRoute(
+//                  builder: (context) => new DoctorDetailPage(map)));
         },
         child: new Card(
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
@@ -117,56 +144,6 @@ class _State extends State<PatientResult> {
                       )
                     ],
                   ),
-                  //author
-                  Center(
-                    child: 1!=1?
-                    RaisedButton(
-                      elevation: 0,
-//                      onPressed: () async {
-//
-//                      },
-                      disabledColor: Colors.grey,
-                      color: Colors.blue,
-                      child: new Text(
-                        '已授权',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                      ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(10.0)),
-                    )
-                        :
-                    RaisedButton(
-                      elevation: 0,
-                      onPressed: () async {
-
-                        Map formdata = new Map();
-                        formdata['userId'] = uid;
-                        formdata['patientId'] = map['userId'];
-
-                        print(formdata);
-
-                        DioManager.getInstance().post('DoctorApply', formdata,
-                                (data) {
-                          ShowToast.getShowToast().showToast('申请已发送，请耐心等待');
-                            }, (error) {
-                              print(error);
-                              ShowToast.getShowToast().showToast('网络异常，请稍后再试');
-                            });
-                      },
-                      disabledColor: Colors.grey,
-                      color: Colors.blue,
-                      child: new Text(
-                        '申请授权',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                      ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(10.0)),
-                    ),
-                  )
                 ],
               ),
             )),
@@ -176,15 +153,16 @@ class _State extends State<PatientResult> {
     return temp;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('查询结果'),
+        title: new Text('授权列表'),
         centerTitle: true,
       ),
-      body: ListView(children: cardBuild(),),
+      body: ListView(
+        children: cardBuild(),
+      ),
     );
   }
 }

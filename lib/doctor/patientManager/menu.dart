@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:cloudrecord/untils/showToast.dart';
 import 'package:cloudrecord/doctor/patientManager/patientQuery/query.dart';
-
+import 'authorized.dart';
+import 'applyingList.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -78,11 +79,18 @@ class _State extends State<menu> {
                     buttonBuilder('患者查询', Icons.search, (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
                     }),
-                    Container(width: width_ / 5,),
+                    buttonBuilder('查看患者列表', Icons.people, (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
+                    }),
+                    buttonBuilder('查看授权申请', Icons.menu, (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Applying()));
+                    }),
+
+//                    Container(width: width_ / 5,),
 //                    buttonBuilder('检查记录', Icons.keyboard, (){
 //                      ShowToast.getShowToast().showToast('尚未开放');
 //                    }),
-                    Container(width: width_ / 5,),
+//                    Container(width: width_ / 5,),
                   ],
                 ),
               ),

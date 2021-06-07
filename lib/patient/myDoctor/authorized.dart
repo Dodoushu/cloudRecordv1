@@ -15,48 +15,78 @@ import 'dart:developer';
 //  ));
 //}
 
-class DoctorResult extends StatefulWidget {
+class Authorized extends StatefulWidget {
   @override
-  DoctorResult(List list) {
-    this.list = list;
-  }
-  List list;
-  @override
-  _State createState() => new _State(list);
+  _State createState() => new _State();
 }
 
-class _State extends State<DoctorResult> {
-  @override
-  _State(List list) {
-    patientList = list;
-  }
-
+class _State extends State<Authorized> {
   @override
   void initState() {
-
     getId();
-    setState(() {
 
+
+
+    Future.delayed(Duration(milliseconds: 100), () {
+      getDoctorList();
     });
+
+    setState(() {});
   }
 
+  void getDoctorList() async {
+    typemap['1'] = '3天';
+    typemap['2'] = '1周';
+    typemap['3'] = '2周';
+    typemap['4'] = '1月';
+    typemap['5'] = '3月';
+    typemap['6'] = '半年';
+    typemap['7'] = '永久';
+    Map map = new Map();
+    map['userId'] = uid;
+    print(map);
+    await DioManager.getInstance().post('/PatientSelectedDoctor', map, (data) {
+      for (map in data['patientAndDoctorConnects']) {
+        doctorid2type[map['doctorId']] = map['type'];
+      }
+      infoList.clear();
+      for (map in data['doctorRegisters']) {
+        map['type'] = doctorid2type[map['id']].toString();
+        infoList.add(map);
+        print(map);
+      }
+      setState(() {});
+    }, (error) {
+      print(error);
+      ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+    }, ContentType: 'application/json');
+
+  }
+
+  Map typemap = new Map();
+  Map<int, int> doctorid2type = new Map();
+  List<Map> infoList = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+      uid = await prefs.getString('uid');
     }
+    setState(() {});
   }
+
   String uid;
   List patientList;
 
   List<Widget> cardBuild() {
+    print(1);
     List<Widget> temp = new List();
-    for (Map map in patientList) {
-
-
+    for (Map map in infoList) {
       Widget w = InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>new DoctorDetailPage(map)));
+        onTap: () {
+//          Navigator.push(
+//              context,
+//              MaterialPageRoute(
+//                  builder: (context) => new DoctorDetailPage(map)));
         },
         child: new Card(
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
@@ -72,7 +102,7 @@ class _State extends State<DoctorResult> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Text(
-                        map['name']==null?'null':map['name'],
+                        map['name'] == null ? 'null' : map['name'],
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -116,6 +146,64 @@ class _State extends State<DoctorResult> {
                         child: Text(
                           map['hospital'],
                           style: TextStyle(fontSize: 18),
+                        ),
+                      )
+                    ],
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '授权期限：',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Flexible(
+                        child: Text(
+                          typemap[map['type']],
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
+                    ],
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      new Container(
+//      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
+                        height: 40.0,
+                        margin: EdgeInsets.only(
+                            top: 0.0, bottom: 30, left: 50, right: 50),
+                        child: new RaisedButton(
+                          elevation: 0,
+                          onPressed: () {
+                            try {
+                              Map formdata = new Map();
+                              formdata['userId'] = uid;
+                              formdata['doctorId'] = map['id'];
+                              print(formdata);
+                              DioManager.getInstance()
+                                  .post('/PatientUnauthoriseDoctor', formdata,
+                                      (data) {
+                                print('success');
+                                getDoctorList();
+                              }, (error) {
+                                print(error);
+                                ShowToast.getShowToast()
+                                    .showToast('网络异常，请稍后再试');
+                              }, ContentType: 'application/json');
+                            } catch (e) {
+                              ShowToast.getShowToast().showToast('稍后重试');
+                            }
+                          },
+                          color: Colors.blue,
+                          child: new Text(
+                            '取消授权',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
                         ),
                       )
                     ],
@@ -179,15 +267,16 @@ class _State extends State<DoctorResult> {
     return temp;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('查询结果'),
+        title: new Text('授权医生列表'),
         centerTitle: true,
       ),
-      body: ListView(children: cardBuild(),),
+      body: ListView(
+        children: cardBuild(),
+      ),
     );
   }
 }

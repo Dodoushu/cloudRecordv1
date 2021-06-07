@@ -32,7 +32,7 @@ class _DoctorDetailPage extends State<DoctorDetailPage> {
     getId();
   }
 
-  var _value;
+  var _value = 7;
 
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
@@ -288,12 +288,12 @@ class _DoctorDetailPage extends State<DoctorDetailPage> {
                 List<FlatButton> bottonList = new List();
                 bottonList.add(okButton);
                 showAlertDialog(context,
-                    titleText: '操作成功', contentText: '既往病史上传成功', ButtonList: bottonList);
+                    titleText: '操作成功', contentText: '申请已发送，请耐心等待', ButtonList: bottonList);
                 print(data);
               }, (error) {
                 print(error);
                 ShowToast.getShowToast().showToast('网络异常，请稍后再试');
-              }, ContentType: 'multipart/form-data');
+              }, ContentType: 'application/json');
 
             } catch (e) {
               ShowToast.getShowToast().showToast('稍后重试');
