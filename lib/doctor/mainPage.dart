@@ -33,10 +33,10 @@ class _mainPage extends State<MainPage> {
     hospital = hospital + prefs.get('hospital') +"1312313231";
     section = section + prefs.get('section') +"1312313231";
     approve = prefs.get("approve");
-    name = CutString(name);
-    jobTitle = CutString(jobTitle);
-    hospital = CutString(hospital);
-    section = CutString(section);
+//    name = CutString(name);
+//    jobTitle = CutString(jobTitle);
+//    hospital = CutString(hospital);
+//    section = CutString(section);
     setState(() {
 
     });
@@ -49,10 +49,10 @@ class _mainPage extends State<MainPage> {
       }
   }
 
-  String name = '姓名:';
-  String jobTitle = '职称:';
-  String hospital = '医院:';
-  String section = '科室:';
+  String name = '姓名: 222222';
+  String jobTitle = '职称: 222222';
+  String hospital = '医院: 222222';
+  String section = '科室: ';
   String approve = '0';
 
   @override
@@ -71,7 +71,7 @@ class _mainPage extends State<MainPage> {
                   color: Colors.black54),
             ),
             shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0)),
+                borderRadius: new BorderRadius.circular(10.0)), onPressed: () {  },
           ),
         );
       }else{
@@ -98,7 +98,7 @@ class _mainPage extends State<MainPage> {
       //宽度
       width: width_,
       //高度
-      height: width_ * 0.3,
+      height: width_ * 0.4,
       // 盒子样式
       decoration: new BoxDecoration(
         color: Colors.lightBlueAccent,
@@ -124,77 +124,49 @@ class _mainPage extends State<MainPage> {
                 size: 60,
               ),
             ),
-
             new Container(
-              //宽度
-              width: width_ * 0.5,
-              //高度
-              height: width_ * 0.3 * (4 / 7),
-              child: Container(
+              width: width_* 0.5,
                 child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            name,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
+
+                    Text(
+                          name,
+                          maxLines: 1,
+                          style: new TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
                           ),
                         ),
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            jobTitle,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                        )
-                        ),
-                      ],
-                    ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            hospital,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
+                    Text(
+                          jobTitle,
+                          maxLines: 1,
+                          style: new TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                      ),
+
+                    Text(
+                          hospital,
+                          maxLines: 1,
+                          style: new TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
                           ),
                         ),
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            section,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
+                    Text(
+                          section,
+                          maxLines: 1,
+                          style: new TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
                           ),
-                        )
-                      ],
-                    ),
+                        ),
                   ],
                 ),
-              ),
             ),
-            new Container()
           ],
         ),
       ),
