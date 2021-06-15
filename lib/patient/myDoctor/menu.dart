@@ -1,10 +1,10 @@
-import 'package:cloudrecord/doctor/patientManager/applyingList.dart';
 import 'package:cloudrecord/doctor/patientManager/patientQuery/patientResult.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloudrecord/untils/showToast.dart';
 import 'package:cloudrecord/patient/myDoctor/query/query.dart';
 import 'package:cloudrecord/patient/myDoctor/authorized.dart';
+import 'applyingList.dart';
 
 void main() {
   runApp(new MaterialApp(

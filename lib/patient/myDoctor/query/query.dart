@@ -35,6 +35,7 @@ class _State extends State<Query> {
     });
   }
 
+  GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.get('uid');
@@ -55,7 +56,9 @@ class _State extends State<Query> {
         title: new Text('查找医生'),
         centerTitle: true,
       ),
-        body: Container(
+        body: new Form(
+            key: textFromKey,
+            child:Container(
           margin: EdgeInsets.only(right: 20, left: 20, top: 20),
           child: ListView(
             children: <Widget>[
@@ -82,13 +85,16 @@ class _State extends State<Query> {
                           border: InputBorder.none,
                         ),
                         onChanged: (value) {
-                          section = value;
+                          if(!value.isEmpty){
+                            section = value;
+                          }else{
+                            section = null;
+                          }
                         },
                         validator: (value) {
-                          if(value.isEmpty){
-                            return "请输入科室";
+                          if(name == null && section == null && hospital == null){
+                            return "请输入至少一项内容";
                           }
-                          return null;
                         },
                       ),
 
@@ -111,13 +117,16 @@ class _State extends State<Query> {
                           border: InputBorder.none,
                         ),
                         onChanged: (value) {
-                          name = value;
+                          if(!value.isEmpty){
+                            name = value;
+                          }else{
+                            name = null;
+                          }
                         },
                         validator: (value) {
-                          if(value.isEmpty){
-                            return "请输入姓名";
+                          if(name == null && section == null && hospital == null){
+                            return "请输入至少一项内容";
                           }
-                          return null;
                         },
                       ),
 
@@ -141,7 +150,16 @@ class _State extends State<Query> {
                           border: InputBorder.none,
                         ),
                         onChanged: (value) {
-                          hospital = value;
+                          if(!value.isEmpty){
+                            hospital = value;
+                          }else{
+                            hospital = null;
+                          }
+                        },
+                        validator: (value) {
+                          if(name == null && section == null && hospital == null){
+                            return "请输入至少一项内容";
+                          }
                         },
                       ),
                     ],
@@ -155,24 +173,27 @@ class _State extends State<Query> {
                   child: new RaisedButton(
                     elevation: 0,
                     onPressed: () async {
+    var loginForm = textFromKey.currentState;
+    if(loginForm.validate()){
+      Map map = new Map();
+      map['name'] = name;
+      map['section'] = section;
+      map['hospital'] = hospital;
 
-                      Map map = new Map();
-                      map['name'] = name;
-                      map['section'] = section;
-                      map['phoneNum'] = hospital;
+      print(map);
 
-                      print(map);
+      DioManager.getInstance().post('/PatientSeekDoctor', map,
+              (data) {
 
-                      DioManager.getInstance().post('/PatientSeekDoctor', map,
-                              (data) {
+            print(data['doctorRegisters']);
+            List list = data['doctorRegisters'];
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> new DoctorResult(list)));
+          }, (error) {
+            print(error);
+            ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+          });
+    }
 
-                            print(data['doctorRegisters']);
-                            List list = data['doctorRegisters'];
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> new DoctorResult(list)));
-                          }, (error) {
-                            print(error);
-                            ShowToast.getShowToast().showToast('网络异常，请稍后再试');
-                          });
 
                     },
                     color: Colors.blue,
@@ -189,7 +210,7 @@ class _State extends State<Query> {
               )
             ],
           ),
-        ));
+        )));
 
   }
 }

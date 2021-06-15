@@ -111,7 +111,7 @@ class _State extends State<PatientResult> {
                       ),
                       Flexible(
                         child: Text(
-                          (map['sex'] == '0')?'男':'女',
+                          (map['sex'] == '1')?'男':'女',
                           style: TextStyle(fontSize: 18),
                         ),
                       )

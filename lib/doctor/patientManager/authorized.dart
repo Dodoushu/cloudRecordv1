@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloudrecord/untils/showToast.dart';
 import 'dart:developer';
+import 'recordInquery.dart';
 
 //void main() {
 //  runApp(new MaterialApp(
@@ -92,10 +93,10 @@ class _State extends State<Authorized> {
 
       Widget w = InkWell(
         onTap: () {
-//          Navigator.push(
-//              context,
-//              MaterialPageRoute(
-//                  builder: (context) => new DoctorDetailPage(map)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => new RecordInquery(map["userId"].toString())));
         },
         child: new Card(
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),

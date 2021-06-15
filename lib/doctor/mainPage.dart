@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'doctorCheck.dart';
 import 'patientManager/patientQuery/query.dart';
 import 'package:cloudrecord/doctor/patientManager/menu.dart' as patientManagerMenu;
+import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -24,6 +25,22 @@ class _mainPage extends State<MainPage> {
       setState(() {
       });
     });
+  }
+
+  void isApproval(Function success){
+    if(approve == '1'){
+      success();
+    }else{
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '身份尚未认证', contentText: '请认证身份后进行操作', ButtonList: bottonList);
+    }
   }
 
   void setInfo()async{
@@ -250,7 +267,9 @@ class _mainPage extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   buttonBuilder('患者管理', Icons.beenhere, (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => new patientManagerMenu.menu()));
+                    isApproval((){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => new patientManagerMenu.menu()));
+                    });
                   }),
                   Container(width: width_ / 5,),
                   Container(width: width_ / 5,)

@@ -159,7 +159,7 @@ class _State extends State<Authorized> {
                       ),
                       Flexible(
                         child: Text(
-                          typemap[map['type']],
+                          typemap[map['type']]==null?"无":typemap[map['type']],
                           style: TextStyle(fontSize: 18),
                         ),
                       )

@@ -83,7 +83,7 @@ class _changeInfo extends State<changeInfo> {
     address = prefs.getString('nowAddr');
 
     if(address != null){
-      addressController = new TextEditingController(text: address.split('.')[3]);
+      addressController = new TextEditingController(text: address.split('.')[3].length>=3?address.split('.')[3]:null);
       nowAddressResult = new Result(
           provinceName: address.split('.')[0],
           cityName: address.split('.')[1],

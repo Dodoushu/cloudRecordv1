@@ -30,28 +30,39 @@ class _Login extends State<register> {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
 
   String phoneNumber;
-  static final TextEditingController phoneNumberController = new TextEditingController();
+  static final TextEditingController phoneNumberController =
+      new TextEditingController();
   String password;
-  static final TextEditingController passwordController = new TextEditingController();
+  static final TextEditingController passwordController =
+      new TextEditingController();
   String password2;
-  static final TextEditingController password2Controller = new TextEditingController();
+  static final TextEditingController password2Controller =
+      new TextEditingController();
   String verificationCode;
-  static final TextEditingController verificationCodeController = new TextEditingController();
+  static final TextEditingController verificationCodeController =
+      new TextEditingController();
 
   String name;
-  static final TextEditingController nameController = new TextEditingController();
+  static final TextEditingController nameController =
+      new TextEditingController();
   String hospital;
-  static final TextEditingController hospitalController = new TextEditingController();
-  String section;
-  static final TextEditingController sectionController = new TextEditingController();
+  static final TextEditingController hospitalController =
+      new TextEditingController();
+  String section = '请选择科室';
+  static final TextEditingController sectionController =
+      new TextEditingController();
   String jobTitle;
-  static final TextEditingController jobTitleController = new TextEditingController();
-  String introduction;
-  static final TextEditingController introductionController = new TextEditingController();
-  String speciality;
-  static final TextEditingController specialityController = new TextEditingController();
-  String socialWork;
-  static final TextEditingController socialWorkController = new TextEditingController();
+  static final TextEditingController jobTitleController =
+      new TextEditingController();
+  String introduction = ' ';
+  static final TextEditingController introductionController =
+      new TextEditingController();
+  String speciality = ' ';
+  static final TextEditingController specialityController =
+      new TextEditingController();
+  String socialWork = ' ';
+  static final TextEditingController socialWorkController =
+      new TextEditingController();
 
   bool isShowPassWord = false;
 
@@ -64,35 +75,31 @@ class _Login extends State<register> {
   MultipartFile selectedFiles;
 
   Future<void> _selectFile() async {
-    Map filesPaths;
+    String filesPaths;
     getSingleImagePath().then((value) {
-      filesPaths = value;
-      var selectedFilePaths = filesPaths.values;
-      for(String path in selectedFilePaths){
-        displayPath = path;
+      if (value != null) {
+        filesPaths = value;
+        var selectedFilePaths = filesPaths;
+        displayPath = selectedFilePaths;
+        setState(() {
+          filesname = displayPath.toString();
+        });
+      }else{
+        print("exit");
       }
-//      MultipartFile.fromFile(path).then((value) {
-//        photo = value;
-//      });
-
-      setState(() {
-        filesname = displayPath.toString();
-      });
     });
   }
 
   Future<void> _selectFilefromCamera() async {
     getImageFileFromCamera().then((path) {
-      displayPath = path;
-//      MultipartFile.fromFile(path).then((value) {
-//        photo = value;
-//      });
-      setState(() {
-        filesname = displayPath.toString();
-      });
+      if(path!=null){
+        displayPath = path;
+        setState(() {
+          filesname = displayPath.toString();
+        });
+      }
     });
   }
-
 
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
@@ -170,48 +177,41 @@ class _Login extends State<register> {
       map['introduction'] = introduction;
       map['speciality'] = speciality;
       map['socialWork'] = socialWork;
-      map['verCode'] = verificationCode;
-        await MultipartFile.fromFile(displayPath).then((value){
-          if(value != Null){
-            flag2 = 1;
-          }
-          selectedFiles = value;
-          print('*****************' + displayPath);
-
-          print(selectedFiles.length);
-        });
-
-
-//      map['name'] = '0';
-//      map['phoneNum'] = '0';
-//      map['passWord'] = '0';
-//      map['hospital'] = '0';
-//      map['section'] = '0';
-//      map['jobTitle'] = '0';
-//      map['introduction'] = '0';
-//      map['speciality'] = '0';
-//      map['socialWork'] = '0';
-//      map['verCode'] = '0';
-
-//      List fileList = List();
-//      fileList.add(photo);
+      map['verCode'] = '123456';
+      await MultipartFile.fromFile(displayPath).then((value) {
+        if (value != Null) {
+          flag2 = 1;
+        }
+        selectedFiles = value;
+      });
       map['files'] = selectedFiles;
       FormData formData = new FormData.fromMap(map);
-      print(formData);
-      DioManager.getInstance().post('DoctorRegister', formData,
-              (data){
-            successcallBack(data);
-          },
-              (error){
-            print(error);
-            ShowToast.getShowToast().showToast('网络异常，请稍后再试');
-          }, ContentType: 'multipart/form-data');
-    }else{
+      print(map);
+      DioManager.getInstance().post('DoctorRegister', formData, (data) {
+        if(data['status_code'] == 1){
+          Widget okButton = FlatButton(
+            child: Text("好的"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          );
+          List<FlatButton> bottonList = new List();
+          bottonList.add(okButton);
+          showAlertDialog(context, titleText: '注册失败', contentText: '手机号已被使用', ButtonList: bottonList);
+        }else{
+          successcallBack(data);
+        }
+
+      }, (error) {
+        print(error);
+        ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+      }, ContentType: 'multipart/form-data');
+    } else {
       ShowToast.getShowToast().showToast('请正确填写信息');
     }
   }
 
-  void successcallBack(Map data) async{
+  void successcallBack(Map data) async {
     print(data);
 //    返回参数: {"userId":4,"status_code":1,"doctorRegister":{"id":4,"name":"0","phoneNum":"0","passWord":"0","address":null,"hospital":"0","section":"0","jobTitle":"0","verCode":"0","introduction":"0","speciality":"0","socialWork":"0","approve":0,"flag":0},"patient":null}
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -220,12 +220,10 @@ class _Login extends State<register> {
     prefs.setString('section', data["doctorRegister"]["section"]);
     prefs.setString('jobTitle', data["doctorRegister"]["jobTitle"]);
     prefs.setString('hospital', data["doctorRegister"]["hospital"]);
+    prefs.setString('approve', data["doctorRegister"]["approve"].toString());
     prefs.setString('uid', data["userId"].toString());
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-            (route) => false);
-
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
   }
 
   void showPassWord() {
@@ -281,12 +279,8 @@ class _Login extends State<register> {
     super.dispose();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     double width_ = MediaQuery.of(context).size.width;
 
     return new Scaffold(
@@ -520,7 +514,7 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         name = value;
                       },
@@ -545,20 +539,22 @@ class _Login extends State<register> {
                         ),
                       ),
                       new Row(
-                        children: [new Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: RaisedButton(
-                              elevation: 0,
-                              onPressed: _selectFile,
-                              color: Colors.blue,
-                              child: new Text('选择照片',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  )),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(40.0)),
-                            )),
+                        children: [
+                          new Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: RaisedButton(
+                                elevation: 0,
+                                onPressed: _selectFile,
+                                color: Colors.blue,
+                                child: new Text('选择照片',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    )),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(40.0)),
+                              )),
                           new Container(
                               margin: EdgeInsets.only(left: 5),
                               child: RaisedButton(
@@ -571,13 +567,17 @@ class _Login extends State<register> {
                                       color: Colors.white,
                                     )),
                                 shape: new RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(40.0)),
-                              )),],
+                                    borderRadius:
+                                        new BorderRadius.circular(40.0)),
+                              )),
+                        ],
                       ),
                     ],
                   ),
 
-                  new Center(child: onePicWidget(displayPath, width_*0.6, width_*0.6/1.6)),
+                  new Center(
+                      child: onePicWidget(
+                          displayPath, width_ * 0.6, width_ * 0.6 / 1.6)),
 
                   new Container(
                     decoration: new BoxDecoration(
@@ -594,7 +594,7 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         hospital = value;
                       },
@@ -610,33 +610,33 @@ class _Login extends State<register> {
 
                   new Container(
                     child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            '就诊科室:',
-                            style: TextStyle(fontSize: 19),
-                          ),
-                          new DropdownButton(
-                            items: getListData(),
-                            hint: new Text(lebalContent), //当没有默认值的时候可以设置的提示
-  //                  value: value,//下拉菜单选择完之后显示给用户的值
-                            onChanged: (value) {
-                              //下拉菜单item点击之后的回调
-                              office = value;
-                              setState(() {
-                                lebalContent = value;
-                              });
-                            },
-                            elevation: 24, //设置阴影的高度
-                            style: new TextStyle(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '就诊科室:',
+                          style: TextStyle(fontSize: 19),
+                        ),
+                        new DropdownButton(
+                          items: getListData(),
+                          hint: new Text(section), //当没有默认值的时候可以设置的提示
+                          //                  value: value,//下拉菜单选择完之后显示给用户的值
+                          onChanged: (value) {
+                            //下拉菜单item点击之后的回调
+                            office = value;
+                            setState(() {
+                              section = value;
+                            });
+                          },
+                          elevation: 24, //设置阴影的高度
+                          style: new TextStyle(
                               //设置文本框里面文字的样式
-                                color: Colors.black,
-                                fontSize: 15),
-  //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                            iconSize: 50.0, //设置三角标icon的大小
-                          ),
-                        ],
-                      ),
+                              color: Colors.black,
+                              fontSize: 15),
+                          //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
+                          iconSize: 50.0, //设置三角标icon的大小
+                        ),
+                      ],
+                    ),
 //                    decoration: new BoxDecoration(
 //                        border: new Border(
 //                            bottom: BorderSide(
@@ -681,7 +681,7 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         jobTitle = value;
                       },
@@ -711,17 +711,17 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         introduction = value;
                       },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return '请输入您的医师简介';
-                        } else {
-                          return null;
-                        }
-                      },
+//                      validator: (value) {
+//                        if (value.isEmpty) {
+//                          return '请输入您的医师简介';
+//                        } else {
+//                          return null;
+//                        }
+//                      },
                     ),
                   ),
 
@@ -741,17 +741,17 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         speciality = value;
                       },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return '请输入您的专业特长';
-                        } else {
-                          return null;
-                        }
-                      },
+//                      validator: (value) {
+//                        if (value.isEmpty) {
+//                          return '请输入您的专业特长';
+//                        } else {
+//                          return null;
+//                        }
+//                      },
                     ),
                   ),
 
@@ -771,21 +771,19 @@ class _Login extends State<register> {
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
                       ),
-                      keyboardType: TextInputType.phone,
+//                      keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         socialWork = value;
                       },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return '请输入您的社会兼职';
-                        } else {
-                          return null;
-                        }
-                      },
+//                      validator: (value) {
+//                        if (value.isEmpty) {
+//                          return '请输入您的社会兼职';
+//                        } else {
+//                          return null;
+//                        }
+//                      },
                     ),
                   ),
-
-
 
                   new Container(
                     padding: EdgeInsets.all(0),

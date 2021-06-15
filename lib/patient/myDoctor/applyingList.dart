@@ -30,7 +30,7 @@ class _State extends State<Applying> {
     Future.delayed(Duration(milliseconds: 50), () {
       getInfo();
     });
-
+    valuelist.fillRange(0, 65535, 7);
     setState(() {});
   }
 
@@ -237,7 +237,7 @@ class _State extends State<Applying> {
 //      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
                         height: 40.0,
                         margin: EdgeInsets.only(
-                            top: 0.0, bottom: 30, left: 10, right: 10),
+                            top: 10.0, bottom: 30, left: 10, right: 10),
                         child: new SizedBox(
                           child: new RaisedButton(
                             elevation: 0,
