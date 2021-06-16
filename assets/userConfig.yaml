@@ -54,3 +54,8 @@ deseaseHistoryClass:
     - '口腔牙齿疾病'
     - '耳鼻喉头颈部疾病'
     - '皮肤病'
+
+
+RegularExpression:
+  PasswordRegister:
+    - r'\d{6,8}'

@@ -7,6 +7,7 @@ import 'package:cloudrecord/untils/showAlertDialogClass.dart';
 import 'package:cloudrecord/untils/showToast.dart';
 import 'package:cloudrecord/untils/pickFileMethod.dart';
 import 'package:dio/dio.dart';
+import 'package:yaml/yaml.dart';
 import 'dart:io';
 import 'mainPage.dart';
 import 'package:cloudrecord/untils/picWidget.dart';
@@ -28,6 +29,30 @@ class register extends StatefulWidget {
 class _Login extends State<register> {
   //获取Key用来获取Form表单组件
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
+
+  var passwordcheck;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getYamlData().then((value){
+      passwordcheck = value['PasswordRegister'][0];
+      print(passwordcheck);
+      setState(() {
+
+      });
+    });
+  }
+
+  Future getYamlData() async {
+    var yamlstr = await rootBundle.loadString('assets/userConfig.yaml');
+    var doc = loadYaml(yamlstr);
+    Map map = doc['RegularExpression'];
+    print(map);
+    return map;
+  }
+
+
 
   String phoneNumber;
   static final TextEditingController phoneNumberController =
@@ -373,6 +398,17 @@ class _Login extends State<register> {
                       obscureText: !isShowPassWord,
                       onChanged: (value) {
                         password = value;
+                      },
+                      validator: (value){
+                        if(value.isEmpty)
+                          return '请输入密码';
+
+                        RegExp exp = RegExp(passwordcheck);
+                        bool matched = exp.hasMatch(value);
+                        if(!matched)
+                          return '请输入6～8位密码';
+                        else
+                          return null;
                       },
                     ),
                   ),
