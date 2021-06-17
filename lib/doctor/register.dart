@@ -38,9 +38,7 @@ class _Login extends State<register> {
     getYamlData().then((value){
       passwordcheck = value['PasswordRegister'][0];
       print(passwordcheck);
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -403,7 +401,7 @@ class _Login extends State<register> {
                         if(value.isEmpty)
                           return '请输入密码';
 
-                        RegExp exp = RegExp(passwordcheck);
+                        RegExp exp = RegExp(r'^\w{6,8}$');
                         bool matched = exp.hasMatch(value);
                         if(!matched)
                           return '请输入6～8位密码';
