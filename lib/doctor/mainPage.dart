@@ -45,11 +45,12 @@ class _mainPage extends State<MainPage> {
 
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = name + prefs.get('name')+"1312313231";
-    jobTitle = jobTitle + prefs.get('jobTitle') +"1312313231";
-    hospital = hospital + prefs.get('hospital') +"1312313231";
-    section = section + prefs.get('section') +"1312313231";
+    name = name + prefs.get('name');
+    jobTitle = jobTitle + prefs.get('jobTitle');
+    hospital = hospital + prefs.get('hospital');
+    section = section + prefs.get('section');
     approve = prefs.get("approve");
+    print(prefs.get('name'));
 //    name = CutString(name);
 //    jobTitle = CutString(jobTitle);
 //    hospital = CutString(hospital);
@@ -66,9 +67,9 @@ class _mainPage extends State<MainPage> {
       }
   }
 
-  String name = '姓名: 222222';
-  String jobTitle = '职称: 222222';
-  String hospital = '医院: 222222';
+  String name = '姓名: ';
+  String jobTitle = '职称: ';
+  String hospital = '医院: ';
   String section = '科室: ';
   String approve = '0';
 

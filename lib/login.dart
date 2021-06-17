@@ -156,10 +156,13 @@ class LLogin extends State<Login> {
           prefs.setString('hospital', data["doctorRegister"]["hospital"]);
           prefs.setString('approve', data["doctorRegister"]["approve"].toString());
           prefs.setString('uid', data["userId"].toString());
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => doctorMain.MainPage()),
-                  (route) => false);
+          Future.delayed(new Duration(milliseconds: 300)).then((value) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => doctorMain.MainPage()),
+                    (route) => false);
+          });
+
 
         }
       }
