@@ -254,10 +254,13 @@ class _register1 extends State<register1> {
                         if(value.isEmpty)
                           return '请输入密码';
 
-                        RegExp exp = RegExp(passwordcheck);
+                        RegExp exp = RegExp(r'^\w{6,8}$');
+                        print(passwordcheck);
                         bool matched = exp.hasMatch(value);
-                        if(!matched)
+                        if(!matched){
                           return '请输入6～8位密码';
+                        }
+
                         else
                           return null;
                       },

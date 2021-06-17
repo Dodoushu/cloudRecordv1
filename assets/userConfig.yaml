@@ -58,4 +58,4 @@ deseaseHistoryClass:
 
 RegularExpression:
   PasswordRegister:
-    - r'\d{6,8}'
+    - r'^\w{6,8}$'
