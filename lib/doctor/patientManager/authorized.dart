@@ -1,3 +1,5 @@
+import 'package:cloudrecord/doctor/patientManager/MessageFunction/LeaveMessage.dart';
+import 'package:cloudrecord/doctor/patientManager/MessageFunction/PatientRecord.dart';
 import 'package:cloudrecord/patient/myDoctor/query/doctorDetailPage.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +19,21 @@ import 'recordInquery.dart';
 //}
 
 class Authorized extends StatefulWidget {
+  int flag;
+  Authorized(int flag) {
+    this.flag = flag;
+  }
   @override
-  _State createState() => new _State();
+  _State createState() => new _State(flag);
 }
 
 class _State extends State<Authorized> {
+
+  int flag;
+  _State(int flag){
+    this.flag = flag;
+  }
+
   @override
   void initState() {
     getId();
@@ -93,10 +105,26 @@ class _State extends State<Authorized> {
 
       Widget w = InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => new RecordInquery(map["userId"].toString())));
+          if(flag == 1){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => new RecordInquery(map["userId"].toString())));
+          }else if(flag == 2)
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new PatientRecord(map["userId"].toString())));
+
+            }else if(flag == 3)
+              {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => new LeaveMessage(map["userId"].toString())));
+
+              }
         },
         child: new Card(
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),

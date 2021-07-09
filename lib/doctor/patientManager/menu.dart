@@ -72,27 +72,60 @@ class _State extends State<menu> {
         child: new Container(
           child: new Column(
             children: [
-              Container(padding: EdgeInsets.only(top: 30),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buttonBuilder('患者查询', Icons.search, (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
-                    }),
-                    buttonBuilder('查看患者列表', Icons.people, (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
-                    }),
-                    buttonBuilder('查看授权申请', Icons.menu, (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Applying()));
-                    }),
+              Container(
+                padding: EdgeInsets.only(top: 30),
+                child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        buttonBuilder('患者查询', Icons.search, (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
+                        }),
+                        buttonBuilder('查看患者列表', Icons.people, (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(1)));
+                        }),
+                        buttonBuilder('查看授权申请', Icons.menu, (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Applying()));
+                        }),
 
 //                    Container(width: width_ / 5,),
 //                    buttonBuilder('检查记录', Icons.keyboard, (){
 //                      ShowToast.getShowToast().showToast('尚未开放');
 //                    }),
 //                    Container(width: width_ / 5,),
-                  ],
+                      ],
+                    ),
+//                    Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                      children: <Widget>[
+//                        buttonBuilder('患者留言', Icons.search, (){
+//                          Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
+//                        }),
+//                        buttonBuilder('留言记录', Icons.people, (){
+//                          Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
+//                        }),
+//                        Container(width: width_ / 5,),
+//                      ],
+//                    ),
+
+
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      buttonBuilder('患者留言', Icons.sms, (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(3)));
+                      }),
+                      buttonBuilder('留言记录', Icons.list, (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(2)));
+                      }),
+                      Container(width: width_ / 3.9,),
+                    ],
                 ),
+
+
+
               ),
             ],
           ),
