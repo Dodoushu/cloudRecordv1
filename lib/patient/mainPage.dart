@@ -1,3 +1,4 @@
+import 'package:cloudrecord/patient/MessageRecord.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,12 +29,13 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
   String name = '姓名';
   String age = '28';
   String sex = '男';
-
+  String userid;
   void setPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.getString('name');
     age = prefs.get('age');
     sex = (prefs.get('sex') == '0')?'男':'女';
+    userid = prefs.getString('uid');
     setState(() {
 
     });
@@ -133,6 +135,19 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                           MaterialPageRoute(
                               builder: (context) => DieaseHistoryCheck()));
                     }),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 30),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    buttonBuilder('留言查询', Icons.sms, () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MessageRecord(userid)));
+                    }),
+                    Container(width: width_/5,),
+                    Container(width: width_/5,),
                   ],
                 ),
               ),
