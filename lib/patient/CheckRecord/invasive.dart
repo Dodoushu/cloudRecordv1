@@ -61,8 +61,8 @@ class _invasive extends State<invasive> {
 
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
     }
   }
 

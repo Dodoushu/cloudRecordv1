@@ -62,8 +62,8 @@ class _picture extends State<picture> {
 
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
     }
   }
 

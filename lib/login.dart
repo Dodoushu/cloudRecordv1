@@ -58,8 +58,8 @@ class LLogin extends State<Login> {
   void patientNavigate2(Map data)async{
     //患者
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('uid', data["userId"].toString());
-    print(prefs.getString('uid'));
+    prefs.setString('puid', data["userId"].toString());
+    print(prefs.getString('puid'));
     print('登录成功');
 
     prefs.setString('name', null);
@@ -86,8 +86,8 @@ class LLogin extends State<Login> {
   void patientNavigate(Map data)async{
     //患者
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('uid', data["userId"].toString());
-    print(prefs.getString('uid'));
+    prefs.setString('puid', data["userId"].toString());
+    print(prefs.getString('puid'));
     Map<String, dynamic> data1 = data['patient'];
     print('登录成功');
     String sex = data1['sex'].toString();
@@ -155,7 +155,7 @@ class LLogin extends State<Login> {
           prefs.setString('jobTitle', data["doctorRegister"]["jobTitle"]);
           prefs.setString('hospital', data["doctorRegister"]["hospital"]);
           prefs.setString('approve', data["doctorRegister"]["approve"].toString());
-          prefs.setString('uid', data["userId"].toString());
+          prefs.setString('duid', data["userId"].toString());
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => doctorMain.MainPage()),

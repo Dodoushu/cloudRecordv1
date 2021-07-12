@@ -34,8 +34,8 @@ class _changeInfo extends State<changeInfo> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String info = prefs.getString('detailInfo');
 
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
     }
     if(info == '0'){
 

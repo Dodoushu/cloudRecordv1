@@ -37,7 +37,7 @@ class _State extends State<DoctorCheck> {
 
   void setInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uid = prefs.get('uid');
+    uid = prefs.get('duid');
     setState(() {});
   }
 

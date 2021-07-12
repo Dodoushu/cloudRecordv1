@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloudrecord/patient/mainPage2/checkInfo.dart';
 import 'register2.dart';
 import 'package:cloudrecord/patient/mainPage2/changeInfo.dart';
-
+import 'package:cloudrecord/login.dart';
 //void main() {
 //  runApp(new MaterialApp(
 //    title: '',
@@ -56,7 +56,42 @@ class _State extends State<mainPage2> {
                             ),
                           ]))),
             )));
-
+    Widget zhuxiao = new Container(
+        padding: EdgeInsets.only(top: 10, left: 5, right: 5),
+        child: SizedBox(
+            height: width_*0.15,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                        (route) => false);
+              },
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      side: BorderSide(width: 0.5)),
+                  child: Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                '注销',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            Container(
+                              child: new Icon(
+                                Icons.arrow_forward_ios,
+                                size: 26,
+                              ),
+                            ),
+                          ]))),
+            )));
     Widget reWrite = new Container(
         padding: EdgeInsets.only(top: 10, left: 5, right: 5),
         child: SizedBox(
@@ -104,7 +139,7 @@ class _State extends State<mainPage2> {
         title: new Text('我的'),
       ),
       body: new ListView(
-        children: <Widget>[checkInfo,],
+        children: <Widget>[checkInfo,zhuxiao],
       ),
     );
   }

@@ -215,13 +215,14 @@ class _Login extends State<register> {
     print(data);
 //    返回参数: {"userId":4,"status_code":1,"doctorRegister":{"id":4,"name":"0","phoneNum":"0","passWord":"0","address":null,"hospital":"0","section":"0","jobTitle":"0","verCode":"0","introduction":"0","speciality":"0","socialWork":"0","approve":0,"flag":0},"patient":null}
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('uid', data["doctorRegister"]["userId"]);
+    prefs.setString('duid', data["doctorRegister"]["userId"]);
     prefs.setString('name', data["doctorRegister"]["name"]);
     prefs.setString('section', data["doctorRegister"]["section"]);
     prefs.setString('jobTitle', data["doctorRegister"]["jobTitle"]);
     prefs.setString('hospital', data["doctorRegister"]["hospital"]);
     prefs.setString('approve', data["doctorRegister"]["approve"].toString());
-    prefs.setString('uid', data["userId"].toString());
+    prefs.setString('duid', data["userId"].toString());
+    prefs.setString('duid', data["userId"].toString());
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
   }

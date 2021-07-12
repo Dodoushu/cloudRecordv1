@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'doctorCheck.dart';
 import 'patientManager/patientQuery/query.dart';
 import 'package:cloudrecord/doctor/patientManager/menu.dart' as patientManagerMenu;
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
+import 'package:cloudrecord/login.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -45,15 +48,11 @@ class _mainPage extends State<MainPage> {
 
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = name + prefs.get('name')+"1312313231";
-    jobTitle = jobTitle + prefs.get('jobTitle') +"1312313231";
-    hospital = hospital + prefs.get('hospital') +"1312313231";
-    section = section + prefs.get('section') +"1312313231";
+    name = name + prefs.get('name');
+    jobTitle = jobTitle + prefs.get('jobTitle');
+    hospital = hospital + prefs.get('hospital');
+    section = section + prefs.get('section');
     approve = prefs.get("approve");
-    name = CutString(name);
-    jobTitle = CutString(jobTitle);
-    hospital = CutString(hospital);
-    section = CutString(section);
     setState(() {
 
     });
@@ -132,7 +131,7 @@ class _mainPage extends State<MainPage> {
           children: [
             new Container(
               //宽度
-              width: width_ * 0.1 * (4 / 7),
+//              width: width_ * 0.1 * (4 / 7),
               //高度
               height: width_ * 0.3 * (4 / 7),
               // 盒子样式
@@ -144,69 +143,54 @@ class _mainPage extends State<MainPage> {
 
             new Container(
               //宽度
-              width: width_ * 0.5,
+//              width: width_ * 0.5,
               //高度
-              height: width_ * 0.3 * (4 / 7),
+//              height: width_ * 0.3 * (4 / 7),
               child: Container(
                 child: new Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            name,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
+                    new Container(
+                      child: new Text(
+                        name,
+                        maxLines: 1,
+                        style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
                         ),
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            jobTitle,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                        )
-                        ),
-                      ],
+                      ),
                     ),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            hospital,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        new Container(
-                          width: 100,
-                          child: new Text(
-                            section,
-                            maxLines: 1,
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
+                    new Container(
+                        child: new Text(
+                          jobTitle,
+                          maxLines: 1,
+                          style: new TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
                           ),
                         )
-                      ],
                     ),
+                    new Container(
+                      child: new Text(
+                        hospital,
+                        maxLines: 1,
+                        style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    new Container(
+                      child: new Text(
+                        section,
+                        maxLines: 1,
+                        style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -271,7 +255,13 @@ class _mainPage extends State<MainPage> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => new patientManagerMenu.menu()));
                     });
                   }),
-                  Container(width: width_ / 5,),
+                  buttonBuilder('注销', Icons.error, (){
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                              (route) => false);
+                  }),
+//                  Container(width: width_ / 5,),
                   Container(width: width_ / 5,)
                 ],
               ),

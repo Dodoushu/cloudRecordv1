@@ -57,18 +57,7 @@ class _State extends State<menu> {
     }
 
     Widget menu = new Container(
-      //宽度
         width: width_,
-//      // 盒子样式
-//      decoration: new BoxDecoration(
-//        color: Colors.black12,
-//        //设置Border属性给容器添加边框
-//        border: new Border.all(
-//          //为边框添加颜色
-//          color: Colors.black,
-//          width: 0, //边框宽度
-//        ),
-//      ),
         child: new Container(
           child: new Column(
             children: [

@@ -64,8 +64,8 @@ class _State extends State<Authorized> {
   List<Map> infoList = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = await prefs.getString('uid');
+    if (prefs.containsKey('duid')) {
+      uid = await prefs.getString('duid');
     }
     setState(() {});
   }
@@ -139,7 +139,7 @@ class _State extends State<Authorized> {
                       ),
                       Flexible(
                         child: Text(
-                          (map['sex'] == '0')?'男':'女',
+                          (map['sex'] == 0)?'男':'女',
                           style: TextStyle(fontSize: 18),
                         ),
                       )

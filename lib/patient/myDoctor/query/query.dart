@@ -38,7 +38,7 @@ class _State extends State<Query> {
   GlobalKey<FormState> textFromKey = new GlobalKey<FormState>();
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uid = prefs.get('uid');
+    uid = prefs.get('puid');
     setState(() {
 
     });

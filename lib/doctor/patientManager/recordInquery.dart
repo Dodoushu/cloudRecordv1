@@ -26,6 +26,12 @@ class _mainPage extends State<RecordInquery> with SingleTickerProviderStateMixin
 
   _mainPage(String uid){
     this.uid = uid;
+    setId();
+  }
+
+  setId()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("puid", uid);
   }
 
   String name = '姓名';

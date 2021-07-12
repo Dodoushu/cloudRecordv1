@@ -54,8 +54,8 @@ class _State extends State<Applying> {
 
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('duid')) {
+      uid = prefs.getString('duid');
     }
     setState(() {});
   }
