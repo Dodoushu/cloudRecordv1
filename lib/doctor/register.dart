@@ -165,6 +165,32 @@ class _Login extends State<register> {
     //读取当前的Form状态
     var loginForm = textFromKey.currentState;
 
+
+
+    if(office == null){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '信息不全', contentText: '请选择科室', ButtonList: bottonList);
+    }
+
+    if(displayPath == null){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '信息不全', contentText: '请上传证件照', ButtonList: bottonList);
+    }
+
     //验证Form表单
     if (loginForm.validate()) {
       Map<String, dynamic> map = Map();
@@ -172,7 +198,7 @@ class _Login extends State<register> {
       map['phoneNum'] = phoneNumber;
       map['passWord'] = password;
       map['hospital'] = hospital;
-      map['section'] = section;
+      map['section'] = office;
       map['jobTitle'] = jobTitle;
       map['introduction'] = introduction;
       map['speciality'] = speciality;
