@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:cloudrecord/untils/http_service.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yaml/yaml.dart';
 import 'register2.dart';
 import 'package:cloudrecord/untils/sharedPrefrences.dart';
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
@@ -34,6 +35,28 @@ class _register1 extends State<register1> {
   String password2;
   String verificationCode;
   bool isShowPassWord = false;
+
+  var passwordcheck;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getYamlData().then((value){
+      passwordcheck = value['PasswordRegister'][0];
+      print(passwordcheck);
+      setState(() {
+
+      });
+    });
+  }
+
+  Future getYamlData() async {
+    var yamlstr = await rootBundle.loadString('assets/userConfig.yaml');
+    var doc = loadYaml(yamlstr);
+    Map map = doc['RegularExpression'];
+    print(map);
+    return map;
+  }
 
   void login() async {
     //读取当前的Form状态
@@ -228,13 +251,18 @@ class _register1 extends State<register1> {
                         password = value;
                       },
                       validator: (value){
-                        if(value.isEmpty){
+                        if(value.isEmpty)
                           return '请输入密码';
-                        }if(value.length>8||value.length<6){
-                          return '请输入6~8位密码';
-                        }else{
-                          return null;
+
+                        RegExp exp = RegExp(r'^\w{6,8}$');
+                        print(passwordcheck);
+                        bool matched = exp.hasMatch(value);
+                        if(!matched){
+                          return '请输入6～8位密码';
                         }
+
+                        else
+                          return null;
                       },
                     ),
                   ),

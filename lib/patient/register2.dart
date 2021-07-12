@@ -43,7 +43,7 @@ class _register2 extends State<register2> {
 //  static final TextEditingController nameController =
 //      new TextEditingController();
 
-  String sex;
+  int sex;
 
   String ethnicity;
 //  static final TextEditingController ethnicityController =
@@ -73,8 +73,8 @@ class _register2 extends State<register2> {
 
   String lebalContent = '请选择性别';
   Map labelmap = {
-    '0': '男',
-    '1': '女',
+    0: '男',
+    1: '女',
   };
 
   Result nowAddressResult = new Result(
@@ -105,12 +105,12 @@ class _register2 extends State<register2> {
     List<DropdownMenuItem> items = new List();
     DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
       child: new Text('男'),
-      value: '0',
+      value: 0,
     );
     items.add(dropdownMenuItem1);
     DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
       child: new Text('女'),
-      value: '1',
+      value: 1,
     );
     items.add(dropdownMenuItem2);
     return items;
