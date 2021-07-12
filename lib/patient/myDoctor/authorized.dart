@@ -68,8 +68,8 @@ class _State extends State<Authorized> {
   List<Map> infoList = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = await prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = await prefs.getString('puid');
     }
     setState(() {});
   }

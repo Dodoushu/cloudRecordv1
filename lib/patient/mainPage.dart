@@ -35,7 +35,7 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
     name = prefs.getString('name');
     age = prefs.get('age');
     sex = (prefs.get('sex') == '0')?'男':'女';
-    userid = prefs.getString('uid');
+    userid = prefs.getString('puid');
     setState(() {
 
     });

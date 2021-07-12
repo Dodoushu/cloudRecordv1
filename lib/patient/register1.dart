@@ -90,7 +90,7 @@ class _register1 extends State<register1> {
     if(data['status_code'] == 1){
       print(data['userId']);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('uid', data["userId"].toString());
+      prefs.setString('puid', data["userId"].toString());
 //      Navigator.pushAndRemoveUntil(
 //          context,
 //          MaterialPageRoute(builder: (context) => register2()),

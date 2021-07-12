@@ -4,6 +4,7 @@ import 'doctorCheck.dart';
 import 'patientManager/patientQuery/query.dart';
 import 'package:cloudrecord/doctor/patientManager/menu.dart' as patientManagerMenu;
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
+import 'package:cloudrecord/login.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
@@ -244,8 +245,20 @@ class _mainPage extends State<MainPage> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => new patientManagerMenu.menu()));
                     });
                   }),
+//                  buttonBuilder('查看留言列表', Icons.flag, (){
+////                    Navigator.pushAndRemoveUntil(
+////                        context,
+////                        MaterialPageRoute(builder: (context) => Login()),
+////                            (route) => false);
+//                  }),
+                  buttonBuilder('注销', Icons.clear, (){
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                              (route) => false);
+                  }),
                   Container(width: width_ / 5,),
-                  Container(width: width_ / 5,)
+//                  Container(width: width_ / 5,)
                 ],
               ),
             ),

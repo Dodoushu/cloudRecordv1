@@ -157,8 +157,8 @@ class _State extends State<InqueryPatient> {
   List<Widget> cardList = new List();
   getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
 //      getInfo();
       setState(() {
 

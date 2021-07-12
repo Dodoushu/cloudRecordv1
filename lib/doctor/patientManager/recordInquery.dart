@@ -26,19 +26,23 @@ class _mainPage extends State<RecordInquery> with SingleTickerProviderStateMixin
 
   _mainPage(String uid){
     this.uid = uid;
+
   }
 
-  String name = '姓名';
-  String age = '28';
-  String sex = '男';
   String uid;
 
 
   @override
   void initState() {
     super.initState();
+    setId();
   }
 
+  setId()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puid', uid.toString());
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +120,31 @@ class _mainPage extends State<RecordInquery> with SingleTickerProviderStateMixin
                           MaterialPageRoute(
                               builder: (context) => DieaseHistoryCheck()));
                     }),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 30),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    buttonBuilder('留言', Icons.add_to_photos, () {
+//                      Navigator.push(context, MaterialPageRoute(builder: (context) => InqueryCheck()));
+                    }),
+                    Container(width: width_ / 5,),
+                    Container(width: width_ / 5,),
+//                    buttonBuilder('病症自检查询', Icons.beenhere, () {
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => inqueryselfcheckmenu.menu()));
+//                    }),
+//                    buttonBuilder('既往病史查询', Icons.perm_identity, () {
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => DieaseHistoryCheck()));
+//                    }),
                   ],
                 ),
               ),

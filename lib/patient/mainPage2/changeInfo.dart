@@ -34,8 +34,8 @@ class _changeInfo extends State<changeInfo> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String info = prefs.getString('detailInfo');
 
-    if (prefs.containsKey('uid')) {
-      uid = prefs.getString('uid');
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
     }
     if(info == '0'){
 
@@ -50,7 +50,7 @@ class _changeInfo extends State<changeInfo> {
     name = prefs.getString('name');
     nameController = new TextEditingController(text: name);
 
-    sex = prefs.getString('sex');
+    sex = int.parse(prefs.getString('sex'));
     startDate = DateTime.parse(prefs.getString('birthday'));
 
     ethnicity = prefs.getString('race');
@@ -126,7 +126,7 @@ class _changeInfo extends State<changeInfo> {
   String name;
   TextEditingController nameController = new TextEditingController();
 
-  String sex;
+  int sex;
 
   String ethnicity;
   TextEditingController ethnicityController = new TextEditingController();
@@ -148,8 +148,8 @@ class _changeInfo extends State<changeInfo> {
 
   String lebalContent = '请选择性别';
   Map labelmap = {
-    '0': '男',
-    '1': '女',
+    0: '男',
+    1: '女',
   };
 
   Result nowAddressResult
@@ -184,12 +184,12 @@ class _changeInfo extends State<changeInfo> {
     List<DropdownMenuItem> items = new List();
     DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
       child: new Text('男'),
-      value: '0',
+      value: 0,
     );
     items.add(dropdownMenuItem1);
     DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
       child: new Text('女'),
-      value: '1',
+      value: 1,
     );
     items.add(dropdownMenuItem2);
     return items;

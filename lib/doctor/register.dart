@@ -35,11 +35,11 @@ class _Login extends State<register> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getYamlData().then((value){
-      passwordcheck = value['PasswordRegister'][0];
-      print(passwordcheck);
-      setState(() {});
-    });
+//    getYamlData().then((value){
+//      passwordcheck = value['PasswordRegister'][0];
+//      print(passwordcheck);
+//      setState(() {});
+//    });
   }
 
   Future getYamlData() async {
@@ -188,6 +188,31 @@ class _Login extends State<register> {
     //读取当前的Form状态
     var loginForm = textFromKey.currentState;
 
+    if(office == null){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '注册失败', contentText: '请选择科室', ButtonList: bottonList);
+      return;
+    }
+    if(displayPath == null){
+      Widget okButton = FlatButton(
+        child: Text("好的"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      List<FlatButton> bottonList = new List();
+      bottonList.add(okButton);
+      showAlertDialog(context, titleText: '注册失败', contentText: '请选择证件照', ButtonList: bottonList);
+      return;
+    }
+
     //验证Form表单
     if (loginForm.validate()) {
       Map<String, dynamic> map = Map();
@@ -195,7 +220,7 @@ class _Login extends State<register> {
       map['phoneNum'] = phoneNumber;
       map['passWord'] = password;
       map['hospital'] = hospital;
-      map['section'] = section;
+      map['section'] = office;
       map['jobTitle'] = jobTitle;
       map['introduction'] = introduction;
       map['speciality'] = speciality;
@@ -238,13 +263,13 @@ class _Login extends State<register> {
     print(data);
 //    返回参数: {"userId":4,"status_code":1,"doctorRegister":{"id":4,"name":"0","phoneNum":"0","passWord":"0","address":null,"hospital":"0","section":"0","jobTitle":"0","verCode":"0","introduction":"0","speciality":"0","socialWork":"0","approve":0,"flag":0},"patient":null}
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('uid', data["doctorRegister"]["userId"]);
+    prefs.setString('duid', data["doctorRegister"]["userId"]);
     prefs.setString('name', data["doctorRegister"]["name"]);
     prefs.setString('section', data["doctorRegister"]["section"]);
     prefs.setString('jobTitle', data["doctorRegister"]["jobTitle"]);
     prefs.setString('hospital', data["doctorRegister"]["hospital"]);
     prefs.setString('approve', data["doctorRegister"]["approve"].toString());
-    prefs.setString('uid', data["userId"].toString());
+//    prefs.setString('uid', data["userId"].toString());
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
   }
@@ -647,7 +672,7 @@ class _Login extends State<register> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '就诊科室:',
+                          '科室:',
                           style: TextStyle(fontSize: 19),
                         ),
                         new DropdownButton(
@@ -655,8 +680,10 @@ class _Login extends State<register> {
                           hint: new Text(section), //当没有默认值的时候可以设置的提示
                           //                  value: value,//下拉菜单选择完之后显示给用户的值
                           onChanged: (value) {
+
                             //下拉菜单item点击之后的回调
                             office = value;
+                            print(office);
                             setState(() {
                               section = value;
                             });
