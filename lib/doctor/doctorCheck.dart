@@ -55,6 +55,8 @@ class _State extends State<DoctorCheck> {
 
   String yishizhicheng;
 
+  String xiongpai;
+
   Future<String> _selectFile() {
     getSingleImagePath().then((value) {
       print(value);
@@ -313,6 +315,44 @@ class _State extends State<DoctorCheck> {
                     )
                   ],
                 ),
+                new Column(
+                  children: [
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('请上传胸牌照片:', style: TextStyle(fontSize: 18)),
+                        new Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: () async {
+                                await getSingleImagePath().then((value) {
+                                  print(value);
+                                  setState(() {
+                                    xiongpai = value;
+                                  });
+                                });
+                              },
+                              color: Colors.blue,
+                              child: new Text('选择照片',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                  new BorderRadius.circular(40.0)),
+                            )),
+                      ],
+                    ),
+                    new Center(
+                        child: onePicWidget(
+                            xiongpai, width_ * 0.6, width_ * 0.6 / 1.6)),
+                    Container(
+                      height: 20,
+                    )
+                  ],
+                ),
                 new Container(
 //      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
                   height: 50.0,
@@ -350,6 +390,14 @@ class _State extends State<DoctorCheck> {
                               .then((value) {
                             fileList.add(value);
                           });
+
+                          if(xiongpai!=null){
+                            fileNum.add('6');
+                            await MultipartFile.fromFile(xiongpai)
+                                .then((value) {
+                              fileList.add(value);
+                            });
+                          }
 
                           map['files'] = fileList;
                           map['types'] = fileNum;

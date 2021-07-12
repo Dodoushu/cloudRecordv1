@@ -1,3 +1,4 @@
+import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,10 +15,83 @@ import 'package:cloudrecord/patient/inquery/check/inqueryCheck.dart';
 import 'package:cloudrecord/patient/inquery/dieaseHistory/dieaseHistoryCheck.dart';
 import 'package:cloudrecord/patient/inquery/selfCheck/menu.dart' as inqueryselfcheckmenu;
 import 'package:cloudrecord/patient/myDoctor/menu.dart' as myDoctorPageMenu;
+import 'package:cloudrecord/untils/http_service.dart';
+import 'package:cloudrecord/untils/showAlertDialogClass.dart';
+import 'package:cloudrecord/untils/showToast.dart';
 
 void main() => runApp(new MaterialApp(
       home: MainPage(),
     ));
+
+class liuyan extends Dialog {
+
+  List<Widget> list(List message){
+    List<Widget> list = new List();
+    for(Map map in message){
+      Card card = new Card(
+//        EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+        child: Container(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+          child: new Column(
+            children: [
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("医生姓名:" + map['doctorName']),
+                  Text("留言时间:" + map['date']),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('留言内容:'),
+                  Container()
+                ],
+              ),
+              Text(map['leaveMessage'])
+            ],
+          ),
+        )
+      );
+      list.add(card);
+    }
+    return list;
+  }
+  
+  liuyan(List list){
+    message = list;
+  }
+
+  List message;
+  
+  @override
+  Widget build(BuildContext context) {
+    
+    double width_ = MediaQuery.of(context).size.width;
+    // TODO: implement build
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Material(
+            type: MaterialType.transparency, //设置透明的效果
+          ),
+        ),
+        Container(
+            width: width_ * 0.7,
+            height: width_ * 0.7 * 1.9,
+          child: new Column(
+            children: list(message),
+          ),
+        )
+      ],
+    );
+  }
+}
+
 
 class MainPage extends StatefulWidget {
   @override
@@ -25,9 +99,15 @@ class MainPage extends StatefulWidget {
 }
 
 class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
+
   String name = '姓名';
   String age = '28';
   String sex = '男';
+  String uid;
+
+  _mainPage(){
+    getId();
+  }
 
   void setPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,6 +137,15 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+
+  getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('puid')) {
+      uid = prefs.getString('puid');
+    }else{
+      print("no uid");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
@@ -219,7 +308,33 @@ class _mainPage extends State<MainPage> with SingleTickerProviderStateMixin {
                           MaterialPageRoute(
                               builder: (context) => myDoctorPageMenu.menu()));
                     }),
-                    Container(width: width_ / 5,),
+                    buttonBuilder('查看医生留言', Icons.add_alarm, () {
+
+                      Map<String, dynamic> map = Map();
+                      map['userId'] = uid;
+                      print(map.toString());
+                      DioManager.getInstance().post('/PatientSeeMessage', map, (data) {
+                        print(data);
+                        Map doctor = new Map();
+                        for(Map map in data['doctorRegisters']){
+                          doctor[map['id']] = map['name'];
+                        }
+                        List list = new List();
+                        for(Map map in data['leaveMessage']){
+                          map['doctorName'] = doctor[map['doctorId']];
+                          print(map);
+                          list.add(map);
+                        }
+                        showDialog(context: context, builder: (BuildContext context){
+                          return new liuyan(list);
+                        });
+                      }, (error) {
+                        print(error);
+                        ShowToast.getShowToast().showToast('网络异常，请稍后再试');
+                      });
+
+                    }),
+//                    Container(width: width_ / 5,),
                     Container(width: width_ / 5,),
                   ],
                 ),

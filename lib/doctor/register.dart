@@ -401,6 +401,15 @@ class _Login extends State<register> {
                       onChanged: (value) {
                         password = value;
                       },
+                      validator: (value){
+                        if(value.isEmpty){
+                          return '请输入密码';
+                        }if(value.length>8||value.length<6){
+                          return '请输入6~8位密码';
+                        }else{
+                          return null;
+                        }
+                      },
                     ),
                   ),
                   new Container(
