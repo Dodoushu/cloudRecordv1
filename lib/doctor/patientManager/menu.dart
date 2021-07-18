@@ -70,7 +70,7 @@ class _State extends State<menu> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Query()));
                         }),
                         buttonBuilder('查看患者列表', Icons.people, (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(1)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
                         }),
                         buttonBuilder('查看授权申请', Icons.menu, (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Applying()));
@@ -98,24 +98,22 @@ class _State extends State<menu> {
 
 
               ),
-              Container(
-                padding: EdgeInsets.only(top: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      buttonBuilder('患者留言', Icons.sms, (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(3)));
-                      }),
-                      buttonBuilder('留言记录', Icons.list, (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized(2)));
-                      }),
-                      Container(width: width_ / 3.9,),
-                    ],
-                ),
-
-
-
-              ),
+//              Container(
+//                padding: EdgeInsets.only(top: 30),
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                    children: <Widget>[
+//                      buttonBuilder('患者留言', Icons.sms, (){
+//                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
+//                      }),
+//                      buttonBuilder('留言记录', Icons.list, (){
+//                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authorized()));
+//                      }),
+//                      Container(width: width_ / 3.9,),
+//                    ],
+//                ),
+//
+//              ),
             ],
           ),
         )
