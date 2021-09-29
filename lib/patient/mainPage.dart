@@ -38,6 +38,11 @@ class liuyan extends Dialog {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("医生姓名:" + map['doctorName']),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Text("留言时间:" + map['date']),
                 ],
               ),
@@ -83,9 +88,9 @@ class liuyan extends Dialog {
         Container(
             width: width_ * 0.7,
             height: width_ * 0.7 * 1.9,
-          child: new Column(
+          child: new ListView(
             children: list(message),
-          ),
+          )
         )
       ],
     );
