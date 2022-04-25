@@ -4,15 +4,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloudrecord/untils/showToast.dart';
 import 'dart:developer';
 
-//void main() {
-//  runApp(new MaterialApp(
-//    title: 'patientResult',
-//    theme: new ThemeData(
-//      primarySwatch: Colors.blue,
-//    ),
-//    home: new PatientResult(),
-//  ));
-//}
+void main() {
+  List list1 = new List();
+  Map map1 = new Map();
+  map1['birthday'] = '1996-01-01';
+  map1['name'] = '胡广生';
+  map1['sex'] = 0;
+  list1.add(map1);
+
+  Map map2 = new Map();
+  map2['birthday'] = '1999-01-01';
+  map2['name'] = '刘东';
+  map2['sex'] = 0;
+  list1.add(map2);
+
+  runApp(new MaterialApp(
+    title: 'patientResult',
+    theme: new ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: new PatientResult(list1),
+  ));
+}
 
 class PatientResult extends StatefulWidget {
   @override
@@ -181,7 +194,7 @@ class _State extends State<PatientResult> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('查询结果'),
+        title: new Text('留言列表'),
         centerTitle: true,
       ),
       body: ListView(children: cardBuild(),),

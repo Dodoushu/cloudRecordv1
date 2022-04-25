@@ -57,6 +57,17 @@ class _mainPage extends State<MainPage> {
 
     });
   }
+//  void setInfo()async{
+//    SharedPreferences prefs = await SharedPreferences.getInstance();
+//    name = name + prefs.get('name');
+//    jobTitle = jobTitle + prefs.get('jobTitle');
+//    hospital = hospital + prefs.get('hospital');
+//    section = section + prefs.get('section');
+//    approve = prefs.get("approve");
+//    setState(() {
+//
+//    });
+//  }
   String CutString(String string)
   {
     if(string.length > 6)
@@ -78,7 +89,7 @@ class _mainPage extends State<MainPage> {
     Widget buildApprove(){
       if(approve == '1'){
         return Container(
-//          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(10),
           child: RaisedButton(
             child: new Text(
               '已认证',
@@ -92,7 +103,7 @@ class _mainPage extends State<MainPage> {
         );
       }else{
         return Container(
-          margin: EdgeInsets.all(5),
+          margin: EdgeInsets.all(10),
           child: RaisedButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> new DoctorCheck()));

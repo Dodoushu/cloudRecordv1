@@ -277,7 +277,7 @@ class _register2 extends State<register2> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '用户注册',
+            '信息完善',
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,

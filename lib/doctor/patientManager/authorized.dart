@@ -6,15 +6,15 @@ import 'package:cloudrecord/untils/showToast.dart';
 import 'dart:developer';
 import 'recordInquery.dart';
 import 'package:cloudrecord/untils/showAlertDialogClass.dart';
-//void main() {
-//  runApp(new MaterialApp(
-//    title: 'patientResult',
-//    theme: new ThemeData(
-//      primarySwatch: Colors.blue,
-//    ),
-//    home: new PatientResult(),
-//  ));
-//}
+void main() {
+  runApp(new MaterialApp(
+    title: 'patientResult',
+    theme: new ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: new Authorized(),
+  ));
+}
 
 class liuyan extends Dialog {
 

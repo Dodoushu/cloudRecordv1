@@ -2,15 +2,26 @@
 import 'package:flutter/material.dart';
 import 'package:cloudrecord/untils/picWidget.dart';
 
-//void main() {
-//  runApp(new MaterialApp(
-//    title: '',
-//    theme: new ThemeData(
-//      primarySwatch: Colors.blue,
-//    ),
-//    home: new (),
-//  ));
-//}
+void main() {
+  Map map = {
+    "id": "13",
+    "date": "2022-02-05",
+    "hospital": "西安市第四人民医院",
+    "doctorName": "贾雨阳",
+    "section": "内科",
+    "description": "患者主诉：不规律腹痛6小时，20分钟前入院。检查所见及意见：白细胞偏高，无其他异常，肌酐值偏高，结合CT检查及尿常规检查结果白细胞值超标。判断为急性肾炎",
+    "userId": "30",
+    "address": ["39.100.100.198/picture/13/scaled_3dfc362d-bfb7-432b-a5d2-97d41842f25f7642161268896835984.jpg"],
+    "class": "门诊病历"
+  };
+  runApp(new MaterialApp(
+    title: '',
+    theme: new ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: new detailPage(map),
+  ));
+}
 
 class detailPage extends StatefulWidget {
   detailPage(Map map) {
@@ -24,6 +35,7 @@ class detailPage extends StatefulWidget {
 class _State extends State<detailPage> {
 
   _State(Map map) {
+
     this.map = map;
     print(map);
   }

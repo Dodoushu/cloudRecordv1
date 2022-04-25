@@ -118,6 +118,8 @@ class _State extends State<InqueryPatient> {
     );
   }
 
+
+
   getInfo() async{
     Map<String, dynamic> formData = new Map();
     formData['userId'] = uid;

@@ -79,6 +79,7 @@ class _State extends State<DoctorCheck> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('医生认证'),
+          centerTitle: true,
         ),
         body: Form(
           key: textFromKey,
