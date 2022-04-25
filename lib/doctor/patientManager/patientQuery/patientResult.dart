@@ -171,7 +171,7 @@ class _State extends State<PatientResult> {
                       disabledColor: Colors.grey,
                       color: Colors.blue,
                       child: new Text(
-                        '申请授权',
+                        '发送留言',
                         style: TextStyle(
                             fontSize: 12.0,
                             color: Color.fromARGB(255, 255, 255, 255)),

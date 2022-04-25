@@ -45,7 +45,6 @@ class _mainPage extends State<MainPage> {
       showAlertDialog(context, titleText: '身份尚未认证', contentText: '请认证身份后进行操作', ButtonList: bottonList);
     }
   }
-
   void setInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = name + prefs.get('name');

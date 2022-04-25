@@ -28,6 +28,20 @@ class _State extends State<InqueryPatient> {
 
     getId();
 //    getInfo();
+
+//  {
+//    id: 13,
+//    date: 2021-04-22,
+//    hospital: 123,
+//    doctorName: 123,
+//    section: 妇产科,
+//    description: 123,
+//    userId: 30,
+//    address: [39.100.100.198/picture/13/scaled_3dfc362d-bfb7-432b-a5d2-97d41842f25f7642161268896835984.jpg],
+//    class: 门诊病历
+//  }
+
+
   }
 
   DateTime sDate = new DateTime.now();
