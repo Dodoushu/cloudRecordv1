@@ -171,7 +171,7 @@ class _State extends State<PatientResult> {
                       disabledColor: Colors.grey,
                       color: Colors.blue,
                       child: new Text(
-                        '发送留言',
+                        '申请授权',
                         style: TextStyle(
                             fontSize: 12.0,
                             color: Color.fromARGB(255, 255, 255, 255)),
@@ -194,7 +194,7 @@ class _State extends State<PatientResult> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('留言列表'),
+        title: new Text('查询结果'),
         centerTitle: true,
       ),
       body: ListView(children: cardBuild(),),
